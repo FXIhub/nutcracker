@@ -107,7 +107,7 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
 
 
 
-def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_extrinsic=False,q2_is_extrinsic=False):
+def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_extrinsic=False,q2_is_extrinsic=False,sigma=2):
     """
     Calculating the global rotation (quaternion) between two sets of quaternions on base of the mean relative quaternion between each sample of the sets.
 
@@ -119,6 +119,7 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         :full_output(bool):        returns full output as a dictionary, default = False
         :q1_is_extrinsic(bool):    q1 quaternions are extrinsic and should be converted to instrinsic, default = False  
         :q2_is_extrinsic(bool):    q2 quaternions are extrinsic and should be converted to instrinsic, default = False
+        :sigma(int):               sigma of standart deviation, default = 2
     """
 
     quat_list = []  
@@ -186,6 +187,9 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
     # z-score
     z_score = (angle_error - angle_error_mean)/angle_error_std
 
+    # percentage of quaternions within given sigma                                               
+    p = 1.0 * (z_score < sigma).sum()/q1.shape[0]
+
     
     if full_output:
         out = {'quat_array':quat_array,
@@ -193,7 +197,8 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
                'angle_error':angle_error,
                'angle_error_mean':angle_error_mean,
                'angle_error_std':angle_error_std,
-               'z_score':z_score}
+               'z_score':z_score,
+               'percentage':p}
         return out
     else:
         return quat_array_mean, angle_error_mean
