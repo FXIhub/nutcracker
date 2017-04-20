@@ -75,8 +75,8 @@ def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_i
     model_2 = ndimage.interpolation.shift(model_2, shift=(coord_1[0] - coord_2[0], coord_1[1] - coord_2[1], coord_1[2] - coord_2[2]))
 
     # apply FT if necessary
-    if model_1_is_intensity = False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))
-    if model_2_is_intensity = False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))
+    if model_1_is_intensity == False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))
+    if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))
 
     # parameters for brute force optimisation
     ranges = [(0,180)]
