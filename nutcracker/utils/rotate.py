@@ -13,7 +13,7 @@ def rotate_based_on_quaternion(input_model,quat,quat_is_extrinsic=False,extrinsi
 
     Kwargs: 
         :quat_is_extrinsic(bool):           quat quaternion is extrinsic and should be converted to instrinsic, default = False
-        :extrinsic_rotation(bool):          the desired rotation formalism is extrinsic, default = False
+        :extrinsic_rotation(bool):          if enabled the model will be rotated by extrinsic formalism, default = False
     """
 
     rotated_model = input_model[:]
