@@ -59,9 +59,9 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     rot_xyz = np.dot(rot_mat,xyz)
 
     # extract coordinates
-    x=rot_xyz[0,:]+float(dim)/2
+    x=rot_xyz[2,:]+float(dim)/2
     y=rot_xyz[1,:]+float(dim)/2
-    z=rot_xyz[2,:]+float(dim)/2
+    z=rot_xyz[0,:]+float(dim)/2
 
     # reshaping coordinates
     x=x.reshape((dim,dim,dim))
@@ -69,7 +69,7 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     z=z.reshape((dim,dim,dim))
     
     # rearange the order of the coordinates
-    new_xyz=[z,y,x]
+    new_xyz=[y,x,z]
 
     # rotate object
     rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order=order_spline_interpolation)
