@@ -26,7 +26,7 @@ def fourier_shell_correlation(model_1,model_2,model_1_is_real_space=False,model_
 
     # distinguish between 2D and 3D input
     if len(model_1.shape) == 2:
-        r = np.sqrt((mode_1.shape[0]/2)**2 + (model_1.shape[1]/2)**2)
+        r = np.sqrt((model_1.shape[0]/2)**2 + (model_1.shape[1]/2)**2)
         r = r.astype(np.int)
 
         # iterate through the shells                                                                                                                                              
@@ -44,7 +44,7 @@ def fourier_shell_correlation(model_1,model_2,model_1_is_real_space=False,model_
         return fsc_array
 
     elif len(model_1.shape) == 3:
-        r = np.sqrt((mode_1.shape[0]/2)**2 + (model_1.shape[1]/2)**2 + (model_1.shape[2]/2)**2)
+        r = np.sqrt((model_1.shape[0]/2)**2 + (model_1.shape[1]/2)**2 + (model_1.shape[2]/2)**2)
         r = r.astype(np.int)
         # iterate through the shells                                                                                                                             
         for i in range(0,r,1):
