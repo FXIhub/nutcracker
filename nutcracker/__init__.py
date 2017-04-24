@@ -1,3 +1,3 @@
 from quaternions import compare_two_sets_of_quaternions,global_quaternion_rotation_between_two_sets
 from intensities import fourier_shell_correlation
-from utils import rotation
+from utils import rotate
