@@ -3,64 +3,53 @@ import condor
 from scipy import ndimage
 from scipy import optimize
 
-def rotate_based_on_quaternion(input_model,quat,quat_is_extrinsic=False,extrinsic_rotation=False):
+def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     """
-    Rotate a given model based on a given quaternion by calculating the euler angles. Standart x convention is used, that means a rotation around z-x'-z'' (intrinsic). Also extrinsic rotation could be enabled, rotation around z-y-x.
+    Rotate a given model based on a given quaternion by calculating the rotation matrix.
 
     Args:
         :input_model(float ndarray):        3d ndarray of the rotatable object
         :quat(float ndarray):               quaternion which describes the desired rotation
 
     Kwargs: 
-        :quat_is_extrinsic(bool):           quat quaternion is extrinsic and should be converted to instrinsic, default = False
-        :extrinsic_rotation(bool):          if enabled the model will be rotated by extrinsic formalism, default = False
+        :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
 
-    rotated_model = input_model[:]
+    # defining the coordinate system
+    ax = np.arange(input_model.shape[0])
+    coords = np.meshgrid(ax,ax,ax)
+    
+    # stack the meshgrid to position vectors, center them around 0 by substracting dim/2
+    xyz=np.vstack([coords[0].reshape(-1)-float(dim)/2,     # x coordinate, centered
+                   coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered
+                   coords[2].reshape(-1)-float(dim)/2,     # z coordinate, centered
+                   np.ones((dim,dim,dim)).reshape(-1)])    # 1 for homogeneous coordinates
 
-    if extrinsic_rotation:
-        #convert quaternion to extrinsic if necessary                                                                                                                                                              
-        if quat_is_extrinsic == False: quat = condor.utils.rotation.quat_conj(quat)
+    # creating the rotation matrix from quaternion
+    rot_mat = condor.utils.rotation.rotmx_from_quat(quat)
+    
+    # rotate the coordinate system
+    rot_xyz = np.dot(rot_mat,xyz)
 
-        # normalise quat
-        quat = condor.utils.rotation.norm_quat(quat)
-        
-        # calculating the euler angles                                                                                                                                                                             
-        euler_angles = condor.utils.rotation.euler_from_quat(quat,mode='zyx')
-        euler_angles = euler_angles * 180./np.pi
+    # extract coordinates
+    x=rot_xyz[0,:]+float(dim)/2
+    y=rot_xyz[1,:]+float(dim)/2
+    z=rot_xyz[2,:]+float(dim)/2
 
-        # rotation around z                                                                                                                                                                                        
-        rotated_model = ndimage.interpolation.rotate(rotated_model, euler_angles[0], axes=(1,2), reshape=False, mode='wrap')
+    # reshaping coordinates
+    x=x.reshape((dim,dim,dim))
+    y=y.reshape((dim,dim,dim))
+    z=z.reshape((dim,dim,dim))
+    
+    # rearange the order of the coordinates
+    new_xyz=[y,x,z]
 
-        # rotation around y                                                                                                                                                                                       
-        rotated_model = ndimage.interpolation.rotate(rotated_model, euler_angles[1], axes=(2,0), reshape=False, mode='wrap')
+    # rotate object
+    rotated_model = ndimage.interpolation.map_coordinates(intput_model,new_xyz, order=order_spline_interpolation)
 
-        # rotation around x                                                                                                                                                                                      
-        rotated_model = ndimage.interpolation.rotate(rotated_model, euler_angles[2], axes=(0,1), reshape=False, mode='wrap')
+    return rotated_model
 
-        return rotated_model
 
-    else:
-        #convert quaternion to intrinsic if necessary
-        if quat_is_extrinsic: quat = condor.utils.rotation.quat_conj(quat)
-        
-        # normalise quat                                                                                                                                                                                           
-        quat = condor.utils.rotation.norm_quat(quat)
-
-        # calculating the euler angles
-        euler_angles = condor.utils.rotation.euler_from_quat(quat,mode='zxz')
-        euler_angles = euler_angles * 180./np.pi
-
-        # rotation around z
-        rotated_model = ndimage.interpolation.rotate(rotated_model, euler_angles[0], axes=(1,2), reshape=False, mode='wrap')
-
-        # rotation around x'
-        rotated_model = ndimage.interpolation.rotate(rotated_model, euler_angles[1], axes=(0,1), reshape=False, mode='wrap')
-
-        # rotation around z''
-        rotated_model = ndimage.interpolation.rotate(rotated_model, euler_angles[2], axes=(1,2), reshape=False, mode='wrap')
-
-        return rotated_model
 
 
 def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,extrinsic_rotation=False):
