@@ -2,7 +2,7 @@ import condor
 import numpy as np
 import nutcracker
 
-def fourirer_shell_correlation(model_1,model_2,model_1_is_real_space=False,model_2_is_real_space=False):
+def fourier_shell_correlation(model_1,model_2,model_1_is_real_space=False,model_2_is_real_space=False):
     """
     Calculates the fourier shell correlation between two intensity models.
     Args: 
