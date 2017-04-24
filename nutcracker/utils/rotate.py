@@ -21,10 +21,9 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     coords = np.meshgrid(ax,ax,ax)
     
     # stack the meshgrid to position vectors, center them around 0 by substracting dim/2
-    xyz=np.vstack([coords[0].reshape(-1)-float(dim)/2,     # x coordinate, centered
+    xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered
                    coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered
-                   coords[2].reshape(-1)-float(dim)/2,     # z coordinate, centered
-                   np.ones((dim,dim,dim)).reshape(-1)])    # 1 for homogeneous coordinates
+                   coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered
 
     # creating the rotation matrix from quaternion
     rot_mat = condor.utils.rotation.rotmx_from_quat(quat)
@@ -43,14 +42,12 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     z=z.reshape((dim,dim,dim))
     
     # rearange the order of the coordinates
-    new_xyz=[y,x,z]
+    new_xyz=[z,y,x]
 
     # rotate object
-    rotated_model = ndimage.interpolation.map_coordinates(intput_model,new_xyz, order=order_spline_interpolation)
+    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order=order_spline_interpolation)
 
     return rotated_model
-
-
 
 
 def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,extrinsic_rotation=False):
