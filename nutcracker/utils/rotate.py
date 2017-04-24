@@ -3,6 +3,33 @@ import condor
 from scipy import ndimage
 from scipy import optimize
 
+def rotation_matrix(angle,axis):
+    """
+    Calculates the rotation matrix for a given angle and rotation axis.
+    
+    Args:
+        :angle(float):        the angle of rotation in radian
+        :axis(str):           the axis of rotation as a string
+    """
+    
+    if axis == 'x':
+        rot_mat = np.array([[1,0,0],
+                            [0,np.cos(angle),-np.sin(angle)],
+                            [0,np.sin(angle),np.cos(angle)]])
+    elif axis == 'y':
+        rot_mat = np.array([[np.cos(angle),0,np.sin(angle)],
+                            [0,1,0],
+                            [-np.sin(angle),0,np.cos(angle)]])
+    elif axis == 'z':
+            rot_mat = np.array([[np.cos(angle),-np.sin(angle),0],
+                                [np.sin(angle),np.cos(angle),0],
+                                [0,0,1]])
+    else:
+        return 'invalid axis'
+    
+    return rot_mat
+
+
 def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     """
     Rotate a given model based on a given quaternion by calculating the rotation matrix.
