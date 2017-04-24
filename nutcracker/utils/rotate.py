@@ -16,7 +16,8 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     """
 
     # defining the coordinate system
-    ax = np.arange(input_model.shape[0])
+    dim = input_model.shape[0]
+    ax = np.arange(dim)
     coords = np.meshgrid(ax,ax,ax)
     
     # stack the meshgrid to position vectors, center them around 0 by substracting dim/2
