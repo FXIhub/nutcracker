@@ -47,18 +47,18 @@ def fourirer_shell_correlation(model_1,model_2,model_1_is_real_space=False,model
         r = np.sqrt((mode_1.shape[0]/2)**2 + (model_1.shape[1]/2)**2 + (model_1.shape[2]/2)**2)
         r = r.astype(np.int)
         # iterate through the shells                                                                                                                             
-            for i in range(0,r,1):
-                a, b, c = model_1.shape[0]/2, model_1.shape[1]/2, model_1.shape[2]/2
-                x, y, z = np.ogrid[-a:model_1.shape[0]-a, -b:model_1.shape[1]-b, -c:model_1.shape[2]-c]
+        for i in range(0,r,1):
+            a, b, c = model_1.shape[0]/2, model_1.shape[1]/2, model_1.shape[2]/2
+            x, y, z = np.ogrid[-a:model_1.shape[0]-a, -b:model_1.shape[1]-b, -c:model_1.shape[2]-c]
         
-                # masking the shells                                                                                                                                                 
-                mask1 = x**2 + y**2 + z**2 >= i**2
-                mask2 = x**2 + y**2 + z**2 < (i+1)**2
-                mask3 = mask1 * mask2
-                fsc_list.append((model_1[mask3] * np.conjugate(model_2[mask3])).sum() / np.sqrt((np.abs(model_1[mask3])**2).sum() * (np.abs(model_2[mask3])**2).sum()))
+            # masking the shells                                                                                                                                                 
+            mask1 = x**2 + y**2 + z**2 >= i**2
+            mask2 = x**2 + y**2 + z**2 < (i+1)**2
+            mask3 = mask1 * mask2
+            fsc_list.append((model_1[mask3] * np.conjugate(model_2[mask3])).sum() / np.sqrt((np.abs(model_1[mask3])**2).sum() * (np.abs(model_2[mask3])**2).sum()))
         
-            fsc_array = np.array(fsc_list)
-            return fsc_array
+        fsc_array = np.array(fsc_list)
+        return fsc_array
 
     else:
         return "invalid dimension"
