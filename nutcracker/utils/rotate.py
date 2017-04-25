@@ -39,7 +39,7 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     Kwargs: 
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
-    _rotation_of_model(input_mode, condor.utils.rotation.rotmx_from_quat(quat), order_spline_interpolation)
+    return _rotation_of_model(input_mode, condor.utils.rotation.rotmx_from_quat(quat), order_spline_interpolation)
     
 def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_interpolation=3):
     """
@@ -52,9 +52,9 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     Kwargs:
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
-    _rotation_of_model(input_model, rotation_matrix, order_spline_interpolation)
+    return _rotation_of_model(input_model, rotation_matrix, order_spline_interpolation)
 
-def _rotatation_of_model(input_model, rot_mat, order):
+def _rotation_of_model(input_model, rot_mat, order):
     
     # defining the coordinate system
     dim = input_model.shape[0]
