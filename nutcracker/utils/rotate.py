@@ -127,7 +127,9 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     return rotated_model
 
 
-def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,order_spline_interpolation=3,cropping_model=0):
+def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
+                                     full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,
+                                     order_spline_interpolation=3,cropping_model=0):
     """
     Finding the right alignment by rotating one model on base of a rotation matrix and using the brute force algorithm to minimise the difference between the two models.
 
@@ -146,16 +148,12 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_
     """
     
     def rotation(angles,model_1,model_2):
-        theta, phi, psi = angles
-        
+        theta, phi, psi = angles        
         r_x = rotation_matrix(theta,'x')
         r_y = rotation_matrix(phi,'y')
         r_z = rotation_matrix(psi,'z')
-        
         rot_mat = np.dot(np.dot(r_z,r_y),r_x)
-
         model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
-
         return np.sum(np.abs(model_1 - model_2)**2)
 
 
@@ -167,35 +165,32 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_
         model_1 = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
         model_2 = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
 
-    print model_1.shape
-    print model_2.shape
-
-    # normalisation                                                                                                               
+    # normalisation
     model_1 = model_1 * 1/(np.max(model_1))
     model_2 = model_2 * 1/(np.max(model_2))
     
-    # apply FT if necessary                                                                                                                                                                                                                                                                  
-    if model_1_is_intensity == False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2                                                                                                                                             
-    if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
+    # apply FT if necessary
 
-    # parameters for brute force optimisation                                                                                                                                                                                                                                                 
+    if model_1_is_intensity == False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
+    if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
+    
+    # parameters for brute force optimisation
     ranges = [slice(0,2*np.pi,2*np.pi/number_of_evaluations),slice(0,2*np.pi,2*np.pi/number_of_evaluations),slice(0,2*np.pi,2*np.pi/number_of_evaluations)]
     args = (model_1,model_2)
 
     # brute force rotation optimisation
-    rot = optimize.brute(rotation, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                                                  
-    rot = np.array(rot) 
-
+    rot = optimize.brute(rotation, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
+    rot = np.array(rot)
     angles = rot[0]
 
     if full_output:
-        out = {'rotation_angles':rot[0],                                                                                                                                                                                                                                                        
-               'rotation_function_values':rot[1],                                                                                                                                                                                                                                                       
-               'rotation_grid':rot[2],                                                                                                                                                                                                                                                         
-               'rotation_jout':rot[3],                                                                                                                                                                                                                                                         
-               'rotated_model':model_2}                                                                                                                                                                                                                                                     
-        return out                                                                                                                                                                                                                                                                
-    else:                                                                                                                                                                                                                                                                                 
+        out = {'rotation_angles':rot[0],
+               'rotation_function_values':rot[1],
+               'rotation_grid':rot[2],
+               'rotation_jout':rot[3],
+               'rotated_model':model_2}
+        return out
+    else:
         return angles
 
 
