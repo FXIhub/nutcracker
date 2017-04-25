@@ -77,51 +77,50 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     return rotated_model
 
 def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_interpolation=3):
-    """                                                                                                                                                                                                                                              
-    Rotate a given model by a given rotation matrix in 3d.
-                                                                                                                                                                                                                                                      
-    Args:                                                                                                                                                                                                                                             
-        :input_model(float ndarray):        3d ndarray of the rotatable object                                                                                                                                                                        
-        :rotation_matrix(float ndarray):    2d ndarray of a 3x3 rotation matrix
-                                                                                                                                                                                                                                                      
-    Kwargs:                                                                                                                                                                                                                                           
-        :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]                                                                                                               
     """
-    
-    # defining the coordinate system                                                                                                                                                                                                                  
+    Rotate a given model by a given rotation matrix in 3d.
+
+    Args:
+        :input_model(float ndarray):        3d ndarray of the rotatable object
+        :rotation_matrix(float ndarray):    2d ndarray of a 3x3 rotation matrix
+
+    Kwargs:
+        :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
+    """
+    # defining the coordinate system
     dim = input_model.shape[0]
     ax = np.arange(dim)
     coords = np.meshgrid(ax,ax,ax)
 
-    # stack the meshgrid to position vectors, center them around 0 by substracting dim/2                                                                                                                                                              
-    xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered                                                                                                                                                                   
-                   coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered                                                                                                                                                                   
-                   coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered                                                                                                                                                                   
-
-    # creating the rotation matrix from quaternion                                                                                                                                                                                                    
-    rot_mat = rotation_matrix
+    # stack the meshgrid to position vectors, center them around 0 by substracting dim/2
+    xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered
+                   coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered
+                   coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered
     
+    # creating the rotation matrix from quaternion
+    rot_mat = rotation_matrix
+
     # checking if matrix has the right size
     if (rot_mat.shape[0] != 3) and (rot_mat.shape[1] != 3):
         return 'invalid matrix size!'
 
-    # rotate the coordinate system                                                                                                                                                                                                                    
+    # rotate the coordinate system
     rot_xyz = np.dot(rot_mat,xyz)
 
-    # extract coordinates                                                                                                                                                                                                                             
+    # extract coordinates
     x=rot_xyz[2,:]+float(dim)/2
     y=rot_xyz[1,:]+float(dim)/2
     z=rot_xyz[0,:]+float(dim)/2
 
-    # reshaping coordinates                                                                                                                                                                                                                           
+    # reshaping coordinates
     x=x.reshape((dim,dim,dim))
     y=y.reshape((dim,dim,dim))
     z=z.reshape((dim,dim,dim))
 
-    # rearange the order of the coordinates                                                                                                                                                                                                           
+    # rearange the order of the coordinates
     new_xyz=[y,x,z]
 
-    # rotate object                                                                                                                                                                                                                                   
+    # rotate object
     rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order=order_spline_interpolation)
 
     return rotated_model
