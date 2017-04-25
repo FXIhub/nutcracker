@@ -127,13 +127,14 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     return rotated_model
 
 
-def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,order_spline_interpolation=3,cropping_model=0):
+def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,order_spline_interpolation=3,cropping_model=0):
     """
-    Finding the right alignment by rotating/shifting one model on base of a rotation matrix and using a brute force algorithm to minimise the difference between the two models.
+    Finding the right alignment by rotating one model on base of a rotation matrix and using the brute force algorithm to minimise the difference between the two models.
 
     Args:
         :model_1(float ndarray):            3d ndarray of the fixed object                                                                                             
         :model_2(float ndarray):            3d ndarray of the rotatable object
+        :number_of_evaluation(int):         number of grid points on which the brute force optimises
 
     Kwargs:
         :full_output(float ndarray):        returns full output as a dictionary, default = False
@@ -157,10 +158,6 @@ def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_i
 
         return np.sum(np.abs(model_1 - model_2)**2)
 
-    def shift(x,model_1,model_2):
-        x0, x1, x2 = x
-        model_2 = ndimage.interpolation.shift(model_2, shift=(x0, x1, x2), mode='reflect')
-        return np.sum(np.abs(model_1 - model_2) ** 2)
 
     # cropping the model
     model_1 = model_1[model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2,model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2,model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2]
@@ -173,54 +170,32 @@ def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_i
     model_1 = model_1 * 1/(np.max(model_1))
     model_2 = model_2 * 1/(np.max(model_2))
     
-    # first aligning with center of mass                                                                                          
-    coord_1 = ndimage.measurements.center_of_mass(model_1)
-    coord_2 = ndimage.measurements.center_of_mass(model_2)
-
-    model_2 = ndimage.interpolation.shift(model_2, shift=(coord_1[0] - coord_2[0], coord_1[1] - coord_2[1], coord_1[2] - coord_2[2]))
-    
     # apply FT if necessary                                                                                                                                                                                                                                                                  
     if model_1_is_intensity == False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2                                                                                                                                             
     if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
 
     # parameters for brute force optimisation                                                                                                                                                                                                                                                 
-    ranges = [(0,np.pi)]
+    ranges = [slice(0,np.pi,0.1),slice(0,np.pi,0.1),slice(0,np.pi,0.1)]
     args = (model_1,model_2)
-    #Ns = 1 
 
     # brute force rotation optimisation
     rot = optimize.brute(rotation, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                                                  
     rot = np.array(rot) 
 
-    # rotating the model_2
-    r_x = rotation_matrix(rot[0][0],'x')
-    r_y = rotation_matrix(rot[0][1],'y')
-    r_z = rotation_matrix(rot[0][2],'z')
-    
-    rot_mat = np.dot(np.dot(r_z,r_y),r_x)
-    
-    model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
+    angles = rot[0]
 
-    # shift retrieval brute force                                                                                                                                                                                                                                                     
-    shift = optimize.brute(shifting, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                                                                               
-    shift = np.array(shift)
-
-    angles = np.array((rot_z[0][0],rot_y[0][0],rot_x[0][0]))                                                                                                                                                                                                                               
-    shift_values = np.array((shift[0]))
-
-    if full_output:                                                                                                                                                                                                                                                                        
-        out = {'rot_angle':rot[0],                                                                                                                                                                                                                                                        
-               'rot_fvalue':rot[1],                                                                                                                                                                                                                                                       
-               'rot_grid':rot[2],                                                                                                                                                                                                                                                         
-               'rot_jout':rot[3],                                                                                                                                                                                                                                                         
-               'shift_values':shift[0],                                                                                                                                                                                                                                                   
-               'shift_fvalues':shift[1],                                                                                                                                                                                                                                                  
-               'shift_grid':shift[2],                                                                                                                                                                                                                                                     
-               'shift_jout':shift[3],
+    if full_output:
+        out = {'rotation_angles':rot[0],                                                                                                                                                                                                                                                        
+               'rotation_function_values':rot[1],                                                                                                                                                                                                                                                       
+               'rotation_grid':rot[2],                                                                                                                                                                                                                                                         
+               'rotation_jout':rot[3],                                                                                                                                                                                                                                                         
                'rotated_model':model_2}                                                                                                                                                                                                                                                     
         return out                                                                                                                                                                                                                                                                
     else:                                                                                                                                                                                                                                                                                 
-        return angles, shift_values
+        return angles
+
+def find_shift_between_two_models():
+
 
 # euler angles seems hopeless in this case
 """
