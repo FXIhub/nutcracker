@@ -225,13 +225,13 @@ def find_shift_between_two_models(model_1,model_2,shift_range,number_of_evaluati
     shift_values = np.array((shift[0]))
 
     if full_output:                                                                                                                                                                                                              
-            out = {'shift_values':shift[0],                                                                                                                                                                                         
-                   'shift_fvalues':shift[1],                                                                                                                                                                                        
-                   'shift_grid':shift[2],                                                                                                                                                                                           
-                   'shift_jout':shift[3]}                                                                                                                                                                                           
-            return out                                                                                                                                                                                                      
-        else:                                                                                                                                                                                                                       
-            return shift_values
+        out = {'shift_values':shift[0],                                                                                                                                                                                         
+               'shift_fvalues':shift[1],                                                                                                                                                                                        
+               'shift_grid':shift[2],                                                                                                                                                                                           
+               'shift_jout':shift[3]}                                                                                                                                                                                           
+        return out                                                                                                                                                                                                      
+    else:                                                                                                                                                                                                                       
+        return shift_values
 
 
 
