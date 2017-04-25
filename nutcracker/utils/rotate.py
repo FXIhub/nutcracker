@@ -87,7 +87,7 @@ def _rotatation_of_model(input_model, rot_mat, order):
     new_xyz=[y,x,z]
 
     # rotate object
-    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order)
+    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order=order)
 
     return rotated_model
 
