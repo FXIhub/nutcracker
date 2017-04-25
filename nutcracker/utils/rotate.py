@@ -127,7 +127,7 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     return rotated_model
 
 
-def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,order_spline_interpolation=3,cropping_model=0,cropping_model=0):
+def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,order_spline_interpolation=3,cropping_model=0):
     """
     Finding the right alignment by rotating/shifting one model on base of a rotation matrix and using a brute force algorithm to minimise the difference between the two models.
 
@@ -153,34 +153,7 @@ def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_i
         
         rot_mat = np.dot(np.dot(r_z,r_y),r_x)
 
-        dim = model_2.shape[0]
-        
-        ax = np.arange(dim)
-        coords = np.meshgrid(ax,ax,ax)
-
-        # stack the meshgrid to position vectors, center them around 0 by substracting dim/2                                      
-        xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered                                           
-                       coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered                                           
-                       coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered                                           
-
-        # rotate the coordinate system                                                                                            
-        rot_xyz = np.dot(rot_mat,xyz)
-
-        # extract coordinates                                                                                                     
-        x=rot_xyz[2,:]+float(dim)/2
-        y=rot_xyz[1,:]+float(dim)/2
-        z=rot_xyz[0,:]+float(dim)/2
-
-        # reshaping coordinates                                                                                                   
-        x=x.reshape((dim,dim,dim))
-        y=y.reshape((dim,dim,dim))
-        z=z.reshape((dim,dim,dim))
-
-        # rearange the order of the coordinates                                                                                   
-        new_xyz=[y,x,z]
-
-        # rotate object                                                                                                           
-        model_2 = ndimage.interpolation.map_coordinates(model_2,new_xyz, mode='reflect')
+        model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
 
         return np.sum(np.abs(model_1 - model_2)**2)
 
@@ -226,34 +199,7 @@ def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_i
     
     rot_mat = np.dot(np.dot(r_z,r_y),r_x)
     
-    dim = model_2.shape[0]
-    
-    ax = np.arange(dim)
-    coords = np.meshgrid(ax,ax,ax)
-    
-    # stack the meshgrid to position vectors, center them around 0 by substracting dim/2                                                                                                                                                                                                  
-    xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered                                                                                                                                                                                                       
-                   coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered                                                                                                                                                                                                       
-                   coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered                                                                                                                                                                                                       
-
-    # rotate the coordinate system                                                                                                                                                                                                                                                        
-    rot_xyz = np.dot(rot_mat,xyz)
-    
-    # extract coordinates                                                                                                                                                                                                                                                                 
-    x=rot_xyz[2,:]+float(dim)/2
-    y=rot_xyz[1,:]+float(dim)/2
-    z=rot_xyz[0,:]+float(dim)/2
-
-    # reshaping coordinates                                                                                                                                                                                                                                                               
-    x=x.reshape((dim,dim,dim))
-    y=y.reshape((dim,dim,dim))
-    z=z.reshape((dim,dim,dim))
-    
-    # rearange the order of the coordinates                                                                                                                                                                                                                                               
-    new_xyz=[y,x,z]
-
-    # rotate object                                                                                                                                                                                                                                                                       
-    model_2 = ndimage.interpolation.map_coordinates(model_2,new_xyz, mode='reflect')
+    model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
 
     # shift retrieval brute force                                                                                                                                                                                                                                                     
     shift = optimize.brute(shifting, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                                                                               
