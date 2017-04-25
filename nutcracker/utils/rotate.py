@@ -160,8 +160,12 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_
 
 
     # cropping the model
-    model_1 = model_1[model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2,model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2,model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2]
-    model_2 = model_2[model_2.shape[0]/2-cropping_model/2:model_2.shape[0]/2+cropping_model/2,model_2.shape[0]/2-cropping_model/2:model_2.shape[0]/2+cropping_model/2,model_2.shape[0]/2-cropping_model/2:model_2.shape[0]/2+cropping_model/2]
+    if cropping_model == 0:
+        model_1 = model_1[cropping_model/2:-1,cropping_model/2:-1,cropping_model/2:-1]
+        model_2 = model_2[cropping_model/2:-1,cropping_model/2:-1,cropping_model/2:-1]
+    else:
+        model_1 = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
+        model_2 = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
 
     print model_1.shape
     print model_2.shape
