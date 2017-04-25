@@ -175,7 +175,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_
     if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
 
     # parameters for brute force optimisation                                                                                                                                                                                                                                                 
-    ranges = [slice(0,np.pi,np.pi/number_of_evaluations),slice(0,np.pi,np.pi/number_of_evaluations),slice(0,np.pi,np.pi/number_of_evaluations)]
+    ranges = [slice(0,2*np.pi,2*np.pi/number_of_evaluations),slice(0,2*np.pi,2*np.pi/number_of_evaluations),slice(0,2*np.pi,2*np.pi/number_of_evaluations)]
     args = (model_1,model_2)
 
     # brute force rotation optimisation
