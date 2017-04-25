@@ -87,13 +87,13 @@ def _rotation_of_model(input_model, rot_mat, order):
     new_xyz=[y,x,z]
 
     # rotate object
-    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order=order)
+    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='constant', order=order)
 
     return rotated_model
 
 def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
                                      full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,
-                                     order_spline_interpolation=3,cropping_model=0):
+                                     order_spline_interpolation=3,cropping_model=0, mask=None):
     """
     Finding the right alignment by rotating one model on base of a rotation matrix and using the brute force algorithm to minimise the difference between the two models.
 
@@ -109,11 +109,12 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
         :shift_range(int):                  absolute value of the range in which the shift part of the brute force algorithm should calculate, default = 3
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
         :cropping_model(int):               cropps the model by the given vaule in total, has to be an even number, default = 0
+        :mask(bool ndarray):                provide a mask to be used for the evaluation of the cost function, default = None
     """    
-    def costfunc(angles,model_1,model_2):
+    def costfunc(angles,model_1,model_2, mask):
         rot_mat = get_rot_matrix(angles)
         model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
-        return np.sum(np.abs(model_1 - model_2)**2)
+        return np.sum(np.abs(model_1[mask] - model_2[mask])**2)
 
     def get_rot_matrix(angles):
         theta, phi, psi = angles        
@@ -122,10 +123,15 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
         r_z = rotation_matrix(psi,'z')
         return np.dot(np.dot(r_z,r_y),r_x)
 
+    # Mask
+    if mask is None:
+        mask = np.ones_like(model_1).astype(np.bool)
+    
     # cropping the model
     if cropping_model:
         model_1 = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
         model_2 = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
+        mask    = mask[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
 
     # normalisation
     model_1 = model_1 * 1/(np.max(model_1))
@@ -139,7 +145,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
     # parameters for brute force optimisation
     angle_range = slice(0,np.pi,np.pi/number_of_evaluations)
     ranges = [angle_range, angle_range, angle_range]
-    args = (model_1,model_2)
+    args = (model_1,model_2, mask)
 
     # brute force rotation optimisation
     rot = optimize.brute(costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
