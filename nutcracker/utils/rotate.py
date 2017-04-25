@@ -137,7 +137,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_
         :number_of_evaluation(int):         number of grid points on which the brute force optimises
 
     Kwargs:
-        :full_output(float ndarray):        returns full output as a dictionary, default = False
+        :full_output(bool):                 returns full output as a dictionary, default = False
         :model_1_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
         :model_2_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
         :shift_range(int):                  absolute value of the range in which the shift part of the brute force algorithm should calculate, default = 3
@@ -175,7 +175,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_
     if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
 
     # parameters for brute force optimisation                                                                                                                                                                                                                                                 
-    ranges = [slice(0,np.pi,0.1),slice(0,np.pi,0.1),slice(0,np.pi,0.1)]
+    ranges = [slice(0,np.pi,np.pi/number_of_evaluations),slice(0,np.pi,np.pi/number_of_evaluations),slice(0,np.pi,np.pi/number_of_evaluations)]
     args = (model_1,model_2)
 
     # brute force rotation optimisation
@@ -194,7 +194,46 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,full_
     else:                                                                                                                                                                                                                                                                                 
         return angles
 
-def find_shift_between_two_models():
+
+def find_shift_between_two_models(model_1,model_2,shift_range,number_of_evaluations,full_output=False):
+    """
+    Find the right shift alignment in 3D by using a brute force algorithm to minimise the difference between the two models.
+
+    Args:
+        :model_1(float ndarray):        3d ndarray of the fixed object
+        :model_2(float ndarray):        3d ndarray ot the rotatable model
+        :shift_range(float):            absolute value of the range in which the brute should be applied
+        :number_of_evaluations(int):    number of grid points on which the brute force optimises
+
+    Kwargs:
+        :full_output(bool):                 returns full output as a dictionary, default = False
+    """
+
+    def shifting(x,model_1,model_2):
+        x0, x1, x2 = x
+        model_2 = ndimage.interpolation.shift(model_2, shift=(x0, x1, x2), mode='wrap')
+        return np.sum(np.abs(model_1 - model_2) ** 2)    
+
+    # set parameters
+    ranges = [slice(-shift_range,shift_range,shift_range/number_of_evaluations), slice(-shift_range,shift_range,shift_range/number_of_evaluations), slice(-shift_range,shift_range,shift_range/number_of_evaluations)]
+    args = (model_1, model_2)
+
+    # shift retrieval brute force                                                                                                                                                                                                
+    shift = optimize.brute(shifting, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                      
+    shift = np.array(shift)                                                                                                                                                                                                      
+    
+    shift_values = np.array((shift[0]))
+
+    if full_output:                                                                                                                                                                                                              
+            out = {'shift_values':shift[0],                                                                                                                                                                                         
+                   'shift_fvalues':shift[1],                                                                                                                                                                                        
+                   'shift_grid':shift[2],                                                                                                                                                                                           
+                   'shift_jout':shift[3]}                                                                                                                                                                                           
+            return out                                                                                                                                                                                                      
+        else:                                                                                                                                                                                                                       
+            return shift_values
+
+
 
 
 # euler angles seems hopeless in this case
