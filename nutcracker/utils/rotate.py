@@ -127,8 +127,159 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     return rotated_model
 
 
-def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,extrinsic_rotation=False):
+def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,order_spline_interpolation=3,cropping_model=0,cropping_model=0):
     """
+    Finding the right alignment by rotating/shifting one model on base of a rotation matrix and using a brute force algorithm to minimise the difference between the two models.
+
+    Args:
+        :model_1(float ndarray):            3d ndarray of the fixed object                                                                                             
+        :model_2(float ndarray):            3d ndarray of the rotatable object
+
+    Kwargs:
+        :full_output(float ndarray):        returns full output as a dictionary, default = False
+        :model_1_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
+        :model_2_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
+        :shift_range(int):                  absolute value of the range in which the shift part of the brute force algorithm should calculate, default = 3
+        :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
+        :cropping_model(int):               cropps the model by the given vaule in total, has to be an even number, default = 0
+    """
+    
+    def rotation(angles,model_1,model_2):
+        theta, phi, psi = angles
+        
+        r_x = rotation_matrix(theta,'x')
+        r_y = rotation_matrix(phi,'y')
+        r_z = rotation_matrix(psi,'z')
+        
+        rot_mat = np.dot(np.dot(r_z,r_y),r_x)
+
+        dim = model_2.shape[0]
+        
+        ax = np.arange(dim)
+        coords = np.meshgrid(ax,ax,ax)
+
+        # stack the meshgrid to position vectors, center them around 0 by substracting dim/2                                      
+        xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered                                           
+                       coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered                                           
+                       coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered                                           
+
+        # rotate the coordinate system                                                                                            
+        rot_xyz = np.dot(rot_mat,xyz)
+
+        # extract coordinates                                                                                                     
+        x=rot_xyz[2,:]+float(dim)/2
+        y=rot_xyz[1,:]+float(dim)/2
+        z=rot_xyz[0,:]+float(dim)/2
+
+        # reshaping coordinates                                                                                                   
+        x=x.reshape((dim,dim,dim))
+        y=y.reshape((dim,dim,dim))
+        z=z.reshape((dim,dim,dim))
+
+        # rearange the order of the coordinates                                                                                   
+        new_xyz=[y,x,z]
+
+        # rotate object                                                                                                           
+        model_2 = ndimage.interpolation.map_coordinates(model_2,new_xyz, mode='reflect')
+
+        return np.sum(np.abs(model_1 - model_2)**2)
+
+    def shift(x,model_1,model_2):
+        x0, x1, x2 = x
+        model_2 = ndimage.interpolation.shift(model_2, shift=(x0, x1, x2), mode='reflect')
+        return np.sum(np.abs(model_1 - model_2) ** 2)
+
+    # cropping the model
+    model_1 = model_1[model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2,model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2,model_1.shape[0]/2-cropping_model/2:model_1.shape[0]/2+cropping_model/2]
+    model_2 = model_2[model_2.shape[0]/2-cropping_model/2:model_2.shape[0]/2+cropping_model/2,model_2.shape[0]/2-cropping_model/2:model_2.shape[0]/2+cropping_model/2,model_2.shape[0]/2-cropping_model/2:model_2.shape[0]/2+cropping_model/2]
+
+    print model_1.shape
+    print model_2.shape
+
+    # normalisation                                                                                                               
+    model_1 = model_1 * 1/(np.max(model_1))
+    model_2 = model_2 * 1/(np.max(model_2))
+    
+    # first aligning with center of mass                                                                                          
+    coord_1 = ndimage.measurements.center_of_mass(model_1)
+    coord_2 = ndimage.measurements.center_of_mass(model_2)
+
+    model_2 = ndimage.interpolation.shift(model_2, shift=(coord_1[0] - coord_2[0], coord_1[1] - coord_2[1], coord_1[2] - coord_2[2]))
+    
+    # apply FT if necessary                                                                                                                                                                                                                                                                  
+    if model_1_is_intensity == False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2                                                                                                                                             
+    if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
+
+    # parameters for brute force optimisation                                                                                                                                                                                                                                                 
+    ranges = [(0,np.pi)]
+    args = (model_1,model_2)
+    #Ns = 1 
+
+    # brute force rotation optimisation
+    rot = optimize.brute(rotation, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                                                  
+    rot = np.array(rot) 
+
+    # rotating the model_2
+    r_x = rotation_matrix(rot[0][0],'x')
+    r_y = rotation_matrix(rot[0][1],'y')
+    r_z = rotation_matrix(rot[0][2],'z')
+    
+    rot_mat = np.dot(np.dot(r_z,r_y),r_x)
+    
+    dim = model_2.shape[0]
+    
+    ax = np.arange(dim)
+    coords = np.meshgrid(ax,ax,ax)
+    
+    # stack the meshgrid to position vectors, center them around 0 by substracting dim/2                                                                                                                                                                                                  
+    xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered                                                                                                                                                                                                       
+                   coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered                                                                                                                                                                                                       
+                   coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered                                                                                                                                                                                                       
+
+    # rotate the coordinate system                                                                                                                                                                                                                                                        
+    rot_xyz = np.dot(rot_mat,xyz)
+    
+    # extract coordinates                                                                                                                                                                                                                                                                 
+    x=rot_xyz[2,:]+float(dim)/2
+    y=rot_xyz[1,:]+float(dim)/2
+    z=rot_xyz[0,:]+float(dim)/2
+
+    # reshaping coordinates                                                                                                                                                                                                                                                               
+    x=x.reshape((dim,dim,dim))
+    y=y.reshape((dim,dim,dim))
+    z=z.reshape((dim,dim,dim))
+    
+    # rearange the order of the coordinates                                                                                                                                                                                                                                               
+    new_xyz=[y,x,z]
+
+    # rotate object                                                                                                                                                                                                                                                                       
+    model_2 = ndimage.interpolation.map_coordinates(model_2,new_xyz, mode='reflect')
+
+    # shift retrieval brute force                                                                                                                                                                                                                                                     
+    shift = optimize.brute(shifting, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                                                                               
+    shift = np.array(shift)
+
+    angles = np.array((rot_z[0][0],rot_y[0][0],rot_x[0][0]))                                                                                                                                                                                                                               
+    shift_values = np.array((shift[0]))
+
+    if full_output:                                                                                                                                                                                                                                                                        
+        out = {'rot_angle':rot[0],                                                                                                                                                                                                                                                        
+               'rot_fvalue':rot[1],                                                                                                                                                                                                                                                       
+               'rot_grid':rot[2],                                                                                                                                                                                                                                                         
+               'rot_jout':rot[3],                                                                                                                                                                                                                                                         
+               'shift_values':shift[0],                                                                                                                                                                                                                                                   
+               'shift_fvalues':shift[1],                                                                                                                                                                                                                                                  
+               'shift_grid':shift[2],                                                                                                                                                                                                                                                     
+               'shift_jout':shift[3],
+               'rotated_model':model_2}                                                                                                                                                                                                                                                     
+        return out                                                                                                                                                                                                                                                                
+    else:                                                                                                                                                                                                                                                                                 
+        return angles, shift_values
+
+# euler angles seems hopeless in this case
+"""
+def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,shift_range=3,extrinsic_rotation=False):
+    
     Finding the right alignment by rotating/shifting one model in accordance with standart x convention and using a brute force algorithm to minimise the difference between the two models. Also a extrinsic rotation formalism (rotation around z-y-x) could be enabled.
 
     Args:
@@ -141,7 +292,7 @@ def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_i
         :model_2_is_ft(bool):           apply a fourier transformation and takes the absolute values if False, default = True
         :shift_range(int):              absolute value of the range in which the shift part of the brute force algorithm should calculate, default = 3
         :extrinsic_rotation(bool):      if enabled the model will be rotated by extrinsic formalism, default = False
-    """
+    
 
     # defining the functions for the brute force algorithm
     def rotation_z(a,model_1,model_2):
@@ -273,3 +424,4 @@ def find_rotation_between_two_models(model_1,model_2,full_output=False,model_1_i
             return angles, out
         else:
             return angles, shift_values
+"""
