@@ -11,7 +11,6 @@ def rotation_matrix(angle,axis):
         :angle(float):        the angle of rotation in radian
         :axis(str):           the axis of rotation as a string
     """
-    
     if axis == 'x':
         rot_mat = np.array([[1,0,0],
                             [0,np.cos(angle),-np.sin(angle)],
@@ -29,7 +28,6 @@ def rotation_matrix(angle,axis):
     
     return rot_mat
 
-
 def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     """
     Rotate a given model based on a given quaternion by calculating the rotation matrix.
@@ -41,41 +39,8 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     Kwargs: 
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
-
-    # defining the coordinate system
-    dim = input_model.shape[0]
-    ax = np.arange(dim)
-    coords = np.meshgrid(ax,ax,ax)
+    _rotation_of_model(input_mode, condor.utils.rotation.rotmx_from_quat(quat), order_spline_interpolation)
     
-    # stack the meshgrid to position vectors, center them around 0 by substracting dim/2
-    xyz=np.vstack([coords[2].reshape(-1)-float(dim)/2,     # x coordinate, centered
-                   coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered
-                   coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered
-
-    # creating the rotation matrix from quaternion
-    rot_mat = condor.utils.rotation.rotmx_from_quat(quat)
-    
-    # rotate the coordinate system
-    rot_xyz = np.dot(rot_mat,xyz)
-
-    # extract coordinates
-    x=rot_xyz[2,:]+float(dim)/2
-    y=rot_xyz[1,:]+float(dim)/2
-    z=rot_xyz[0,:]+float(dim)/2
-
-    # reshaping coordinates
-    x=x.reshape((dim,dim,dim))
-    y=y.reshape((dim,dim,dim))
-    z=z.reshape((dim,dim,dim))
-    
-    # rearange the order of the coordinates
-    new_xyz=[y,x,z]
-
-    # rotate object
-    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order=order_spline_interpolation)
-
-    return rotated_model
-
 def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_interpolation=3):
     """
     Rotate a given model by a given rotation matrix in 3d.
@@ -87,6 +52,10 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     Kwargs:
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
+    _rotation_of_model(input_model, rotation_matrix, order_spline_interpolation)
+
+def _rotatation_of_model(input_model, rot_mat, order):
+    
     # defining the coordinate system
     dim = input_model.shape[0]
     ax = np.arange(dim)
@@ -97,9 +66,6 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
                    coords[1].reshape(-1)-float(dim)/2,     # y coordinate, centered
                    coords[0].reshape(-1)-float(dim)/2])    # z coordinate, centered
     
-    # creating the rotation matrix from quaternion
-    rot_mat = rotation_matrix
-
     # checking if matrix has the right size
     if (rot_mat.shape[0] != 3) and (rot_mat.shape[1] != 3):
         return 'invalid matrix size!'
@@ -121,10 +87,9 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     new_xyz=[y,x,z]
 
     # rotate object
-    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order=order_spline_interpolation)
+    rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='reflect', order)
 
     return rotated_model
-
 
 def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
                                      full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,
