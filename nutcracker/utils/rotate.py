@@ -109,16 +109,18 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
         :shift_range(int):                  absolute value of the range in which the shift part of the brute force algorithm should calculate, default = 3
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
         :cropping_model(int):               cropps the model by the given vaule in total, has to be an even number, default = 0
-    """
-    
-    def rotation(angles,model_1,model_2):
+    """    
+    def costfunc(angles,model_1,model_2):
+        rot_mat = get_rot_matrix(angles)
+        model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
+        return np.sum(np.abs(model_1 - model_2)**2)
+
+    def get_rot_matrix(angles):
         theta, phi, psi = angles        
         r_x = rotation_matrix(theta,'x')
         r_y = rotation_matrix(phi,'y')
         r_z = rotation_matrix(psi,'z')
-        rot_mat = np.dot(np.dot(r_z,r_y),r_x)
-        model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
-        return np.sum(np.abs(model_1 - model_2)**2)
+        return np.dot(np.dot(r_z,r_y),r_x)
 
     # cropping the model
     if cropping_model:
@@ -135,20 +137,28 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
     if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
     
     # parameters for brute force optimisation
-    ranges = [slice(0,2*np.pi,2*np.pi/number_of_evaluations),slice(0,2*np.pi,2*np.pi/number_of_evaluations),slice(0,2*np.pi,2*np.pi/number_of_evaluations)]
+    angle_range = slice(0,2*np.pi,2*np.pi/number_of_evaluations)
+    print angle_range
+    ranges = [angle_range, angle_range, angle_range]
     args = (model_1,model_2)
 
     # brute force rotation optimisation
-    rot = optimize.brute(rotation, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
+    rot = optimize.brute(costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
     rot = np.array(rot)
     angles = rot[0]
+
+    # Get rotation matrix which translates model 1 into model 2
+    res_rot_mat = get_rot_matrix(angels)
+
+    # Get rotated model (2)
+    model_2_rotated = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
 
     if full_output:
         out = {'rotation_angles':rot[0],
                'rotation_function_values':rot[1],
                'rotation_grid':rot[2],
                'rotation_jout':rot[3],
-               'rotated_model':model_2}
+               'rotated_model':model_2_rotated}
         return out
     else:
         return angles
