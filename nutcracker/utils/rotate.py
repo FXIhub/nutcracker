@@ -153,7 +153,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
     angles = rot[0]
 
     # Get rotation matrix which translates model 1 into model 2
-    res_rot_mat = get_rot_matrix(angels)
+    res_rot_mat = get_rot_matrix(angles)
 
     # Get rotated model (2)
     model_2_rotated = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
