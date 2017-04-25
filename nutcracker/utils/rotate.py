@@ -120,12 +120,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
         model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
         return np.sum(np.abs(model_1 - model_2)**2)
 
-
     # cropping the model
-    if cropping_model == 0:
-        model_1 = model_1[cropping_model/2:-1,cropping_model/2:-1,cropping_model/2:-1]
-        model_2 = model_2[cropping_model/2:-1,cropping_model/2:-1,cropping_model/2:-1]
-    else:
+    if cropping_model:
         model_1 = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
         model_2 = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
 
