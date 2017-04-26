@@ -39,7 +39,7 @@ def rotation_based_on_quaternion(input_model,quat,order_spline_interpolation=3):
     Kwargs: 
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
-    return _rotation_of_model(input_mode, condor.utils.rotation.rotmx_from_quat(quat), order_spline_interpolation)
+    return _rotation_of_model(input_model, condor.utils.rotation.rotmx_from_quat(quat), order_spline_interpolation)
     
 def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_interpolation=3):
     """
@@ -157,8 +157,11 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         rot = np.array(rot)
         
     if method == 'fmin_l_bfgs_b':
+        #parameter for fmin_l_bfgs_b
+        x0 = np.array(initial_guess)
+        
         # fmin_l_bfgs_b optimisation
-        rot = optimize.fmin_l_bfgs_b(costfunc, x0=initial_guess, args=args)
+        rot = optimize.fmin_l_bfgs_b(costfunc, x0, args=args)
         rot = np.array(rot)
         
     angles = rot[0]
