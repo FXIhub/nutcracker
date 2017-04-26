@@ -91,25 +91,27 @@ def _rotation_of_model(input_model, rot_mat, order):
 
     return rotated_model
 
-def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
+def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
                                      full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,
-                                     order_spline_interpolation=3,cropping_model=0, mask=None):
+                                     order_spline_interpolation=3,cropping_model=0, mask=None,
+                                     method='brute_force',initial_guess=[0.,0.,0.]):
     """
     Finding the right alignment by rotating one model on base of a rotation matrix and using the brute force algorithm to minimise the difference between the two models.
 
     Args:
         :model_1(float ndarray):            3d ndarray of the fixed object                                                                                             
         :model_2(float ndarray):            3d ndarray of the rotatable object
-        :number_of_evaluation(int):         number of grid points on which the brute force optimises
 
     Kwargs:
+        :number_of_evaluation(int):         number of grid points on which the brute force optimises, default = 10
         :full_output(bool):                 returns full output as a dictionary, default = False
         :model_1_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
         :model_2_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
-        :shift_range(int):                  absolute value of the range in which the shift part of the brute force algorithm should calculate, default = 3
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
         :cropping_model(int):               cropps the model by the given vaule in total, has to be an even number, default = 0
         :mask(bool ndarray):                provide a mask to be used for the evaluation of the cost function, default = None
+        :method(str):                       is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b
+        :initial_guess(float ndarray):      is the initila guess for the fmin_l_bfgs_b optimisation
     """    
     def costfunc(angles,model_1,model_2, mask):
         rot_mat = get_rot_matrix(angles)
@@ -141,29 +143,48 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations,
 
     if model_1_is_intensity == False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
     if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
-    
-    # parameters for brute force optimisation
-    angle_range = slice(0,np.pi,np.pi/number_of_evaluations)
-    ranges = [angle_range, angle_range, angle_range]
+
+    # parameter for optimisation
     args = (model_1,model_2, mask)
 
-    # brute force rotation optimisation
-    rot = optimize.brute(costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
-    rot = np.array(rot)
+    if method == 'brute_force':
+        # parameters for brute force optimisation
+        angle_range = slice(0,np.pi,np.pi/number_of_evaluations)
+        ranges = [angle_range, angle_range, angle_range]
+
+        # brute force rotation optimisation
+        rot = optimize.brute(costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
+        rot = np.array(rot)
+        
+    if method == 'fmin_l_bfgs_b':
+        # fmin_l_bfgs_b optimisation
+        rot = optimize.fmin_l_bfgs_b(costfunc, x0=initial_guess, args=args)
+        rot = np.array(rot)
+        
     angles = rot[0]
 
-    # Get rotation matrix which translates model 1 into model 2
+    # Get rotation matrix which translates model 2 into model 1
     res_rot_mat = get_rot_matrix(angles)
 
     # Get rotated model (2)
     model_2_rotated = rotation_based_on_rotation_matrix(model_2,res_rot_mat,order_spline_interpolation)
 
     if full_output:
-        out = {'rotation_angles':rot[0],
-               'rotation_function_values':rot[1],
-               'rotation_grid':rot[2],
-               'rotation_jout':rot[3],
-               'rotated_model':model_2_rotated}
+        if method == 'brute_force':
+            out = {'rotation_angles':rot[0],
+                   'rotation_function_values':rot[1],
+                   'rotation_grid':rot[2],
+                   'rotation_jout':rot[3],
+                   'rotated_model':model_2_rotated}
+
+        if method == 'fmin_l_bfgs_b':
+            out = {'rotation_angles':rot[0],
+                   'rotation_function_values':rot[1],
+                   'warnflag':rot[2]['warnflag'],
+                   'gradient':rot[2]['grad'],
+                   'function_calls':rot[2]['funcalls'],
+                   'iterations':rot[2][nit],
+                   'rotated_model':model_2_rotated}
         return out
     else:
         return angles
