@@ -113,13 +113,13 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         :method(str):                       is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b
         :initial_guess(float ndarray):      is the initila guess for the fmin_l_bfgs_b optimisation
     """    
-    def costfunc(angles,model_1,model_2, mask):
+    def costfunc(angles,model_1,model_2,mask):
         rot_mat = get_rot_matrix(angles)
         model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
         return np.sum(np.abs(model_1[mask] - model_2[mask])**2)
 
     def get_rot_matrix(angles):
-        theta, phi, psi = angles        
+        theta, phi, psi = angles
         r_x = rotation_matrix(theta,'x')
         r_y = rotation_matrix(phi,'y')
         r_z = rotation_matrix(psi,'z')
@@ -161,7 +161,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         x0 = np.array(initial_guess)
         
         # fmin_l_bfgs_b optimisation
-        rot = optimize.fmin_l_bfgs_b(costfunc, x0, args=args)
+        rot = optimize.fmin_l_bfgs_b(costfunc, x0, args=args, approx_grad=True)
         rot = np.array(rot)
         
     angles = rot[0]
