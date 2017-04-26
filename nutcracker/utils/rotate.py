@@ -164,24 +164,32 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         rot = optimize.fmin_l_bfgs_b(costfunc, x0, args=args, approx_grad=True)
         rot = np.array(rot)
         
-    angles = rot[0]
 
-    # Get rotation matrix which translates model 2 into model 1
+    # Get rotation matrix which translates model 2 into model 1 and distinguish between centrosymmetry
     res_rot_mat = get_rot_matrix(angles)
+    res_rot_mat_plus_pi = get_rot_matrix(angles + np.pi)
 
-    # Get rotated model (2)
     model_2_rotated = rotation_based_on_rotation_matrix(model_2,res_rot_mat,order_spline_interpolation)
+    model_2_rotated_plus_pi = rotation_based_on_rotation_matrix(model_2,res_rot_mat_plus_pi,order_spline_interpolation)
+
+    if np.sum(np.abs(model_1 - model_2_rotated)**2) < np.sum(np.abs(model_1 - model_2_rotated_plus_pi)**2):
+        model_2_rotated =  model_2_rotated
+
+    else:
+        angles = angles + np.pi
+        model_2_rotated = model_2_rotated_plus_pi
+
 
     if full_output:
         if method == 'brute_force':
-            out = {'rotation_angles':rot[0],
+            out = {'rotation_angles':angles,
                    'rotation_function_values':rot[1],
                    'rotation_grid':rot[2],
                    'rotation_jout':rot[3],
                    'rotated_model':model_2_rotated}
 
         if method == 'fmin_l_bfgs_b':
-            out = {'rotation_angles':rot[0],
+            out = {'rotation_angles':angles,
                    'rotation_function_values':rot[1],
                    'warnflag':rot[2]['warnflag'],
                    'gradient':rot[2]['grad'],
