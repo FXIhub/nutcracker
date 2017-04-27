@@ -54,6 +54,24 @@ def rotation_based_on_rotation_matrix(input_model,rotation_matrix,order_spline_i
     """
     return _rotation_of_model(input_model, rotation_matrix, order_spline_interpolation)
 
+def rotation_based_on_euler_angles(input_model,angles,order='zyx', order_spline_interpolation=3):
+    """
+    Rotate a given model by a given set of euler angles
+
+    Args:
+        :input_model(float ndarray):        3d ndarray of the rotatable object
+        :angles(float ndarray):             1d ndarray of euler angles
+
+    Kwargs:
+        :order(str):                        order in which rotation matrix is constructed from th euler angles
+        :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
+    """
+    r_x = rotation_matrix(angles[0],'x')
+    r_y = rotation_matrix(angles[1],'y')
+    r_z = rotation_matrix(angles[2],'z')
+    rotmat = np.dot(np.dot(r_z,r_y),r_x)
+    return _rotation_of_model(input_model, rotmat, order_spline_interpolation)
+
 def _rotation_of_model(input_model, rot_mat, order):
     
     # defining the coordinate system
@@ -138,12 +156,10 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
 
     # radial mask
     if radius_radial_mask:
-        mask_rad = np.ones_like(model_1).astype(np.bool)
         a, b, c = model_1.shape[0]/2, model_1.shape[1]/2, model_1.shape[2]/2
         x, y, z = np.ogrid[-a:model_1.shape[0]-a, -b:model_1.shape[1]-b, -c:model_1.shape[2]-c]
-        mask_of_mask = np.sqrt(x**2 + y**2 + z**2) >= radius_radial_mask
-        mask_rad[mask_of_mask] = False
-        mask = mask * mask_rad
+        mask_rad = np.sqrt(x**2 + y**2 + z**2) <= radius_radial_mask
+        mask = mask & mask_rad
 
     # normalisation
     model_1 = model_1 * 1/(np.max(model_1))
