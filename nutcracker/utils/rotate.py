@@ -176,13 +176,15 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
     if method == 'brute_force':
         # parameters for brute force optimisation
         if type(search_range) == float:
-            angle_range = slice(-search_range,search_range,2*search_range/number_of_evaluations)
-            ranges = [angle_range, angle_range, angle_range]
+            angle_range_theta = slice(initial_guess[0]-search_range,initial_guess[0]+search_range,2*search_range/number_of_evaluations)
+            angle_range_phi = slice(initial_guess[1]-search_range,initial_guess[1]+search_range,2*search_range/number_of_evaluations)
+            angle_range_psi = slice(initial_guess[2]-search_range,initial_guess[2]+search_range,2*search_range/number_of_evaluations)
+            ranges = [angle_range_theta, angle_range_phi, angle_range_psi]
             
         if type(search_range) == list:
-            angle_range_theta = slice(-search_range[0],search_range[0],2*search_range[0]/number_of_evaluations)
-            angle_range_phi = slice(-search_range[1],search_range[1],2*search_range[1]/number_of_evaluations)
-            angle_range_psi = slice(-search_range[2],search_range[2],2*search_range[2]/number_of_evaluations)
+            angle_range_theta = slice(initial_guess[0]-search_range[0],initial_guess[0]+search_range[0],2*search_range[0]/number_of_evaluations)
+            angle_range_phi = slice(initial_guess[1]-search_range[1],initial_guess[1]+search_range[1],2*search_range[1]/number_of_evaluations)
+            angle_range_psi = slice(initial_guess[2]-search_range[2],initial_guess[2]+search_range[2],2*search_range[2]/number_of_evaluations)
             ranges = [angle_range_theta, angle_range_phi, angle_range_psi]
 
         # brute force rotation optimisation
@@ -251,23 +253,21 @@ def find_shift_between_two_models(model_1,model_2,shift_range,number_of_evaluati
     ranges = [slice(-shift_range,shift_range,shift_range/number_of_evaluations), slice(-shift_range,shift_range,shift_range/number_of_evaluations), slice(-shift_range,shift_range,shift_range/number_of_evaluations)]
     args = (model_1, model_2)
 
-    # shift retrieval brute force                                                                                                                                                                                                
-    shift = optimize.brute(shifting, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)                                                                                                                      
-    shift = np.array(shift)                                                                                                                                                                                                      
-    
+    # shift retrieval brute force
+
+    shift = optimize.brute(shifting, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
+    shift = np.array(shift)
+
     shift_values = np.array((shift[0]))
 
-    if full_output:                                                                                                                                                                                                              
-        out = {'shift_values':shift[0],                                                                                                                                                                                         
-               'shift_fvalues':shift[1],                                                                                                                                                                                        
-               'shift_grid':shift[2],                                                                                                                                                                                           
-               'shift_jout':shift[3]}                                                                                                                                                                                           
-        return out                                                                                                                                                                                                      
-    else:                                                                                                                                                                                                                       
+    if full_output:
+        out = {'shift_values':shift[0],
+               'shift_fvalues':shift[1],
+               'shift_grid':shift[2],
+               'shift_jout':shift[3]}
+        return out
+    else:
         return shift_values
-
-
-
 
 # euler angles seems hopeless in this case
 """
