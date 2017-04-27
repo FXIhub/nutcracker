@@ -111,13 +111,13 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         :cropping_model(int):               cropps the model by the given vaule in total, has to be an even number, default = 0
         :mask(bool ndarray):                provide a mask to be used for the evaluation of the cost function, default = None
         :method(str):                       is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b
-        :initial_guess(float ndarray):      is the initila guess for the fmin_l_bfgs_b optimisation
+        :initial_guess(list):               is the initila guess for the fmin_l_bfgs_b optimisation
         :radius_radial_mask(int):           applies a radial mask to the model with given radius, default = 0
     """    
-    def costfunc(angles,model_1,model_2,mask):
+    def costfunc(angles,model_1_intensity,model_2_intensity,mask):
         rot_mat = get_rot_matrix(angles)
-        model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
-        return np.sum(np.abs(model_1[mask] - model_2[mask])**2)
+        model_2_intensity = rotation_based_on_rotation_matrix(model_2_intensity,rot_mat,order_spline_interpolation)
+        return np.sum(np.abs(model_1_intensity[mask] - model_2_intensity[mask])**2)
 
     def get_rot_matrix(angles):
         theta, phi, psi = angles
@@ -126,19 +126,29 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         r_z = rotation_matrix(psi,'z')
         return np.dot(np.dot(r_z,r_y),r_x)
 
+    # apply FT if necessary
+    if model_1_is_intensity == False:
+        model_1_intensity = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
+    else:
+        model_1_intensity = model_1
+    if model_2_is_intensity == False:
+        model_2_intensity = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
+    else:
+        model_2_intensity = model_2
+
     # Mask
     if mask is None:
-        mask = np.ones_like(model_1).astype(np.bool)
+        mask = np.ones_like(model_1_intensity).astype(np.bool)
     
     # cropping the model
     if cropping_model:
-        model_1 = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
-        model_2 = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
+        model_1_intensity = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
+        model_2_intensity = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
         mask    = mask[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
 
     # radial mask
     if radius_radial_mask:
-        mask_rad = np.ones_like(model_1).astype(np.bool)
+        mask_rad = np.ones_like(model_1_intensity).astype(np.bool)
         a, b, c = model_1.shape[0]/2, model_1.shape[1]/2, model_1.shape[2]/2
         x, y, z = np.ogrid[-a:model_1.shape[0]-a, -b:model_1.shape[1]-b, -c:model_1.shape[2]-c]
         mask_of_mask = np.sqrt(x**2 + y**2 + z**2) >= radius_radial_mask
@@ -146,15 +156,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         mask = mask * mask_rad
 
     # normalisation
-    model_1 = model_1 * 1/(np.max(model_1))
-    model_2 = model_2 * 1/(np.max(model_2))
-    
-    model_1_intensity = model_1
-    model_1_intensity = model_2
-    
-    # apply FT if necessary
-    if model_1_is_intensity == False: model_1_intensity = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
-    if model_2_is_intensity == False: model_2_intesnity = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
+    model_1_intensity = model_1_intensity * 1/(np.max(model_1_intensity))
+    model_2_intensity = model_2_intensity * 1/(np.max(model_2_intensity))
 
     # parameter for optimisation
     args = (model_1_intensity,model_2_intensity, mask)
