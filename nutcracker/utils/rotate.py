@@ -170,8 +170,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
         
     # calculating the log if necessary
     if log_model:
-        model_1 = np.log(model_1)+1
-        model_2 = np.log(model_2)+1
+        model_1 = np.log(model_1+1)
+        model_2 = np.log(model_2+1)
 
     # normalisation
     model_1 = model_1 * 1/(np.max(model_1))
