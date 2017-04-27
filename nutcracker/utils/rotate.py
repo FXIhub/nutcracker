@@ -118,7 +118,8 @@ def _rotation_of_model(input_model, rot_mat, order):
 def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,full_output=False,
                                      order_spline_interpolation=3,cropping_model=0, mask=None,
                                      method='brute_force',initial_guess=[0.,0.,0.],
-                                     radius_radial_mask=0,search_range=np.pi/2.):
+                                     radius_radial_mask=0,search_range=np.pi/2.,
+                                     log_model=True):
     """
     Finding the right alignment by rotating one model on base of a rotation matrix and using the brute force algorithm to minimise the difference between the two models.
 
@@ -135,7 +136,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
         :method(str):                       is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b
         :initial_guess(list):               is the initila guess for the fmin_l_bfgs_b optimisation
         :radius_radial_mask(int):           applies a radial mask to the model with given radius, default = 0
-        :searche_range(float/list):              absolute angle in radian in which the optimisation should be done, default = np.pi/2.
+        :searche_range(float/list):         absolute angle in radian in which the optimisation should be done, default = np.pi/2.
+        :log_model(bool):                   if enabled it will take the logarithmic values of the models, default = True
     """    
     def costfunc(angles,model_1,model_2,mask):
         rot_mat = get_rot_matrix(angles)
@@ -165,6 +167,11 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
         x, y, z = np.ogrid[-a:model_1.shape[0]-a, -b:model_1.shape[1]-b, -c:model_1.shape[2]-c]
         mask_rad = np.sqrt(x**2 + y**2 + z**2) <= radius_radial_mask
         mask = mask & mask_rad
+        
+    # calculating the log if necessary
+    if log_model:
+        model_1 = np.log(model_1)+1
+        model_2 = np.log(model_2)+1
 
     # normalisation
     model_1 = model_1 * 1/(np.max(model_1))
