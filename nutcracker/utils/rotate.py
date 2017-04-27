@@ -66,6 +66,7 @@ def rotation_based_on_euler_angles(input_model,angles,order='zyx', order_spline_
         :order(str):                        order in which rotation matrix is constructed from th euler angles
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
+
     r_x = rotation_matrix(angles[0],'x')
     r_y = rotation_matrix(angles[1],'y')
     r_z = rotation_matrix(angles[2],'z')
@@ -73,7 +74,9 @@ def rotation_based_on_euler_angles(input_model,angles,order='zyx', order_spline_
     return _rotation_of_model(input_model, rotmat, order_spline_interpolation)
 
 def _rotation_of_model(input_model, rot_mat, order):
-    
+    """
+    This code is based on [http://stackoverflow.com/questions/40524490/transforming-and-resampling-a-3d-volume-with-numpy-scipy, 27.04.2017,14:47]
+    """
     # defining the coordinate system
     dim = input_model.shape[0]
     ax = np.arange(dim)
@@ -103,39 +106,41 @@ def _rotation_of_model(input_model, rot_mat, order):
 
     # rearange the order of the coordinates
     new_xyz=[y,x,z]
-
+    
     # rotate object
     rotated_model = ndimage.interpolation.map_coordinates(input_model,new_xyz, mode='constant', order=order)
 
+    #go back to original order (z,y,x)
+    #rotated_model = np.moveaxis(rotated_model,2,0)
+    
     return rotated_model
 
-def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
-                                     full_output=False,model_1_is_intensity=True,model_2_is_intensity=True,
+def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,full_output=False,
                                      order_spline_interpolation=3,cropping_model=0, mask=None,
-                                     method='brute_force',initial_guess=[0.,0.,0.],radius_radial_mask=0):
+                                     method='brute_force',initial_guess=[0.,0.,0.],
+                                     radius_radial_mask=0,search_range=np.pi/2.):
     """
     Finding the right alignment by rotating one model on base of a rotation matrix and using the brute force algorithm to minimise the difference between the two models.
 
     Args:
-        :model_1(float ndarray):            3d ndarray of the fixed object                                                                                             
-        :model_2(float ndarray):            3d ndarray of the rotatable object
+        :model_1(float ndarray):            3d ndarray of the fixed intensity object                                                                                             
+        :model_2(float ndarray):            3d ndarray of the rotatable intensity object
 
     Kwargs:
         :number_of_evaluation(int):         number of grid points on which the brute force optimises, default = 10
         :full_output(bool):                 returns full output as a dictionary, default = False
-        :model_1_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
-        :model_2_is_intensity(bool):        applys a fourier transformation and takes the absolute values if False, default = True
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
         :cropping_model(int):               cropps the model by the given vaule in total, has to be an even number, default = 0
         :mask(bool ndarray):                provide a mask to be used for the evaluation of the cost function, default = None
         :method(str):                       is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b
         :initial_guess(list):               is the initila guess for the fmin_l_bfgs_b optimisation
         :radius_radial_mask(int):           applies a radial mask to the model with given radius, default = 0
+        :searche_range(float/list):              absolute angle in radian in which the optimisation should be done, default = np.pi/2.
     """    
-    def costfunc(angles,model_1_intensity,model_2_intensity,mask):
+    def costfunc(angles,model_1,model_2,mask):
         rot_mat = get_rot_matrix(angles)
-        model_2_intensity = rotation_based_on_rotation_matrix(model_2_intensity,rot_mat,order_spline_interpolation)
-        return np.sum(np.abs(model_1_intensity[mask] - model_2_intensity[mask])**2)
+        model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
+        return np.sum(np.abs(model_1[mask] - model_2[mask])**2)
 
     def get_rot_matrix(angles):
         theta, phi, psi = angles
@@ -144,25 +149,15 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         r_z = rotation_matrix(psi,'z')
         return np.dot(np.dot(r_z,r_y),r_x)
 
-    # apply FT if necessary
-    if model_1_is_intensity == False:
-        model_1_intensity = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
-    else:
-        model_1_intensity = model_1
-    if model_2_is_intensity == False:
-        model_2_intensity = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
-    else:
-        model_2_intensity = model_2
-
     # Mask
     if mask is None:
-        mask = np.ones_like(model_1_intensity).astype(np.bool)
+        mask = np.ones_like(model_1).astype(np.bool)
     
     # cropping the model
     if cropping_model:
-        model_1_intensity = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
-        model_2_intensity = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
-        mask    = mask[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
+        model_1 = model_1[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
+        model_2 = model_2[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
+        mask = mask[cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2,cropping_model/2:-cropping_model/2]
 
     # radial mask
     if radius_radial_mask:
@@ -172,16 +167,23 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         mask = mask & mask_rad
 
     # normalisation
-    model_1_intensity = model_1_intensity * 1/(np.max(model_1_intensity))
-    model_2_intensity = model_2_intensity * 1/(np.max(model_2_intensity))
+    model_1 = model_1 * 1/(np.max(model_1))
+    model_2 = model_2 * 1/(np.max(model_2))
 
     # parameter for optimisation
-    args = (model_1_intensity,model_2_intensity, mask)
+    args = (model_1,model_2, mask)
 
     if method == 'brute_force':
         # parameters for brute force optimisation
-        angle_range = slice(0,np.pi,np.pi/number_of_evaluations)
-        ranges = [angle_range, angle_range, angle_range]
+        if type(search_range) == float:
+            angle_range = slice(-search_range,search_range,2*search_range/number_of_evaluations)
+            ranges = [angle_range, angle_range, angle_range]
+            
+        if type(search_range) == list:
+            angle_range_theta = slice(-search_range[0],search_range[0],2*search_range[0]/number_of_evaluations)
+            angle_range_phi = slice(-search_range[1],search_range[1],2*search_range[1]/number_of_evaluations)
+            angle_range_psi = slice(-search_range[2],search_range[2],2*search_range[2]/number_of_evaluations)
+            ranges = [angle_range_theta, angle_range_phi, angle_range_psi]
 
         # brute force rotation optimisation
         rot = optimize.brute(costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
@@ -197,20 +199,9 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         
     angles = rot[0]
 
-    # Get rotation matrix which translates model 2 into model 1 and distinguish between centrosymmetry
+    # Get rotation matrix which translates model 2 into model 1
     res_rot_mat = get_rot_matrix(angles)
-    res_rot_mat_plus_pi = get_rot_matrix(angles + np.pi)
-
     model_2_rotated = rotation_based_on_rotation_matrix(model_2,res_rot_mat,order_spline_interpolation)
-    model_2_rotated_plus_pi = rotation_based_on_rotation_matrix(model_2,res_rot_mat_plus_pi,order_spline_interpolation)
-
-    if np.sum(np.abs(model_1 - model_2_rotated)**2) < np.sum(np.abs(model_1 - model_2_rotated_plus_pi)**2):
-        model_2_rotated =  model_2_rotated
-
-    else:
-        angles = angles + np.pi
-        model_2_rotated = model_2_rotated_plus_pi
-
 
     if full_output:
         if method == 'brute_force':
