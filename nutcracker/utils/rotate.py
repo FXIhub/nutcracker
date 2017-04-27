@@ -174,6 +174,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
         rot = optimize.fmin_l_bfgs_b(costfunc, x0, args=args, approx_grad=True)
         rot = np.array(rot)
         
+    angles = rot[0]
 
     # Get rotation matrix which translates model 2 into model 1 and distinguish between centrosymmetry
     res_rot_mat = get_rot_matrix(angles)
