@@ -149,13 +149,15 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
     model_1 = model_1 * 1/(np.max(model_1))
     model_2 = model_2 * 1/(np.max(model_2))
     
+    model_1_intensity = model_1
+    model_1_intensity = model_2
+    
     # apply FT if necessary
-
-    if model_1_is_intensity == False: model_1 = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
-    if model_2_is_intensity == False: model_2 = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
+    if model_1_is_intensity == False: model_1_intensity = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
+    if model_2_is_intensity == False: model_2_intesnity = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
 
     # parameter for optimisation
-    args = (model_1,model_2, mask)
+    args = (model_1_intensity,model_2_intensity, mask)
 
     if method == 'brute_force':
         # parameters for brute force optimisation
@@ -198,6 +200,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
                    'rotation_grid':rot[2],
                    'rotation_jout':rot[3],
                    'rotated_model':model_2_rotated,
+                   'rotation_matrix':res_rot_mat,
                    'mask':mask}
 
         if method == 'fmin_l_bfgs_b':
@@ -208,6 +211,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
                    'function_calls':rot[2]['funcalls'],
                    'iterations':rot[2]['nit'],
                    'rotated_model':model_2_rotated,
+                   'rotation_matrix':res_rot_mat,
                    'mask':mask}
         return out
     else:
