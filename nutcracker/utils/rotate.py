@@ -197,7 +197,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
                    'rotation_function_values':rot[1],
                    'rotation_grid':rot[2],
                    'rotation_jout':rot[3],
-                   'rotated_model':model_2_rotated}
+                   'rotated_model':model_2_rotated,
+                   'mask':mask}
 
         if method == 'fmin_l_bfgs_b':
             out = {'rotation_angles':angles,
@@ -206,7 +207,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,
                    'gradient':rot[2]['grad'],
                    'function_calls':rot[2]['funcalls'],
                    'iterations':rot[2]['nit'],
-                   'rotated_model':model_2_rotated}
+                   'rotated_model':model_2_rotated,
+                   'mask':mask}
         return out
     else:
         return angles
