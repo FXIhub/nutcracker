@@ -13,5 +13,5 @@ setup(name='nutcracker',
                 'nutcracker.tests'],
       entry_points={'console_scripts':[]},
       scripts=[],
-      install_requires=['numpy','condor'],
+      install_requires=['numpy','scipy'],
       test_suite='nutcracker.tests.test_all')
