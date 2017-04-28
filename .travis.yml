@@ -11,13 +11,13 @@ virtualenv:
 cache:
   directories:
     - $HOME/.cache/pip
-    - $HOME/local
-    - $HOME/localpy
-    - $HOME/libspimage
     - $HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared
     - $HOME/nfft-3.2.3
+    - $HOME/libspimage
     - $HOME/spsim
-
+    - $HOME/local
+    - $HOME/localpy
+    
 addons:
   apt:
     sources:
