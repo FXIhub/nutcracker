@@ -13,6 +13,9 @@ cache:
     - $HOME/.cache/pip
     - $HOME/local
     - $HOME/localpy
+    - $HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared
+    - $HOME/nfft-3.2.3
+    - $HOME/spsim
 
 addons:
   apt:
@@ -29,14 +32,40 @@ before_install:
   - echo $HOME
   - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
   - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
+# Install hdf5
+  - cd $HOME
+  - if [ ! -d "$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/include" ]; then wget https://support.hdfgroup.org/ftp/HDF5/current/bin/linux-centos7-x86_64-gcc485/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared.tar.gz && tar xvzf hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared.tar.gz; else echo 'Using hdf5 from cached directory'; fi
+  - export LD_LIBRARY_PATH=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib:${LD_LIBRARY_PATH}
+  - ls ${HOME}/
+  - ls ${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
+  - ls ${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib
+  - ls ${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib
+# Install NFFT
+  - cd $HOME
+  - if [ ! -d "$HOME/nfft-3.2.3/include" ]; then wget https://www-user.tu-chemnitz.de/~potts/nfft/download/nfft-3.2.3.tar.gz && tar xvzf nfft-3.2.3.tar.gz; cd nfft-3.2.3 && ./configure --prefix=${HOME}/local && make && make install; else echo 'Using NFFT from cached directory'; fi
+# Install spsim
+  - cd $HOME
+  - if [ ! -d "$HOME/spsim/.git" ]; then git clone https://github.com/FilipeMaia/spsim; else echo 'Using spsim from cached directory'; fi
+  - mkdir -p spsim/build && cd spsim/build
+  - git pull
+  - cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_LIBRARY=ON -DUSE_CUDA=OFF -DUSE_NFFT=OFF -DPYTHON_WRAPPERS=ON -DHDF5_INCLUDE_DIR=$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/include -DHDF5_LIBRARY=$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib/libhdf5.so -DCMAKE_INSTALL_PREFIX=${HOME}/local -DPYTHON_INSTDIR=${HOME}/localpy -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so -DPYTHON_INCLUDE_DIR2=/usr/include/python2.7 ..
+  - make -j 2 VERBOSE=1
+  - make install
+  - ls -alh $HOME/local/lib
+  - ls -alh /home/travis/virtualenv/python2.7.9/lib/python2.7/site-packages
+  - ls -alh /home/travis/virtualenv/python2.7_with_system_site_packages/lib/python2.7/site-packages
 # install condor
   - cd $HOME
   - if [ ! -d "$HOME/condor/.git" ]; then git clone https://github.com/FXIhub/condor; else echo 'Using condor from cached directory'; fi
   - cd $HOME/condor
   - git pull
 install:
+# Install h5py (we want an h5py that is built with the new hdf5 version, that is why)
+  - export HDF5_DIR=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
+  - pip install h5py
+# Install condor
   - cd $HOME/condor
-  - python setup.py install
+  - python setup.py install --nfft-include-dir=$HOME/local/include --nfft-library-dir=$HOME/local/lib
 # Install nutcracker
   - cd $HOME/build/FXIhub/nutcracker
   - python setup.py install
