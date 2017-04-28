@@ -30,6 +30,8 @@ before_install:
   - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
   - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
 install:
+  - cd $HOME/build/FXIhub/condor
+  - python setup.py install
 # Install nutcracker
   - cd $HOME/build/FXIhub/nutcracker
   - python setup.py install
