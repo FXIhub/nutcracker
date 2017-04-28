@@ -24,6 +24,7 @@ addons:
       - kubuntu-backports
       - couchbase-precise
     packages:
+      - libfftw3-dev
       - python-scipy
       - python-numpy
 #      - python-h5py
