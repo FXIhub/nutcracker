@@ -38,7 +38,7 @@ script:
   - echo $LD_LIBRARY_PATH
   - echo $PYTHONPATH
   # TESTING IMPORTS
-  - python -c "import condor; print condor.__file__"
+#  - python -c "import condor; print condor.__file__"
   # UNITTESTS
   - python -m unittest -v nutcracker.tests.test_all
   # EXAMPLES
