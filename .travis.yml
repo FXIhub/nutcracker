@@ -29,8 +29,12 @@ before_install:
   - echo $HOME
   - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
   - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
+# install condor
+  - cd $HOME
+  - if [ ! -d "$HOME/condor/.git" ]; then git clone https://github.com/FXIhub/condor; else echo 'Using condor from cached directory'; fi
+  - git pull
 install:
-  - cd $HOME/build/FXIhub/condor
+  - cd $HOME/condor
   - python setup.py install
 # Install nutcracker
   - cd $HOME/build/FXIhub/nutcracker
