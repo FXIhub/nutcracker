@@ -13,6 +13,7 @@ cache:
     - $HOME/.cache/pip
     - $HOME/local
     - $HOME/localpy
+    - $HOME/libspimage
     - $HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared
     - $HOME/nfft-3.2.3
     - $HOME/spsim
@@ -24,7 +25,13 @@ addons:
       - kubuntu-backports
       - couchbase-precise
     packages:
+      - libpng-dev
+      - libtiff4-dev
       - libfftw3-dev
+      - cmake
+      - gsl-bin
+      - libgsl0-dev
+      - swig
       - python-scipy
       - python-numpy
 #      - python-h5py
@@ -41,6 +48,14 @@ before_install:
   - ls ${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
   - ls ${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib
   - ls ${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib
+# Install libspimage
+  - cd $HOME
+  - if [ ! -d "$HOME/libspimage/.git" ]; then git clone https://github.com/FilipeMaia/libspimage; else echo 'Using libspimage from cached directory'; fi
+  - mkdir -p libspimage/build && cd libspimage/build
+  - git pull
+  - cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DUSE_CUDA=OFF -DPYTHON_WRAPPERS=ON -DHDF5_INCLUDE_DIR=$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/include -DHDF5_LIBRARY=$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib/libhdf5.so -DCMAKE_INSTALL_PREFIX=${HOME}/local -DPYTHON_INSTDIR=${HOME}/localpy -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_INCLUDE_DIR2=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so ..
+  - make -j 2 VERBOSE=1
+  - make install
 # Install NFFT
   - cd $HOME
   - if [ ! -d "$HOME/nfft-3.2.3/include" ]; then wget https://www-user.tu-chemnitz.de/~potts/nfft/download/nfft-3.2.3.tar.gz && tar xvzf nfft-3.2.3.tar.gz; cd nfft-3.2.3 && ./configure --prefix=${HOME}/local && make && make install; else echo 'Using NFFT from cached directory'; fi
