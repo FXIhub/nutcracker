@@ -1,15 +1,17 @@
 import h5py
 import numpy as np
 import nutcracker
+import unittest
 
 
-def test_fourier_shell_correlation():
-    with h5py.File('/scratch/fhgfs/doctor/1FFK/models/1FFK_model_hc_fs.h5', "r") as f:
-        img = f['real']
 
-    fsc = nutcracker.fourier_shell_correlation(img,img)
+class TestCaseIntensity(unittest.TestCase):
+    def test_fourier_shell_correlation_2d(self):
+        img = np.random.random((10,10))
+        
+        fsc_calculated = nutcracker.intensities.fourier_shell_correlation(img,img)
+        fsc_expected = np.ones_like(fsc_calculated.shape)
+        
+        self.assertTrue(np.alltrue(np.round(fsc_calculated-fsc_expected,7) == 0))
+        
 
-    if fsc.mean() == 1.0:
-        print 'passed'
-    else:
-        print 'failed'
