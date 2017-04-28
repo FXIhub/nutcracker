@@ -8,32 +8,32 @@ sudo: false
 virtualenv:
   system_site_packages: true
 
-cache:
-  directories:
-    - $HOME/.cache/pip
-    - $HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared
-    - $HOME/nfft-3.2.3
-    - $HOME/libspimage
-    - $HOME/spsim
-    - $HOME/local
-    - $HOME/localpy
+#cache:
+#  directories:
+#    - $HOME/.cache/pip
+#    - $HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared
+#    - $HOME/nfft-3.2.3
+#    - $HOME/libspimage
+#    - $HOME/spsim
+#    - $HOME/local
+#    - $HOME/localpy
     
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - kubuntu-backports
-      - couchbase-precise
-    packages:
-      - libpng-dev
-      - libtiff4-dev
-      - libfftw3-dev
-      - cmake
-      - gsl-bin
-      - libgsl0-dev
-      - swig
-      - python-scipy
-      - python-numpy
+#addons:
+#  apt:
+#    sources:
+#      - ubuntu-toolchain-r-test
+#      - kubuntu-backports
+#      - couchbase-precise
+#    packages:
+#      - libpng-dev
+#      - libtiff4-dev
+#      - libfftw3-dev
+#      - cmake
+#      - gsl-bin
+#      - libgsl0-dev
+#      - swig
+#      - python-scipy
+#      - python-numpy
 #      - python-h5py
 
 before_install:
