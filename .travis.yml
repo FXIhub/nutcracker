@@ -32,6 +32,7 @@ before_install:
 # install condor
   - cd $HOME
   - if [ ! -d "$HOME/condor/.git" ]; then git clone https://github.com/FXIhub/condor; else echo 'Using condor from cached directory'; fi
+  - cd $HOME/condor
   - git pull
 install:
   - cd $HOME/condor
