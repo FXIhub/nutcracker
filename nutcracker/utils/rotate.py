@@ -256,7 +256,8 @@ def find_shift_between_two_models(model_1,model_2,shift_range=5,number_of_evalua
     def shifting(x,model_1,model_2):
         x0, x1, x2 = x
         model_2 = rotation_based_on_euler_angles(model_2, rotation_angles)
-        model_2 = ndimage.interpolation.shift(model_2, shift=(x0, x1, x2), order=0, mode='wrap')
+        #model_2 = ndimage.interpolation.shift(model_2, shift=(x0, x1, x2), order=0, mode='wrap')
+        model_2 = np.roll(np.roll(np.roll(model_2,int(x0),axis=0), int(x1), axis=1), int(x2), axis=2)
         return np.sum(np.abs(model_1 - model_2) ** 2)    
 
     # cropping the model
@@ -267,7 +268,7 @@ def find_shift_between_two_models(model_1,model_2,shift_range=5,number_of_evalua
     args = (model_1, model_2)
     if method == 'brute_force':
         # set parameters
-        r = slice(-shift_range,shift_range,2*shift_range/number_of_evaluations)
+        r = slice(-float(shift_range),float(shift_range),2.*shift_range/number_of_evaluations)
         ranges = [r,r,r]
 
         # shift retrieval brute force
