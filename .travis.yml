@@ -81,7 +81,7 @@ install:
   - export HDF5_DIR=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
   - pip install h5py
 # Install numpy
-  - pip install numpy
+  - pip install numpy==1.9
 # Install condor
   - cd $HOME/condor
   - python setup.py install --nfft-include-dir=$HOME/local/include --nfft-library-dir=$HOME/local/lib
