@@ -49,8 +49,8 @@ before_install:
   - export HDF5_DIR=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
   - pip install h5py
 # Install numpy and scipy
-  - pip install numpy --home=$HOME/localpy
-  - pip install scipy --home=$HOME/localpy
+  - pip install numpy --user
+  - pip install scipy --user
 # Install libspimage
   - cd $HOME
   - if [ ! -d "$HOME/libspimage/.git" ]; then git clone https://github.com/FilipeMaia/libspimage; else echo 'Using libspimage from cached directory'; fi
