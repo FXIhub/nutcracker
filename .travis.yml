@@ -8,15 +8,15 @@ sudo: false
 virtualenv:
   system_site_packages: true
 
-#cache:
-#  directories:
-#    - $HOME/.cache/pip
-#    - $HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared
-#    - $HOME/nfft-3.2.3
-#    - $HOME/libspimage
-#    - $HOME/spsim
-#    - $HOME/local
-#    - $HOME/localpy
+cache:
+  directories:
+    - $HOME/.cache/pip
+    - $HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared
+    - $HOME/nfft-3.2.3
+    - $HOME/libspimage
+    - $HOME/spsim
+    - $HOME/local
+    - $HOME/localpy
     
 addons:
   apt:
@@ -38,6 +38,7 @@ addons:
 #      - python-h5py
 
 before_install:
+  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
   - echo $HOME
   - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
   - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
@@ -48,6 +49,7 @@ before_install:
 # Install numpy and scipy
   - pip install numpy --upgrade
 #  - pip install scipy --upgrade
+  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 # Install h5py (we want an h5py that is built with the new hdf5 version, that is why)
   - export HDF5_DIR=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
   - pip install h5py
@@ -62,6 +64,7 @@ before_install:
 # Install NFFT
   - cd $HOME
   - if [ ! -d "$HOME/nfft-3.2.3/include" ]; then wget https://www-user.tu-chemnitz.de/~potts/nfft/download/nfft-3.2.3.tar.gz && tar xvzf nfft-3.2.3.tar.gz; cd nfft-3.2.3 && ./configure --prefix=${HOME}/local && make && make install; else echo 'Using NFFT from cached directory'; fi
+  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 # Install spsim
   - cd $HOME
   - if [ ! -d "$HOME/spsim/.git" ]; then git clone https://github.com/FilipeMaia/spsim; else echo 'Using spsim from cached directory'; fi
