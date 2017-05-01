@@ -3,7 +3,7 @@ language: python
 python:
   - "2.7"
 
-sudo: false
+sudo: true
 
 virtualenv:
   system_site_packages: true
@@ -50,7 +50,7 @@ before_install:
   - pip install h5py
 # Install numpy and scipy
   - pip install numpy --upgrade
-  - pip install scipy --upgrade
+  - sudo pip install scipy --upgrade
 # Install libspimage
   - cd $HOME
   - if [ ! -d "$HOME/libspimage/.git" ]; then git clone https://github.com/FilipeMaia/libspimage; else echo 'Using libspimage from cached directory'; fi
