@@ -82,9 +82,9 @@ install:
 script:
 
 # TESTING IMPORTS
-  - python -c "import numpy; print numpy.__file__ numpy.__version__"
-  - python -c "import scipy; print scipy.__file__ scipy.__version__"
-  - python -c "import h5py; print h5py.__file__ h5py.__version__"
+  - python -c "import numpy; print numpy.__file__, numpy.__version__"
+  - python -c "import scipy; print scipy.__file__, scipy.__version__"
+  - python -c "import h5py; print h5py.__file__,  h5py.__version__"
   - python -c "import spimage; print spimage.__file__"
   - python -c "import spsim; print spsim.__file__"
   - python -c "import nfft; print nfft.__file__"
