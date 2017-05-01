@@ -6,7 +6,7 @@ python:
 sudo: false
 
 virtualenv:
-  system_site_packages: false
+  system_site_packages: true
 
 #cache:
 #  directories:
@@ -49,8 +49,8 @@ before_install:
   - export HDF5_DIR=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
   - pip install h5py
 # Install numpy and scipy
-  - pip install numpy --user
-  - pip install scipy --user
+  - pip install numpy
+  - pip install scipy
 # Install libspimage
   - cd $HOME
   - if [ ! -d "$HOME/libspimage/.git" ]; then git clone https://github.com/FilipeMaia/libspimage; else echo 'Using libspimage from cached directory'; fi
