@@ -35,21 +35,15 @@ addons:
  # Python stuff (for discovering these packages set in virtualenv: system_site_packages: true)
       - python-scipy
       - python-numpy
-#      - python-h5py
-
+      
+# Install dependencies
 before_install:
-  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
-  - echo $HOME
   - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
   - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
 # Install hdf5
   - cd $HOME
   - if [ ! -d "$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/include" ]; then wget https://support.hdfgroup.org/ftp/HDF5/current/bin/linux-centos7-x86_64-gcc485/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared.tar.gz && tar xvzf hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared.tar.gz; else echo 'Using hdf5 from cached directory'; fi
   - export LD_LIBRARY_PATH=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib:${LD_LIBRARY_PATH}
-# Install numpy and scipy
-#  - pip install numpy --upgrade
-#  - pip install scipy --upgrade
-  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 # Install h5py (we want an h5py that is built with the new hdf5 version, that is why)
   - export HDF5_DIR=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
   - pip install h5py
@@ -64,7 +58,6 @@ before_install:
 # Install NFFT
   - cd $HOME
   - if [ ! -d "$HOME/nfft-3.2.3/include" ]; then wget https://www-user.tu-chemnitz.de/~potts/nfft/download/nfft-3.2.3.tar.gz && tar xvzf nfft-3.2.3.tar.gz; cd nfft-3.2.3 && ./configure --prefix=${HOME}/local && make && make install; else echo 'Using NFFT from cached directory'; fi
-  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 # Install spsim
   - cd $HOME
   - if [ ! -d "$HOME/spsim/.git" ]; then git clone https://github.com/FilipeMaia/spsim; else echo 'Using spsim from cached directory'; fi
@@ -73,37 +66,31 @@ before_install:
   - cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_LIBRARY=ON -DUSE_CUDA=OFF -DUSE_NFFT=OFF -DPYTHON_WRAPPERS=ON -DHDF5_INCLUDE_DIR=$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/include -DHDF5_LIBRARY=$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib/libhdf5.so -DCMAKE_INSTALL_PREFIX=${HOME}/local -DPYTHON_INSTDIR=${HOME}/localpy -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so -DPYTHON_INCLUDE_DIR2=/usr/include/python2.7 ..
   - make -j 2 VERBOSE=1
   - make install
-  - ls -alh $HOME/local/lib
-  - ls -alh /home/travis/virtualenv/python2.7.9/lib/python2.7/site-packages
-  - ls -alh /home/travis/virtualenv/python2.7_with_system_site_packages/lib/python2.7/site-packages
 # Install condor
   - cd $HOME
   - if [ ! -d "$HOME/condor/.git" ]; then git clone https://github.com/FXIhub/condor; else echo 'Using condor from cached directory'; fi
   - cd $HOME/condor
   - git pull
   - python setup.py install --nfft-include-dir=$HOME/local/include --nfft-library-dir=$HOME/local/lib
-  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 
+# Install nutcracker
 install:
-  - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
-  - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
   - cd $HOME/build/FXIhub/nutcracker
   - python setup.py install
-  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 
-before_script:
-  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
-
-# command to run tests
+# Running tests and examples
 script:
-  - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
-  - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
-  - echo $LD_LIBRARY_PATH
-  - echo $PYTHONPATH
-  # TESTING IMPORTS
-  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
+
+# TESTING IMPORTS
+  - python -c "import numpy; print numpy.__file__ numpy.__version__"
+  - python -c "import scipy; print scipy.__file__ scipy.__version__"
+  - python -c "import h5py; print h5py.__file__ h5py.__version__"
+  - python -c "import spimage; print spimage.__file__"
+  - python -c "import spsim; print spsim.__file__"
+  - python -c "import nfft; print nfft.__file__"
   - python -c "import condor; print condor.__file__"
   
-  # UNITTESTS
+# UNITTESTS
   - python -m unittest -v nutcracker.tests.test_all
-  # EXAMPLES
+
+# EXAMPLES
