@@ -37,7 +37,7 @@ addons:
       - python-numpy
 #      - python-h5py
 
-install:
+before_install:
   - python -c "import numpy; print numpy.__file__; print numpy.__version__"
   - echo $HOME
   - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
@@ -82,11 +82,18 @@ install:
   - cd $HOME/condor
   - git pull
   - python setup.py install --nfft-include-dir=$HOME/local/include --nfft-library-dir=$HOME/local/lib
+  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
+
+install:
+  - cd $HOME/build/FXIhub/nutcracker
+  - python setup.py install
+  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
+
+before_script:
+  - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 
 # command to run tests
 script:
-  - cd $HOME/build/FXIhub/nutcracker
-  - python setup.py install
   - echo $LD_LIBRARY_PATH
   - echo $PYTHONPATH
   # TESTING IMPORTS
