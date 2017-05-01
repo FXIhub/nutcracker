@@ -85,6 +85,8 @@ before_install:
   - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 
 install:
+  - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
+  - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
   - cd $HOME/build/FXIhub/nutcracker
   - python setup.py install
   - python -c "import numpy; print numpy.__file__; print numpy.__version__"
@@ -94,6 +96,8 @@ before_script:
 
 # command to run tests
 script:
+  - export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/local/lib:${HOME}/local/lib64
+  - export PYTHONPATH=${HOME}/localpy:${PYTHONPATH}
   - echo $LD_LIBRARY_PATH
   - echo $PYTHONPATH
   # TESTING IMPORTS
