@@ -47,7 +47,7 @@ before_install:
   - if [ ! -d "$HOME/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/include" ]; then wget https://support.hdfgroup.org/ftp/HDF5/current/bin/linux-centos7-x86_64-gcc485/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared.tar.gz && tar xvzf hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared.tar.gz; else echo 'Using hdf5 from cached directory'; fi
   - export LD_LIBRARY_PATH=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/lib:${LD_LIBRARY_PATH}
 # Install numpy and scipy
-  - pip install numpy --upgrade
+#  - pip install numpy --upgrade
 #  - pip install scipy --upgrade
   - python -c "import numpy; print numpy.__file__; print numpy.__version__"
 # Install h5py (we want an h5py that is built with the new hdf5 version, that is why)
