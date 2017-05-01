@@ -3,10 +3,10 @@ language: python
 python:
   - "2.7"
 
-sudo: true
+sudo: false
 
 virtualenv:
-  system_site_packages: true
+  system_site_packages: false
 
 #cache:
 #  directories:
@@ -33,7 +33,7 @@ addons:
       - libgsl0-dev
       - swig
  # Python stuff (for discovering these packages set in virtualenv: system_site_packages: true)
-      - python-scipy
+#      - python-scipy
 #      - python-numpy
 #      - python-h5py
 
@@ -49,8 +49,8 @@ before_install:
   - export HDF5_DIR=${HOME}/hdf5-1.10.0-patch1-linux-centos7-x86_64-gcc485-shared/
   - pip install h5py
 # Install numpy and scipy
-  - pip install numpy --upgrade
-  - sudo pip install scipy --upgrade
+  - pip install numpy --home=$HOME/localpy
+  - pip install scipy --home=$HOME/localpy
 # Install libspimage
   - cd $HOME
   - if [ ! -d "$HOME/libspimage/.git" ]; then git clone https://github.com/FilipeMaia/libspimage; else echo 'Using libspimage from cached directory'; fi
