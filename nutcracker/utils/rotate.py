@@ -67,10 +67,11 @@ def rotation_based_on_euler_angles(input_model,angles,order='zyx', order_spline_
         :order_spline_interpolation(int):   the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]
     """
 
-    r_x = rotation_matrix(angles[0],'x')
-    r_y = rotation_matrix(angles[1],'y')
-    r_z = rotation_matrix(angles[2],'z')
-    rotmat = np.dot(np.dot(r_z,r_y),r_x)
+    r_1 = rotation_matrix(angles[0],order[0])
+    r_2 = rotation_matrix(angles[1],order[1])
+    r_3 = rotation_matrix(angles[2],order[2])
+
+    rotmat = np.dot(np.dot(r_1,r_2),r_3)
     return _rotation_of_model(input_model, rotmat, order_spline_interpolation)
 
 def _rotation_of_model(input_model, rot_mat, order):

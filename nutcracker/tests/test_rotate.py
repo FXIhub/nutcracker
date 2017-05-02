@@ -28,5 +28,17 @@ class TestCaseRotate(unittest.TestCase):
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected) == 0))
 
     
-#    def test_rotation_based_on_euler_angles(self):
+    def test_rotation_based_on_rotation_matrix(self):
+        angles = np.array((0.2,-4.2,1.8))
+        
+        r_z = nutcracker.utils.rotate.rotation_matrix(angles[0],'z')
+        r_y = nutcracker.utils.rotate.rotation_matrix(angles[1],'y')
+        r_x = nutcracker.utils.rotate.rotation_matrix(angles[2],'x')
+        
+        rot_mat = np.dot(np.dot(r_z,r_y),r_x)
+
+        img_1_rot = nutcracker.utils.rotate.rotation_based_on_rotation_matrix(img_1,rot_mat)
+        img_1_rot_back = nutcracker.utils.rotate.rotation_based_on_rotation_matrix(img_1_rot,np.transpose(rot_mat))
+        
+        self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <=  8))
         
