@@ -6,9 +6,9 @@ import unittest
 
 class TestCaseRotate(unittest.TestCase):
     def test_find_rotation_between_two_models(self):
-        with h5py.File('./../data/test_data.h5', 'r') as f:
+        with h5py.File('/home/doctor/software/nutcracker/nutcracker/data/test_data.h5', 'r') as f:
             img_1 = f['real']
-        with h5py.File('./../data/test_data_rot_shift.h5', 'r') as f:
+        with h5py.File('/home/doctor/software/nutcracker/nutcracker/data/test_data_rot_shift.h5', 'r') as f:
             img_2 = f['real']
             
         #img_1 = test_data[0]
@@ -26,9 +26,9 @@ class TestCaseRotate(unittest.TestCase):
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
 
     def test_find_shift_between_two_models(self):
-        with h5py.File('./../data/test_data.h5', 'r') as f:
+        with h5py.File('/home/doctor/software/nutcracker/nutcracker/data/test_data.h5', 'r') as f:
             img_1 = f['real']
-        with h5py.File('./../data/test_data_rot_shift.h5', 'r')as f:
+        with h5py.File('/home/doctor/software/nutcracker/nutcracker/data/test_data_rot_shift.h5', 'r')as f:
             img_2 = f['real']
             
         #img_1 = test_data[0]
