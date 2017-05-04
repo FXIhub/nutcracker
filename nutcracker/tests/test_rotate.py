@@ -1,6 +1,7 @@
 import h5py
 import numpy as np
 import nutcracker
+import condor
 import unittest
 
 with h5py.File('/home/doctor/software/nutcracker/nutcracker/data/test_data.h5', 'r') as f:
@@ -40,5 +41,15 @@ class TestCaseRotate(unittest.TestCase):
         img_1_rot = nutcracker.utils.rotate.rotation_based_on_rotation_matrix(img_1,rot_mat)
         img_1_rot_back = nutcracker.utils.rotate.rotation_based_on_rotation_matrix(img_1_rot,np.transpose(rot_mat))
         
-        self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <=  8))
+        self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <=  8)
         
+    def test_rotation_based_on_quaternion(self):
+        quaternion = condor.utils.rotation.rand_quat()
+
+        img_1_rot = nutcracker.utils.rotate.rotation_based_on_quaternion(img_1,quaternion)
+
+        quaternion_conj = condor.utils.rotation.quat_conj(quaternion)
+
+        img_1_rot_back = nutcracker.utils.rotate.rotation_based_on_quaternion(img_1_rot,quaternion_conj)
+
+        self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <=  10)
