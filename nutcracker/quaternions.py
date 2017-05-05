@@ -90,7 +90,7 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
     z_score = (diff_rel - diff_rel_mean)/diff_rel_std
     
     # percentage of quaternions within given sigma
-    p = 1.0 * (z_score < sigma).sum()/q1.shape[0]
+    p = 1.0 * (z_score < sigma).sum()/n_samples
 
     if full_output:
         out = {'q1_rel':q1_rel_array,
