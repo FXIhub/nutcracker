@@ -1,30 +1,25 @@
 import h5py
 import numpy as np
 import nutcracker
+import condor
+import unittest
+import os
 
-def test_relative_angle():
-    with h5py.File('/scratch/fhgfs/doctor/1FFK/data_cxi/data_hc.cxi', "r") as f:
-        q1 = f['particles']['particle_00']['extrinsic_quaternion'][:]
-    q2 = np.loadtxt('/scratch/fhgfs/doctor/1FFK/emc/emc_hc/sigma_1.5-3.0/run_0008/best_quaternion_0049.data', usecols=range(2000, 4))
+_data_dir = os.path.dirname(os.path.realpath(__file__)) + "/../data"
+with h5py.File(_data_dir + '/test_quaternions.h5', 'r') as f:
+    q1 = f['quaternion'][:]
+    q2 = f['quaternion_rot'][:]
+    q_relative = f['quaternion_relative'][:]
 
-    p, out = nutcracker.compare_two_sets_of_quaternions(q1,q2,n_samples=2000, full_output=True, sigma=3)
-    if p >= 0.99:
-        return 'passed'
-    else:
-        return 'failed'
+class TestCaseQuaternions(unittest.TestCase):
+    def test_compare_two_sets_of_quaternions(self):
+        p, out = nutcracker.quaternions.compare_two_sets_of_quaternions(q1,q2,n_samples=10, full_output=True, sigma=3)
+    
+        self.assertGreaterEqual(p,0.99)
 
 
-def test_global_rotation():
-    with h5py.File('/scratch/fhgfs/doctor/1FFK/data_cxi/data_hc.cxi', "r") as f:
-        q1 = f['particles']['particle_00']['extrinsic_quaternion'][:]
-    q2 = np.loadtxt('/scratch/fhgfs/doctor/1FFK/emc/emc_hc/sigma_1.5-3.0/run_0008/best_quaternion_0049.data', usecols=range(2000, 4))
+    def test_global_quaternion_rotation_between_two_sets(self):
+        out = nutcracker.quaternions.global_quaternion_rotation_between_two_sets(q1,q2,full_output=True)
+        quat_rel = out['quat_array_mean']
 
-    out = nutcracker.global_quaternion_rotation_between_two_sets(q1,q2,full_output=True,q1_is_extrinsic=True)
-    quat_array = out['quat_array'][:]
-    sigma = 2
-    z_score = (quat_array[:,0] - quat_array[:,0].mean())/quat_array[:,0].std()
-    p = 1.0 * (z_score < sigma).sum()/q1.shape[0]
-    if p >= 0.99:
-        return 'passed'
-    else:
-        return 'failed'
+        self.assertTrue(np.alltrue(np.round(quat_rel - q_relative,7) == 0))

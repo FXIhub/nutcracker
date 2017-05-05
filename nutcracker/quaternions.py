@@ -25,8 +25,8 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
     for i in range(n_samples):
         
         # pick random index
-        m = np.random.randint(0,q1.shape[0])
-        n = np.random.randint(0,q1.shape[0])
+        m = np.random.randint(0,q1.shape[0]-1)
+        n = np.random.randint(0,q1.shape[0]-1)
         
         # make sure m and n are not the same
         if m == n: n = q1.shape[0] - n
