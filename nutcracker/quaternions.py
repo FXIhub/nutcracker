@@ -72,7 +72,9 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
             q2_rel = q2_rel_2
         
         # calculating the angle between the relative rotations
-        theta_rel.append(2 * np.arccos(np.inner(q1_rel,q2_rel)))
+        q_rel = condor.utils.rotation.quat_mult(q1_rel,condor.utils.rotation.quat_conj(q2_rel))
+        theta_rel.append(2 * np.arctan2(np.sqrt(q_rel[1]**2 + q_rel[2]**2 + q_rel[3]**2),np.abs(q_rel[0])))
+        #theta_rel.append(2 * np.arccos(np.inner(q1_rel,q2_rel)))
 
         q1_rel_list.append(q1_rel)
         q2_rel_list.append(q2_rel)
