@@ -3,10 +3,12 @@ import numpy as np
 import nutcracker
 import condor
 import unittest
+import os
 
-with h5py.File('/home/doctor/software/nutcracker/nutcracker/data/test_data.h5', 'r') as f:
+_data_dir = os.path.dirname(os.path.realpath(__file__)) + "/../data"
+with h5py.File(_data_dir + '/test_data.h5', 'r') as f:
     img_1 = f['real'][:]
-with h5py.File('/home/doctor/software/nutcracker/nutcracker/data/test_data_rot_shift.h5', 'r') as f:
+with h5py.File(_data_dir + '/test_data_rot_shift.h5', 'r') as f:
     img_2 = f['real'][:]
 
 class TestCaseRotate(unittest.TestCase):
