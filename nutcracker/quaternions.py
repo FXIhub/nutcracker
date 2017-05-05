@@ -168,7 +168,7 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         if q2_is_extrinsic: q2_i = condor.utils.rotation.quat_conj(q2_i)
 
         # calculate the relative rotation to q1
-        q2_rot = condor.utils.rotation.quat_mult(q1_i,quat__array_mean)
+        q2_rot = condor.utils.rotation.quat_mult(q1_i,quat_array_mean)
         
         # calculating the angle between the actuall quaternion q1 and the roatation of q2 (q_rel = q1 * q2^-1  ->  q_rel * q2^-1 = q1)
         theta_1 = 2 * np.arccos(np.inner(q2_rot,q2_i))
