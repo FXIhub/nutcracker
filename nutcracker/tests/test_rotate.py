@@ -40,5 +40,5 @@ class TestCaseRotate(unittest.TestCase):
         img_1_rot = nutcracker.utils.rotate.rotation_based_on_rotation_matrix(img_1,rot_mat)
         img_1_rot_back = nutcracker.utils.rotate.rotation_based_on_rotation_matrix(img_1_rot,np.transpose(rot_mat))
         
-        self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <=  8))
+        self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <=  8)
         
