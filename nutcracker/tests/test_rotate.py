@@ -53,3 +53,17 @@ class TestCaseRotate(unittest.TestCase):
         img_1_rot_back = nutcracker.utils.rotate.rotation_based_on_quaternion(img_1_rot,quaternion_conj)
 
         self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <=  10)
+
+    def test_rotation_based_on_euler_angles(self):
+        quaternion = condor.utils.rotation.rand_quat()
+        quaternion_conj = condor.utils.rotation.quat_conj(quaternion)
+
+        euler_angles = condor.utils.rotation.euler_from_quat(quaternion, 'zyx')
+        euler_angles_inv = condor.utils.rotation.euler_from_quat(quaternion_conj, 'xyz')
+        
+        img_1_rot = nutcracker.utils.rotate.rotation_based_on_euler_angles(img_1,euler_angles,order='zyx')
+        img_1_rot_back = nutcracker.utils.rotate.rotation_based_on_euler_angles(img_1_rot,euler_angles_inv,order='xyz')
+
+        self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <= 9.3)
+
+        
