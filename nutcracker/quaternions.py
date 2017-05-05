@@ -32,10 +32,10 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
         if m == n: n = q1.shape[0] - n
         
         # pick random quaternions and make sure they are represented on one half of the hyper sphere
-        q1_m = condor.utils.rotation.unique_representation_quat(q1[m,:])
-        q1_n = condor.utils.rotation.unique_representation_quat(q1[n,:])
-        q2_m = condor.utils.rotation.unique_representation_quat(q2[m,:])
-        q2_n = condor.utils.rotation.unique_representation_quat(q2[n,:])
+        q1_m = q1[m,:]
+        q1_n = q1[n,:]
+        q2_m = q2[m,:]
+        q2_n = q2[n,:]
 
         # normalise quaternions
         q1_m = q1_m/np.sqrt(q1_m[0]**2 + q1_m[1]**2 + q1_m[2]**2 + q1_m[3]**2)
@@ -56,12 +56,12 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
         q2_n_inv = condor.utils.rotation.quat_conj(q2_n)/(np.sqrt(q2_n[0]**2 + q2_n[1]**2 + q2_n[2]**2 + q2_n[3]**2)**2)
     
         # calculating the relative quaternion q_rel = q_m * q_n^-1
-        q1_rel = condor.utils.rotation.quat_mult(q1_m, q1_n_inv)
+        q1_rel = condor.utils.rotation.quat_mult(q1_n_inv, q1_m)
         w1 = q1_rel[0]
 
         # calculating the relative quaternion q_rel = q_m * q_n^-1 
-        q2_rel_1 = condor.utils.rotation.quat_mult(q2_m, q2_n_inv)
-        q2_rel_2 = condor.utils.rotation.quat_mult(q2_m, -1 * q2_n_inv)
+        q2_rel_1 = condor.utils.rotation.quat_mult(q2_n_inv, q2_m)
+        q2_rel_2 = condor.utils.rotation.quat_mult(q2_n_inv, -1 * q2_m)
         w2_1 = q2_rel_1[0]
         w2_2 = q2_rel_2[0]
         if np.abs(w1 - w2_1) < np.abs(w1 - w2_2): 
@@ -131,8 +131,8 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         q2_i = q2[i,:]
 
         #make sure they are represented on one half of the hyper sphere
-        if q1_i[0] < 0: q1_i[0] = -q1_i[0]
-        if q2_i[0] < 0: q2_i[0] = -q2_i[0]
+        #if q1_i[0] < 0: q1_i[0] = -q1_i[0]
+        #if q2_i[0] < 0: q2_i[0] = -q2_i[0]
 
         # normalising quaternions
         q1_i = q1_i/np.sqrt(q1_i[0]**2 + q1_i[1]**2 + q1_i[2]**2 + q1_i[3]**2)
