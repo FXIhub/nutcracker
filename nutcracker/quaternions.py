@@ -139,7 +139,7 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         if q2_is_extrinsic: q2_i = condor.utils.rotation.quat_conj(q2_i)
     
         # calculating the inverse quaternion of q1_i
-        q2_inv = condor.utils.rotation.quat_conj(q1_i)/(np.sqrt(q1_i[0]**2 + q1_i[1]**2 + q1_i[2]**2 + q1_i[3]**2)**2)
+        q1_inv = condor.utils.rotation.quat_conj(q1_i)/(np.sqrt(q1_i[0]**2 + q1_i[1]**2 + q1_i[2]**2 + q1_i[3]**2)**2)
     
         # calculating the relative quaternion between the two sets for each sample
         q_rel = condor.utils.rotation.quat_mult(q1_inv, q2_i)
