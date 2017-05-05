@@ -130,6 +130,10 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         q1_i = q1[i,:]
         q2_i = q2[i,:]
 
+        #make sure they are represented on one half of the hyper sphere
+        if q1_i[0] < 0: q1_i[0] = -q1_i[0]
+        if q2_i[0] < 0: q2_i[0] = -q2_i[0]
+
         # normalising quaternions
         q1_i = q1_i/np.sqrt(q1_i[0]**2 + q1_i[1]**2 + q1_i[2]**2 + q1_i[3]**2)
         q2_i = q2_i/np.sqrt(q2_i[0]**2 + q2_i[1]**2 + q2_i[2]**2 + q2_i[3]**2)
@@ -167,7 +171,7 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         if q1_is_extrinsic: q1_i = condor.utils.rotation.quat_conj(q1_i)
         if q2_is_extrinsic: q2_i = condor.utils.rotation.quat_conj(q2_i)
 
-        # calculate the relative rotation to q1
+        # calculate the relative rotation to q2
         q2_rot = condor.utils.rotation.quat_mult(q1_i,quat_array_mean)
         
         # calculating the angle between the actuall quaternion q1 and the roatation of q2 (q_rel = q1 * q2^-1  ->  q_rel * q2^-1 = q1)
