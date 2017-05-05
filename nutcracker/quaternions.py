@@ -127,8 +127,8 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
     for i in range(q1.shape[0]): 
 
         # iterate quaternions of the two sets
-        q1_i = condor.utils.rotation.unique_representation_quat(q1[i,:])
-        q2_i = condor.utils.rotation.unique_representation_quat(q2[i,:])
+        q1_i = q1[i,:]
+        q2_i = q2[i,:]
 
         # normalising quaternions
         q1_i = q1_i/np.sqrt(q1_i[0]**2 + q1_i[1]**2 + q1_i[2]**2 + q1_i[3]**2)
@@ -138,11 +138,11 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         if q1_is_extrinsic: q1_i = condor.utils.rotation.quat_conj(q1_i)
         if q2_is_extrinsic: q2_i = condor.utils.rotation.quat_conj(q2_i)
     
-        # calculating the inverse quaternion of q2_i
-        q2_inv = condor.utils.rotation.quat_conj(q2_i)/(np.sqrt(q2_i[0]**2 + q2_i[1]**2 + q2_i[2]**2 + q2_i[3]**2)**2)
+        # calculating the inverse quaternion of q1_i
+        q2_inv = condor.utils.rotation.quat_conj(q1_i)/(np.sqrt(q1_i[0]**2 + q1_i[1]**2 + q1_i[2]**2 + q1_i[3]**2)**2)
     
         # calculating the relative quaternion between the two sets for each sample
-        q_rel = condor.utils.rotation.unique_representation_quat(condor.utils.rotation.quat_mult(q1_i, q2_inv))
+        q_rel = condor.utils.rotation.quat_mult(q1_inv, q2_i)
     
         quat_list.append(q_rel)
     
