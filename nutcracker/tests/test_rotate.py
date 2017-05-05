@@ -65,5 +65,4 @@ class TestCaseRotate(unittest.TestCase):
         img_1_rot_back = nutcracker.utils.rotate.rotation_based_on_euler_angles(img_1_rot,euler_angles_inv,order='xyz')
 
         self.assertTrue(np.sum(np.abs(img_1 - img_1_rot_back)) <= 9.3)
-
         
