@@ -15,7 +15,7 @@ def phase_retieval_transfer_function(images,support,full_output=False,mask=None)
     """
 
     # calulating the PRTF
-    output_prtf = spimage.prtf(imgages, support, enantio=True, translate=True)
+    output_prtf = spimage.prtf(images, support, enantio=True, translate=True)
     prtf_3d = output_prtf['prtf']
 
     if mask is None:
