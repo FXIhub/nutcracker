@@ -24,13 +24,6 @@ class TestCaseRotate(unittest.TestCase):
 
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
 
-    def test_find_shift_between_two_models(self):
-        out_calculated = nutcracker.utils.rotate.find_shift_between_two_models(img_2,img_1)
-        out_expected = np.array((2,-3,1))
-        
-        self.assertTrue(np.alltrue(np.round(out_calculated-out_expected) == 0))
-
-    
     def test_rotation_based_on_rotation_matrix(self):
         angles = np.array((0.2,-4.2,1.8))
         
