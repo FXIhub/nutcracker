@@ -2,7 +2,7 @@ import numpy as np
 import nutcracker
 from scipy import ndimage
 from scipy import optimize
-
+from scipy import signal
 """
 All _functions base on the corresponding libspimage function and are extentions to 3D.
 """
@@ -36,7 +36,7 @@ def _turn180(img,cx=None,cy=None,cz=None):
     return img_new
 
 def _gaussian_smooth_3d2d1d(I,sm,precision=1.):
-    N = 2*int(numpy.round(precision*sm))+1
+    N = 2*int(np.round(precision*sm))+1
     if len(I.shape) == 3:
         kernel = np.zeros(shape=(N,N))
         X,Y,Z = np.meshgrid(np.arange(0,N,1),np.arange(0,N,1),np.arange(0,N,1))
@@ -51,13 +51,13 @@ def _gaussian_smooth_3d2d1d(I,sm,precision=1.):
         X = X-N/2
         kernel = numpy.exp(X**2/(2.0*sm**2))
         kernel /= kernel.sum()
-        Ism = scipy.signal.convolve2d(I,kernel,mode='same',boundary='wrap')
+        Ism = signal.convolve2d(I,kernel,mode='same',boundary='wrap')
         return Ism
     elif len(I.shape) == 1:
         print "Error input"
         return []
 
-def find_center_pixelwise(image, mask, x0=0, y0=0, z0=0, dmax=5, rmax=None):
+def find_center_pixelwise(img, msk, x0=0, y0=0, z0=0, dmax=5, rmax=None):
     """
     Find the center of an 3D image using pixelwise comparison of centro-symmetric pixels.
     This code bases on the libspimage _spimage_find_center.py function and is an extention to 3D.
