@@ -29,7 +29,7 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
         n = np.random.randint(0,q1.shape[0]-1)
         
         # make sure m and n are not the same
-        if m == n: n = q1.shape[0] - n
+        if m == n: n = (q1.shape[0]-1) - n
         
         # pick random quaternions and make sure they are represented on one half of the hyper sphere
         q1_m = q1[m,:]
