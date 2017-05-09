@@ -23,14 +23,15 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
 
     # iterate through a number of randomly picked pairs
     for i in range(n_samples):
+
+        m = 0
+        n = 0
         
-        # pick random index
-        m = np.random.randint(0,q1.shape[0]-1)
-        n = np.random.randint(0,q1.shape[0]-1)
-        
-        # make sure m and n are not the same
-        if m == n: n = (q1.shape[0]-1) - n
-        
+        while m==n:
+            # pick random index
+            m = np.random.randint(0,q1.shape[0]-1)
+            n = np.random.randint(0,q1.shape[0]-1)
+                
         # pick random quaternions and make sure they are represented on one half of the hyper sphere
         q1_m = q1[m,:]
         q1_n = q1[n,:]
@@ -42,7 +43,7 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
         q1_n = q1_n/np.sqrt(q1_n[0]**2 + q1_n[1]**2 + q1_n[2]**2 + q1_n[3]**2)
         q2_m = q2_m/np.sqrt(q2_m[0]**2 + q2_m[1]**2 + q2_m[2]**2 + q2_m[3]**2)
         q2_n = q2_n/np.sqrt(q2_n[0]**2 + q2_n[1]**2 + q2_n[2]**2 + q2_n[3]**2)
-    
+
         # convert quaternions if necessary
         if q1_is_extrinsic: 
             q1_m = condor.utils.rotation.quat_conj(q1_m)
@@ -57,11 +58,18 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
     
         # calculating the relative quaternion q_rel = q_m * q_n^-1
         q1_rel = condor.utils.rotation.quat_mult(q1_n_inv, q1_m)
+        if q1_is_extrinsic or q2_is_extrisnic:
+            q1_rel = condor.utils.rotation.quat_mult(q1_m,q1_n_inv)
+
         w1 = q1_rel[0]
 
         # calculating the relative quaternion q_rel = q_m * q_n^-1 
         q2_rel_1 = condor.utils.rotation.quat_mult(q2_n_inv, q2_m)
         q2_rel_2 = condor.utils.rotation.quat_mult(q2_n_inv, -1 * q2_m)
+        if q1_is_extrinsic or q2_is_extrisnic:
+            q2_rel_1 = condor.utils.rotation.quat_mult(q2_m, q2_n_inv)
+            q2_rel_2 = condor.utils.rotation.quat_mult(-1 * q2_m, q2_n_inv)
+
         w2_1 = q2_rel_1[0]
         w2_2 = q2_rel_2[0]
         if np.abs(w1 - w2_1) < np.abs(w1 - w2_2): 
@@ -149,6 +157,8 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
     
         # calculating the relative quaternion between the two sets for each sample
         q_rel = condor.utils.rotation.quat_mult(q1_inv, q2_i)
+        if q1_is_extrinsic or q2_is_extrinsic:
+            q_rel = condor.utils.rotation.quat_mult(q2_i,q1_inv)
     
         quat_list.append(q_rel)
     
