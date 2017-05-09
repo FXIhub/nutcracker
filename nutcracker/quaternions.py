@@ -57,16 +57,16 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
         q2_n_inv = condor.utils.rotation.quat_conj(q2_n)/(np.sqrt(q2_n[0]**2 + q2_n[1]**2 + q2_n[2]**2 + q2_n[3]**2)**2)
     
         # calculating the relative quaternion q_rel = q_m * q_n^-1
-        q1_rel = condor.utils.rotation.quat_mult(q1_n_inv, q1_m)
-        if q1_is_extrinsic or q2_is_extrinsic:
-            q1_rel = condor.utils.rotation.quat_mult(q1_m,q1_n_inv)
+        if q1_is_extrinsic or q2_is_extrinsic:q1_rel = condor.utils.rotation.quat_mult(q1_n_inv, q1_m)
+        else: q1_rel = condor.utils.rotation.quat_mult(q1_m,q1_n_inv)
 
         w1 = q1_rel[0]
 
         # calculating the relative quaternion q_rel = q_m * q_n^-1 
-        q2_rel_1 = condor.utils.rotation.quat_mult(q2_n_inv, q2_m)
-        q2_rel_2 = condor.utils.rotation.quat_mult(q2_n_inv, -1 * q2_m)
         if q1_is_extrinsic or q2_is_extrinsic:
+            q2_rel_1 = condor.utils.rotation.quat_mult(q2_n_inv, q2_m)
+            q2_rel_2 = condor.utils.rotation.quat_mult(q2_n_inv, -1 * q2_m)
+        else:
             q2_rel_1 = condor.utils.rotation.quat_mult(q2_m, q2_n_inv)
             q2_rel_2 = condor.utils.rotation.quat_mult(-1 * q2_m, q2_n_inv)
 
@@ -113,10 +113,6 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
         return p
 
 
-
-
-
-
 def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_extrinsic=False,q2_is_extrinsic=False,sigma=2):
     """
     Calculating the global rotation (quaternion) between two sets of quaternions on base of the mean relative quaternion between each sample of the sets.
@@ -156,9 +152,8 @@ def global_quaternion_rotation_between_two_sets(q1,q2,full_output=False,q1_is_ex
         q1_inv = condor.utils.rotation.quat_conj(q1_i)/(np.sqrt(q1_i[0]**2 + q1_i[1]**2 + q1_i[2]**2 + q1_i[3]**2)**2)
     
         # calculating the relative quaternion between the two sets for each sample
-        q_rel = condor.utils.rotation.quat_mult(q1_inv, q2_i)
-        if q1_is_extrinsic or q2_is_extrinsic:
-            q_rel = condor.utils.rotation.quat_mult(q2_i,q1_inv)
+        if q1_is_extrinsic or q2_is_extrinsic: q_rel = condor.utils.rotation.quat_mult(q2_i,q1_inv)
+        else: q_rel = condor.utils.rotation.quat_mult(q1_inv,q2_i)
     
         quat_list.append(q_rel)
     
