@@ -58,7 +58,7 @@ def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_
     
         # calculating the relative quaternion q_rel = q_m * q_n^-1
         q1_rel = condor.utils.rotation.quat_mult(q1_n_inv, q1_m)
-        if q1_is_extrinsic or q2_is_extrisnic:
+        if q1_is_extrinsic or q2_is_extrinsic:
             q1_rel = condor.utils.rotation.quat_mult(q1_m,q1_n_inv)
 
         w1 = q1_rel[0]
