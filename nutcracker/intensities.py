@@ -65,3 +65,69 @@ def fourier_shell_correlation(model_1,model_2,model_1_is_real_space=False,model_
 
     else:
         return "invalid dimension"
+
+
+def split_image(image,method='random',factor=2):
+    """
+    Splits a 2D diffraction pattern into two. 
+
+    Args:
+        :image(float ndarray):        2 ndarray of intensities
+
+    Kwargs:
+        :method(str):                 method which should be used for splitting the data, default='random' 
+        :factor(int):                 is the factor by which the image size should be divided
+    """
+
+    if method == 'random':
+        image_1, image_2 = split_image_random(image,factor)
+
+    elif method == 'ordered':
+        image_1, image_2 = split_image_ordered()
+        
+    else:
+        print 'invalid method'
+
+    return image_1, image_2
+
+def split_image_random(image,factor):
+    d = image.shape[0]
+    d_new = d/factor
+    
+    image_1 = np.zeros((d_new,d_new))
+    image_2 = np.zeros((d_new,d_new))
+    
+    for y in range(0,d-1,factor):
+        for x in range(0,d-1,factor):
+            sup = data[y:y+factor,x:x+factor]
+            sup = sup.ravel()
+            
+            np.random.shuffle(sup)
+            
+            for z in range(len(sup)):    
+                if z%2 == 0:
+                    image_1[y/factor,x/factor] = image_1[y/factor,x/factor] + sup[z]
+                else:
+                    image_2[y/factor,x/factor] = image_2[y/factor,x/factor] + sup[z]
+                    
+    return image_1, image_2
+
+def split_image_ordered(image,factor):
+    d = data.shape[0]
+    d_new = d/factor
+
+    im_1 = np.zeros((d_new,d_new))
+    im_2 = np.zeros((d_new,d_new))
+
+    for y in range(0,d-1,factor):
+        for x in range(0,d-1,factor):
+            sup = data[y:y+factor,x:x+factor]
+            sup = sup.ravel()
+            
+            for z in range(len(sup)):
+                if z%2 == 0:
+                    im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
+                else:
+                    im2[y/factor,x/factor] = im2[y/factor,x/factor] + sup[z]
+
+    return im1, im2
