@@ -3,7 +3,7 @@ import nutcracker
 from scipy import ndimage
 from scipy import optimize
 from scipy import signal
-
+import scipy as sp
 """
 All functions base on the corresponding libspimage functions and are extentions to 3D.
 """
@@ -23,12 +23,12 @@ def find_center(img, msk, method=None, errout=False, **kwargs):
     # Default method for center finding
     if method is None: method = 'octant'
 
-    # Find center using "quadrant" method
+    # Find center using "octant" method
     if method == 'octant':
-        x,y,z,e = find_center_quadrant(img, msk, **kwargs)
+        x,y,z,e = find_center_octant(img, msk, **kwargs)
     # Find center using slow implementation of "pixelwise" method
-    elif method == 'pixelwise_slow':
-        x,y,z,e = find_center_pixelwise_slow(img, msk, **kwargs)
+    elif method == 'pixelwise':
+        x,y,z,e = find_center_pixelwise(img, msk, **kwargs)
     # Return 0,0 if method is not defined
     else:
         x,y,z,e = (0,0,0,0)
@@ -140,7 +140,7 @@ def find_center_octant(img, msk, dmax=5, x0=0, y0=0, z0=0, threshold=None, solve
 
     class Minimizer:
         def __init__(self,img, msk, x0, y0, z0, maxshift, solver):
-            self.csmask = CentroSymmetricMask(msk, 2*maxshift, 2*maxshift)
+            self.csmask = CentroSymmetricMask(msk, 2*maxshift, 2*maxshift, 2*maxshift)
             self.image = img
             self.Nz, self.Ny, self.Nx = img.shape
             self.x0_initial = x0
@@ -157,10 +157,10 @@ def find_center_octant(img, msk, dmax=5, x0=0, y0=0, z0=0, threshold=None, solve
         def update_center(self, x0,y0,z0):
             self.zt = max(2*z0,0) 
             self.zb = min(self.Nz + 2*z0, self.Nz)
-            self.zm = (self.zah + self.zbh)/2
+            self.zm = (self.zt + self.zb)/2
             self.yah = max(2*y0, 0)
             self.ybh = min(self.Ny + 2*y0, self.Ny)
-            self.ym = (self.yb + self.yt)/2
+            self.ym = (self.yah + self.ybh)/2
             self.xl = max(2*x0, 0)
             self.xr = min(self.Nx + 2*x0, self.Nx)
             self.xm = (self.xl + self.xr)/2
@@ -169,66 +169,78 @@ def find_center_octant(img, msk, dmax=5, x0=0, y0=0, z0=0, threshold=None, solve
             self.mask = self.csmask.get(x0,y0,z0)
 
         def error(self, p):
-            [x0, y0, z0] = p
-            self.update_center(x0,y0,z0)
-            self.update_mask(x0,y0,z0)
+            if np.alltrue(np.isnan(p)):
+                pass
+            else:
+                [x0, y0, z0] = p
+                self.update_center(x0,y0,z0)
+                self.update_mask(x0,y0,z0)
 
-            wA = self.mask[self.zt:self.zm, self.ym:self.yah, self.xl:self.xm]
-            wB = self.mask[self.zt:self.zm, self.ym:self.yah, self.xm:self.xr]
-            wC = self.mask[self.zm:self.zb, self.ym:self.yah, self.xl:self.xm]
-            wD = self.mask[self.zm:self.zb, self.ym:self.yah, self.xm:self.xr]
-            wE = self.mask[self.zt:self.zm, self.ybh:self.ym, self.xl:self.xm]
-            wF = self.mask[self.zt:self.zm, self.ybh:self.ym, self.xm:self.xr]
-            wG = self.mask[self.zm:self.zb, self.ybh:self.ym, self.xl:self.xm]
-            wH = self.mask[self.zm:self.zb, self.ybh:self.ym, self.xm:self.xr]
-
-            A = self.image[self.zt:self.zm, self.ym:self.yah, self.xl:self.xm][wA]
-            B = self.image[self.zt:self.zm, self.ym:self.yah, self.xm:self.xr][wB]
-            C = self.image[self.zm:self.zb, self.ym:self.yah, self.xl:self.xm][wC]
-            D = self.image[self.zm:self.zb, self.ym:self.yah, self.xm:self.xr][wD]
-            E = self.image[self.zt:self.zm, self.ybh:self.ym, self.xl:self.xm][wE]
-            F = self.image[self.zt:self.zm, self.ybh:self.ym, self.xm:self.xr][wF]
-            G = self.image[self.zm:self.zb, self.ybh:self.ym, self.xl:self.xm][wG]
-            H = self.image[self.zm:self.zb, self.ybh:self.ym, self.xm:self.xr][wH]
+                wA = self.mask[self.zt:self.zm, self.ym:self.yah, self.xl:self.xm]
+                wB = self.mask[self.zt:self.zm, self.ym:self.yah, self.xm:self.xr]
+                wC = self.mask[self.zm:self.zb, self.ym:self.yah, self.xl:self.xm]
+                wD = self.mask[self.zm:self.zb, self.ym:self.yah, self.xm:self.xr]
+                wE = self.mask[self.zt:self.zm, self.ybh:self.ym, self.xl:self.xm]
+                wF = self.mask[self.zt:self.zm, self.ybh:self.ym, self.xm:self.xr]
+                wG = self.mask[self.zm:self.zb, self.ybh:self.ym, self.xl:self.xm]
+                wH = self.mask[self.zm:self.zb, self.ybh:self.ym, self.xm:self.xr]
+                
+                A = self.image[self.zt:self.zm, self.ym:self.yah, self.xl:self.xm][wA]
+                B = self.image[self.zt:self.zm, self.ym:self.yah, self.xm:self.xr][wB]
+                C = self.image[self.zm:self.zb, self.ym:self.yah, self.xl:self.xm][wC]
+                D = self.image[self.zm:self.zb, self.ym:self.yah, self.xm:self.xr][wD]
+                E = self.image[self.zt:self.zm, self.ybh:self.ym, self.xl:self.xm][wE]
+                F = self.image[self.zt:self.zm, self.ybh:self.ym, self.xm:self.xr][wF]
+                G = self.image[self.zm:self.zb, self.ybh:self.ym, self.xl:self.xm][wG]
+                H = self.image[self.zm:self.zb, self.ybh:self.ym, self.xm:self.xr][wH]
             
-            norm = 2*(wA.sum() + wB.sum())
-            error = np.sqrt( abs(A.sum() - H.sum())**2 + abs(B.sum() - G.sum())**2 + abs(E.sum() - D.sum())**2 + abs(F.sum() - C.sum())**2 ) / norm
-            return error
+                norm = 2*(wA.sum() + wB.sum())
+                error = np.sqrt( abs(A.sum() - H.sum())**2 + abs(B.sum() - G.sum())**2 + abs(E.sum() - D.sum())**2 + abs(F.sum() - C.sum())**2 ) / norm
+                return error
             
         def error_smooth(self, p):
-            [x0, y0, z0] = p
-            x0f = np.floor(x0)
-            x0c = x0f + 1
-            y0f = np.floor(y0)
-            y0c = y0f + 1
-            z0f = np.floor(z0)
-            z0c = z0f + 1
-            err_fff = self.error([x0f, y0f, z0f])
-            err_ccc = self.error([x0c, y0c, z0c])
-            err_cff = self.error([x0c, y0f, z0f])
-            err_fcc = self.error([x0f, y0c, z0c])
-            err_cfc = self.error([x0c, y0f, z0c])
-            err_fcf = self.error([x0f, y0c, z0f])
-            err_ffc = self.error([x0f, y0f, z0c])
-            err_ccf = self.error([x0c, y0c, z0f])
+            if np.alltrue(np.isnan(p)):
+                pass
+            else:
+                [x0, y0, z0] = p
+                x0f = np.floor(x0)
+                x0f = np.int(x0f)
+                x0c = x0f + 1
+                y0f = np.floor(y0)
+                y0f = np.int(y0f)
+                y0c = y0f + 1
+                z0f = np.floor(z0)
+                z0f = np.int(z0f)
+                z0c = z0f + 1
+                err_fff = self.error([x0f, y0f, z0f])
+                err_ccc = self.error([x0c, y0c, z0c])
+                err_cff = self.error([x0c, y0f, z0f])
+                err_fcc = self.error([x0f, y0c, z0c])
+                err_cfc = self.error([x0c, y0f, z0c])
+                err_fcf = self.error([x0f, y0c, z0f])
+                err_ffc = self.error([x0f, y0f, z0c])
+                err_ccf = self.error([x0c, y0c, z0f])
             
-            wfff = (x0c - x0) * (y0c - y0) * (z0c - z0)
-            wccc = (x0 - x0f) * (y0 - y0f) * (z0 - z0f)
-            wcff = (x0 - x0f) * (y0c - y0) * (z0c - z0)
-            wfcc = (x0c - x0) * (y0 - y0f) * (z0 - z0f)
-            wcfc = (x0 - x0f) * (y0c - y0) * (z0 - z0f) 
-            wfcf = (x0c - x0) * (y0 - y0f) * (z0c - z0)
-            wffc = (x0c - x0) * (y0c - y0) * (z0 - z0f)
-            wccf = (x0 - x0f) * (y0 - y0f) * (z0c - z0)
-            error = wfff*err_fff + wccc*err_ccc + wcff*err_cff + wfcc*err_fcc + wcfc*err_cfc + wfcf*err_fcf + wffc*err_ffc + wccf*err_ccf
-            return error
+                wfff = (x0c - x0) * (y0c - y0) * (z0c - z0)
+                wccc = (x0 - x0f) * (y0 - y0f) * (z0 - z0f)
+                wcff = (x0 - x0f) * (y0c - y0) * (z0c - z0)
+                wfcc = (x0c - x0) * (y0 - y0f) * (z0 - z0f)
+                wcfc = (x0 - x0f) * (y0c - y0) * (z0 - z0f) 
+                wfcf = (x0c - x0) * (y0 - y0f) * (z0c - z0)
+                wffc = (x0c - x0) * (y0c - y0) * (z0 - z0f)
+                wccf = (x0 - x0f) * (y0 - y0f) * (z0c - z0)
+                error = wfff*err_fff + wccc*err_ccc + wcff*err_cff + wfcc*err_fcc + wcfc*err_cfc + wfcf*err_fcf + wffc*err_ffc + wccf*err_ccf
+                return error
 
         def error_and_gradient(self,p):
-            err = self.error(p)
-            dx = self.egrgror([p[0]+1, p[1]], p[2]) - err
-            dy = self.error([p[0],     p[1]+1], p[2]) - err
-            dz = self.error([p[0],     p[1], p[2]+1]) - err
-            return err, np.array([dx,dy,dz])
+            if np.alltrue(np.isnan(p)):
+                pass
+            else:
+                err = self.error(p)
+                dx = self.egrgror([p[0]+1, p[1]], p[2]) - err
+                dy = self.error([p[0],     p[1]+1], p[2]) - err
+                dz = self.error([p[0],     p[1], p[2]+1]) - err
+                return err, np.array([dx,dy,dz])
 
         def start(self):
             self.res = sp.optimize.minimize(self.error_smooth, np.array([self.x0_initial,self.y0_initial,self.z0_initial]), 
