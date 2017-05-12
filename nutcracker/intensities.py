@@ -94,40 +94,73 @@ def split_image_random(image,factor):
     d = image.shape[0]
     d_new = d/factor
     
-    image_1 = np.zeros((d_new,d_new))
-    image_2 = np.zeros((d_new,d_new))
-    
-    for y in range(0,d-1,factor):
-        for x in range(0,d-1,factor):
-            sup = data[y:y+factor,x:x+factor]
-            sup = sup.ravel()
-            
-            np.random.shuffle(sup)
-            
-            for z in range(len(sup)):    
-                if z%2 == 0:
-                    image_1[y/factor,x/factor] = image_1[y/factor,x/factor] + sup[z]
-                else:
-                    image_2[y/factor,x/factor] = image_2[y/factor,x/factor] + sup[z]
-                    
-    return image_1, image_2
+    if len(image.shape)== 2:
+        im_1 = np.zeros((d_new,d_new))
+        im_2 = np.zeros((d_new,d_new))
 
+        for y in range(0,d-1,factor):
+            for x in range(0,d-1,factor):
+                sup = data[y:y+factor,x:x+factor]
+                sup = sup.ravel()
+                np.random.shuffle(sup)
+
+                for z in range(len(sup)):
+                    if z%2 == 0:
+                        im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
+                    else:
+                        im2[y/factor,x/factor] = im2[y/factor,x/factor] + sup[z]
+
+    if len(image.shape) == 3:
+        im_1 = np.zeros((d_new,d_new,d_new))
+        im_2 = np.zeros((d_new,d_new,d_new))
+
+        for z in range(0,d-1,factor):
+            for y in range(0,d-1,factor):
+                for x in range(0,d-1,factor):
+                    sup = data[z:z+factor,y:y+factor,x:x+factor]
+                    sup = sup.ravel()
+                    np.random.shuffle(sup)
+
+                    for a in range(len(sup)):
+                        if a%2 == 0:
+                            im1[z/factor,y/factor,x/factor] = im1[z/factor,y/factor,x/factor] + sup[a]
+                        else:
+                            im2[z/factor,y/factor,x/factor] = im2[z/factor,y/factor,x/factor] + sup[a]
+
+    return im1,im2
 def split_image_ordered(image,factor):
     d = data.shape[0]
     d_new = d/factor
 
-    im_1 = np.zeros((d_new,d_new))
-    im_2 = np.zeros((d_new,d_new))
+    if len(image.shape) == 2:
+        im_1 = np.zeros((d_new,d_new))
+        im_2 = np.zeros((d_new,d_new))
 
-    for y in range(0,d-1,factor):
-        for x in range(0,d-1,factor):
-            sup = data[y:y+factor,x:x+factor]
-            sup = sup.ravel()
-            
-            for z in range(len(sup)):
-                if z%2 == 0:
-                    im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
-                else:
-                    im2[y/factor,x/factor] = im2[y/factor,x/factor] + sup[z]
+        for y in range(0,d-1,factor):
+            for x in range(0,d-1,factor):
+                sup = data[y:y+factor,x:x+factor]
+                sup = sup.ravel()
+                
+                for z in range(len(sup)):
+                    if z%2 == 0:
+                        im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
+                    else:
+                        im2[y/factor,x/factor] = im2[y/factor,x/factor] + sup[z]
+
+    if len(image.shape) == 3:
+        im_1 = np.zeros((d_new,d_new,d_new))
+        im_2 = np.zeros((d_new,d_new,d_new))
+
+        for z in range(0,d-1,factor):
+            for y in range(0,d-1,factor):
+                for x in range(0,d-1,factor):
+                    sup = data[z:z+factor,y:y+factor,x:x+factor]
+                    sup = sup.ravel()
+                
+                    for a in range(len(sup)):
+                        if a%2 == 0:
+                            im1[z/factor,y/factor,x/factor] = im1[z/factor,y/factor,x/factor] + sup[a]
+                        else:
+                            im2[z/factor,y/factor,x/factor] = im2[z/factor,y/factor,x/factor] + sup[a]
 
     return im1, im2
