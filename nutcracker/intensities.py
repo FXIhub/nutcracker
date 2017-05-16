@@ -111,7 +111,7 @@ def _split_image(image,factor,method_is_random):
                 sup = data[y:y+factor,x:x+factor]
                 sup = sup.ravel()
                 
-                # apply shuffel if necessary
+                # randomise by shuffling if necessary
                 if method_is_random: np.random.shuffle(sup)
 
                 # adding the value of the sup to two new images
@@ -137,7 +137,7 @@ def _split_image(image,factor,method_is_random):
                     sup = data[z:z+factor,y:y+factor,x:x+factor]
                     sup = sup.ravel()
 
-                    # apply shuffel if necessary
+                    # randomise by shuffling if necessary
                     if method_is_random: np.random.shuffle(sup)
                 
                     # adding the value of the sup to two new images
