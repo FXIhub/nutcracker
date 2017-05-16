@@ -4,6 +4,6 @@
 A collection of software tools for validation of flash xray imaging reconstructions packaged as a Python library.
 
 ## Authors:
-Benedikt Daurer
-Louis Doctor
-Tomas Ekeberg
+Benedikt Daurer     
+Louis Doctor     
+Tomas Ekeberg     
