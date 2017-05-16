@@ -80,55 +80,17 @@ def split_image(image,method='random',factor=2):
     """
 
     if method == 'random':
-        image_1, image_2 = split_image_random(image,factor)
+        image_1, image_2 = _split_image(image,factor,method_is_random=True)
 
     elif method == 'ordered':
-        image_1, image_2 = split_image_ordered()
+        image_1, image_2 = _split_image(image,factor,method_is_random=False)
         
     else:
         print 'invalid method'
 
     return image_1, image_2
 
-def split_image_random(image,factor):
-    d = image.shape[0]
-    d_new = d/factor
-    
-    if len(image.shape)== 2:
-        im_1 = np.zeros((d_new,d_new))
-        im_2 = np.zeros((d_new,d_new))
-
-        for y in range(0,d-1,factor):
-            for x in range(0,d-1,factor):
-                sup = data[y:y+factor,x:x+factor]
-                sup = sup.ravel()
-                np.random.shuffle(sup)
-
-                for z in range(len(sup)):
-                    if z%2 == 0:
-                        im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
-                    else:
-                        im2[y/factor,x/factor] = im2[y/factor,x/factor] + sup[z]
-
-    if len(image.shape) == 3:
-        im_1 = np.zeros((d_new,d_new,d_new))
-        im_2 = np.zeros((d_new,d_new,d_new))
-
-        for z in range(0,d-1,factor):
-            for y in range(0,d-1,factor):
-                for x in range(0,d-1,factor):
-                    sup = data[z:z+factor,y:y+factor,x:x+factor]
-                    sup = sup.ravel()
-                    np.random.shuffle(sup)
-
-                    for a in range(len(sup)):
-                        if a%2 == 0:
-                            im1[z/factor,y/factor,x/factor] = im1[z/factor,y/factor,x/factor] + sup[a]
-                        else:
-                            im2[z/factor,y/factor,x/factor] = im2[z/factor,y/factor,x/factor] + sup[a]
-
-    return im1,im2
-def split_image_ordered(image,factor):
+def _split_image(image,factor,method_is_random):
     d = data.shape[0]
     d_new = d/factor
 
@@ -141,6 +103,8 @@ def split_image_ordered(image,factor):
                 sup = data[y:y+factor,x:x+factor]
                 sup = sup.ravel()
                 
+                if method_is_random: np.random.shuffle(sup)
+
                 for z in range(len(sup)):
                     if z%2 == 0:
                         im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
@@ -156,6 +120,8 @@ def split_image_ordered(image,factor):
                 for x in range(0,d-1,factor):
                     sup = data[z:z+factor,y:y+factor,x:x+factor]
                     sup = sup.ravel()
+
+                    if method_is_random: np.random.shuffle(sup)
                 
                     for a in range(len(sup)):
                         if a%2 == 0:
