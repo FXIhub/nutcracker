@@ -1,6 +1,10 @@
 import numpy as np
 import condor
 
+"""
+The idea of comparing two sets of quaternions in this way originates from Tomas Ekeberg.
+"""
+
 def compare_two_sets_of_quaternions(q1,q2,full_output=False,n_samples=100,q1_is_extrinsic=False,q2_is_extrinsic=False,sigma=2):
     """
     Compares two sets of quaternions based on a comparison of randomly picked quaternions within each set. 
