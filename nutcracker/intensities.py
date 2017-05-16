@@ -79,6 +79,7 @@ def split_image(image,method='random',factor=2):
         :factor(int):                 is the factor by which the image size should be divided
     """
 
+    # checking for method
     if method == 'random':
         image_1, image_2 = _split_image(image,factor,method_is_random=True)
 
@@ -91,38 +92,55 @@ def split_image(image,method='random',factor=2):
     return image_1, image_2
 
 def _split_image(image,factor,method_is_random):
+    # size of the old and the new pattern
     d = data.shape[0]
     d_new = d/factor
 
+    # checking dimension
     if len(image.shape) == 2:
+
+        # new pattern
         im_1 = np.zeros((d_new,d_new))
         im_2 = np.zeros((d_new,d_new))
 
+        # iterating through pattern
         for y in range(0,d-1,factor):
             for x in range(0,d-1,factor):
+                
+                # part of the pattern as super pixel
                 sup = data[y:y+factor,x:x+factor]
                 sup = sup.ravel()
                 
+                # apply shuffel if necessary
                 if method_is_random: np.random.shuffle(sup)
 
+                # adding the value of the sup to two new images
                 for z in range(len(sup)):
                     if z%2 == 0:
                         im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
                     else:
                         im2[y/factor,x/factor] = im2[y/factor,x/factor] + sup[z]
 
+    # checking dimension
     if len(image.shape) == 3:
+
+        # new pattern 
         im_1 = np.zeros((d_new,d_new,d_new))
         im_2 = np.zeros((d_new,d_new,d_new))
 
+        # iterating through pattern 
         for z in range(0,d-1,factor):
             for y in range(0,d-1,factor):
                 for x in range(0,d-1,factor):
+
+                    # part of the pattern as super pixel
                     sup = data[z:z+factor,y:y+factor,x:x+factor]
                     sup = sup.ravel()
 
+                    # apply shuffel if necessary
                     if method_is_random: np.random.shuffle(sup)
                 
+                    # adding the value of the sup to two new images
                     for a in range(len(sup)):
                         if a%2 == 0:
                             im1[z/factor,y/factor,x/factor] = im1[z/factor,y/factor,x/factor] + sup[a]
