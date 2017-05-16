@@ -104,7 +104,7 @@ def find_center_octant(img, msk, dmax=5, x0=0, y0=0, z0=0, threshold=None, solve
         +----+----+
        / E  /  F /|
       +----+----+ |
-     /    /    /| |
+     /  A / B  /| |
     +----+----+ |/|
     | A  | B  |/|H|
     +----+----| |/
