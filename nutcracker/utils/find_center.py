@@ -101,11 +101,14 @@ def find_center_octant(img, msk, dmax=5, x0=0, y0=0, z0=0, threshold=None, solve
     Find the center of a diffraction volume using the octant method.
     For every possible center shift (within - dmax ... + dmax) a centrosymmetric mask is calculated.
     The image is divided into eight octants A,B,C,D,E,F,G,H around any possible center position:
-    
-    +----+----+
-    | A  | B  |
-    +----+----|
-    | C  | D  |
+        +----+----+
+       / E  /  F /|
+      +----+----+ |
+     /    /    /| |
+    +----+----+ |/|
+    | A  | B  |/|H|
+    +----+----| |/
+    | C  | D  |/ 
     +----+----+
 
     Depending of different center positions, the cost function
