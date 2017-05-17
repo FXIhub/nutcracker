@@ -206,6 +206,10 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
         # fmin_l_bfgs_b optimisation
         rot = optimize.fmin_l_bfgs_b(costfunc, x0, args=args, approx_grad=True)
         rot = np.array(rot)
+
+    if method == 'differential_evolution':
+        bound = [(0,np.pi),(0,np.pi),(0,np.pi)]
+        rot = optimize.differential_evolution(func=costfunc, bounds=bounds, args=args, strategy='best1bin', polish=True)
         
     angles = rot[0]
 
@@ -233,6 +237,11 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
                    'rotated_model':model_2_rotated,
                    'rotation_matrix':res_rot_mat,
                    'mask':mask}
+
+        if method == 'differential_evolution':
+            out = {'rotation_angles':angles,
+                   'success',rot[1],
+                   'message',rot[2]}
         return out
     else:
         return angles
