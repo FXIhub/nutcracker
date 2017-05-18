@@ -240,8 +240,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
 
         if method == 'differential_evolution':
             out = {'rotation_angles':angles,
-                   'success',rot[1],
-                   'message',rot[2]}
+                   'success':rot[1],
+                   'message':rot[2]}
         return out
     else:
         return angles
