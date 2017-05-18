@@ -196,21 +196,28 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
             ranges = [angle_range_theta, angle_range_phi, angle_range_psi]
 
         # brute force rotation optimisation
-        rot = optimize.brute(costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
+        rot = optimize.brute(func=costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
         rot = np.array(rot)
-        
-    if method == 'fmin_l_bfgs_b':
+
+    elif method == 'fmin_l_bfgs_b':
         #parameter for fmin_l_bfgs_b
         x0 = np.array(initial_guess)
         
         # fmin_l_bfgs_b optimisation
-        rot = optimize.fmin_l_bfgs_b(costfunc, x0, args=args, approx_grad=True)
+        rot = optimize.fmin_l_bfgs_b(func=costfunc, x0=x0, args=args, approx_grad=True)
         rot = np.array(rot)
 
-    if method == 'differential_evolution':
-        bound = [(0,np.pi),(0,np.pi),(0,np.pi)]
+    elif method == 'differential_evolution':
+        # parameter for the differntial evolution
+        bounds = [(0,np.pi),(0,np.pi),(0,np.pi)]
+
+        # differential_evolution optimisation
         rot = optimize.differential_evolution(func=costfunc, bounds=bounds, args=args, strategy='best1bin', polish=True)
-        
+        rot = np.array([rot.x,rot.success,rot.message])
+    else:
+        print 'invalid method'
+
+
     angles = rot[0]
 
     # Get rotation matrix which translates model 2 into model 1
@@ -219,7 +226,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
 
     if full_output:
         if method == 'brute_force':
-            out = {'rotation_angles':angles,
+            out = {'rotation_angles':rot[0],
                    'rotation_function_values':rot[1],
                    'rotation_grid':rot[2],
                    'rotation_jout':rot[3],
@@ -228,7 +235,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
                    'mask':mask}
 
         if method == 'fmin_l_bfgs_b':
-            out = {'rotation_angles':angles,
+            out = {'rotation_angles':rot[0],
                    'rotation_function_values':rot[1],
                    'warnflag':rot[2]['warnflag'],
                    'gradient':rot[2]['grad'],
@@ -239,7 +246,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
                    'mask':mask}
 
         if method == 'differential_evolution':
-            out = {'rotation_angles':angles,
+            out = {'rotation_angles':rot[0],
                    'success':rot[1],
                    'message':rot[2]}
         return out
