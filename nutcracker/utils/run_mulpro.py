@@ -4,7 +4,6 @@ import os
 import h5py
 import nutcracker.utils.rotate
 
-
 class MultiprocessBruteForce:
     """
     Class for a multiprocessed brute force algorith.
@@ -104,7 +103,7 @@ class MultiprocessBruteForce:
         return res
 
 
-    def get_worker(self):
+    def get_work(self):
         # iterate through the number of tasks
         if self.counter < self.n_tasks:
             self.counter += 1
@@ -119,11 +118,33 @@ class MultiprocessBruteForce:
 
 
     def logres(res):
-        pid = os.getpid()
-        
-        with h5py.File('/home/doctor/projects/mulpro_brute_force/chunck_%s' %(pid), 'w') as f:
-            f['error_matrix'] = res['error_matrix'][:]
-            f['search_chunck_range'] = res['search_chunck_range'][:]
+        #pid = os.getpid()
+        #with h5py.File(output_directorie + '%s'%(pid) + '.h5', 'w') as f:
+            #f['error_matrix'] = res['error_matrix'][:]
+            #f['search_chunck_range'] = res['search_chunck_range'][:]
+        return res
             
+    def run(self):
+        mulpro(Nprocesses=1, worker=worker, getwork=get_work, logres=logres)
 
-    mulpro(Nprocesses=1, worker=worker, getwork=get_worker, logres=logres)
+
+def main(model1_filename,model2_filename,model1_dataset,model2_dataset,
+         number_of_processes=1,chunck_size=10,number_of_evaluations=10,
+         order_spline_interpolation=3,cropping_model=None,mask=None,
+         radius_radial_mask=None,search_range=np.pi/2.):
+    get_error_matrix = MultiprocessBruteForce(model1_filename,
+                                              model2_filename,
+                                              model1_dataset,
+                                              model2_dataset,
+                                              number_of_processes=1,
+                                              chunck_size=10,
+                                              number_of_evaluations=10,
+                                              order_spline_interpolation=3,
+                                              cropping_model=None,
+                                              mask=None,
+                                              radius_radial_mask=None,
+                                              search_range=np.pi/2.)
+    get_error_matrix.run()
+
+if __name__ == '__main__':
+    main()
