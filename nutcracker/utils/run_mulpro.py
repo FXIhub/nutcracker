@@ -41,12 +41,13 @@ class MultiprocessBruteForce:
                  search_range=np.pi/2.):
 
         # global variables to define number of tasks and counter
+        self.number_of_processes = number_of_processes
         self.counter = 0
         self.n_tasks = number_of_evaluations**3 / chunck_size
 
         # loads the models if possible
         if model1_filename and model2_filename and model1_dataset and model2_dataset:
-            self.get_models()
+            self.get_models(model1_filename,model2_filename,model1_dataset,model2_dataset)
         else:
             print 'no proper filename or dataset given'
 
@@ -54,9 +55,9 @@ class MultiprocessBruteForce:
     def get_models(self,model1_filename,model2_filename,model1_dataset,model2_dataset):
         # loading the models
         with h5py.File(model1_filename, 'r') as f:
-            model1 = f[model1_dataset][:]
+            self.model1 = f[model1_dataset][:]
         with h5py.File(model2_filename, 'r') as f:
-            model2 = f[model2_dataset][:]
+            self.model2 = f[model2_dataset][:]
         return self.model1, self.model2
 
     def get_chunck(self,chunck_size,search_range,number_of_evaluations):
@@ -119,19 +120,20 @@ class MultiprocessBruteForce:
 
     def logres(res):
         #pid = os.getpid()
-        #with h5py.File(output_directorie + '%s'%(pid) + '.h5', 'w') as f:
+        #with h5py.File(output_directory + '%s'%(pid) + '.h5', 'w') as f:
             #f['error_matrix'] = res['error_matrix'][:]
             #f['search_chunck_range'] = res['search_chunck_range'][:]
         return res
             
     def run(self):
-        mulpro(Nprocesses=1, worker=worker, getwork=get_work, logres=logres)
+        mulpro(Nprocesses=self.number_of_processes, worker=worker(), getwork=get_work, logres=logres)
 
 
 def main(model1_filename,model2_filename,model1_dataset,model2_dataset,
          number_of_processes=1,chunck_size=10,number_of_evaluations=10,
          order_spline_interpolation=3,cropping_model=None,mask=None,
          radius_radial_mask=None,search_range=np.pi/2.):
+
     get_error_matrix = MultiprocessBruteForce(model1_filename,
                                               model2_filename,
                                               model1_dataset,
