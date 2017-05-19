@@ -119,7 +119,7 @@ def _rotation_of_model(input_model, rot_mat, order):
 def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,full_output=False,
                                      order_spline_interpolation=3,cropping_model=0, mask=None,
                                      method='brute_force',initial_guess=[0.,0.,0.],
-                                     radius_radial_mask=np.inf,search_range=np.pi/2.,
+                                     radius_radial_mask=None,search_range=np.pi/2.,
                                      log_model=True):
     """
     Finding the correct alignment by rotating one model on base of a rotation matrix and using different optimization algorithms to minimise the distance between the two models.
