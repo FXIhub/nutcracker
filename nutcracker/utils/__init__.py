@@ -1,4 +1,4 @@
 import rotate
 import shift
 import find_center
-from run_mulpro import MultiprocessBruteForce
+from error_matrix_from_brute_force import ErrorMatrixBruteForce
