@@ -49,6 +49,7 @@ class ErrorMatrixBruteForce:
         self.mask = mask
         self.radius_radial_mask = radius_radial_mask
         self.search_range = search_range
+
         self.counter = 0
         self.n_tasks = self.number_of_evaluations**3 / self.chunck_size
 
@@ -67,26 +68,27 @@ class ErrorMatrixBruteForce:
             self.model2 = f[model2_dataset][:]
         return self.model1, self.model2
 
-    def get_chunck(self,chunck_size,search_range,number_of_evaluations):
+    def get_chunck(self):
         # function for setting up the search chunck
         search_index_list = []
         
         # defines the search range of each chunck
-        self.search_range = chunk_size*search_range/number_of_evaluations
+        self.search_range_chunck = self.chunck_size*self.search_range/self.number_of_evaluations
 
         # iterate through all indicies to set up an index array 
-        for i in range(number_of_evaluations):
-            for j in range(number_of_evaluations):
-                for k in range(number_of_evaluations):
-                    search_index_list.append([-search_range+self.search*(k*2+1),
-                                              -search_range+self.search*(j*2+1),
-                                              -search_range+self.search*(i*2+1)])
+        for i in range(self.number_of_evaluations):
+            for j in range(self.number_of_evaluations):
+                for k in range(self.number_of_evaluations):
+                    search_index_list.append([-self.search_range+self.search_range_chunck*(k*2+1),
+                                              -self.search_range+self.search_range_chunck*(j*2+1),
+                                              -self.search_range+self.search_range_chunck*(i*2+1)])
         # transform list into array
         self.search_index_array = np.array(search_index_list)
 
         return self.search_index_array, self.search_range
 
     def get_work(self):
+        self.get_chunck()
         # iterate through the number of tasks
         if self.counter < self.n_tasks:
             self.counter += 1
@@ -100,6 +102,7 @@ class ErrorMatrixBruteForce:
             return None
 
     def worker(self):
+        self.get_work()
         # brute force optimisation
         brute_force_output = nutcracker.utils.rotate.find_rotation_between_two_models(model_1=self.model1,
                                                                                       model_2=self.model2,
