@@ -128,7 +128,7 @@ class ErrorMatrixBruteForce:
     def run(self):
         mulpro(Nprocesses=self.number_of_processes, worker=worker(), getwork=get_work, logres=logres)
 
-
+"""
 def main(model1_filename,model2_filename,model1_dataset,model2_dataset,
          number_of_processes=1,chunck_size=10,number_of_evaluations=10,
          order_spline_interpolation=3,cropping_model=None,mask=None,
@@ -150,3 +150,4 @@ def main(model1_filename,model2_filename,model1_dataset,model2_dataset,
 
 if __name__ == '__main__':
     main()
+"""
