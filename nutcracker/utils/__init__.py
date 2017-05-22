@@ -1,4 +1,5 @@
 import rotate
 import shift
 import find_center
-from error_matrix_from_brute_force import ErrorMatrixBruteForce
+import run_error_matrix 
+#from error_matrix_from_brute_force import ErrorMatrixBruteForce
