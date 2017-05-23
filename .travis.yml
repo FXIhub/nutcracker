@@ -17,6 +17,7 @@ cache:
     - $HOME/spsim
     - $HOME/local
     - $HOME/localpy
+    - §HOME/mulpro
     
 addons:
   apt:
@@ -72,6 +73,12 @@ before_install:
   - cd $HOME/condor
   - git pull
   - python setup.py install --nfft-include-dir=$HOME/local/include --nfft-library-dir=$HOME/local/lib
+# Install mulpro
+  - cd $HOME
+  - if [ ! -d "$HOME/mulpro/.git" ]; then git clone https://github.com/mhantke/mulpro; else echo 'Using mulpro from cached directory'; fi
+  - cd $HOME/mulpro
+  - git pull
+  - python setup.py install
 
 # Install nutcracker
 install:
