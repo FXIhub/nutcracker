@@ -40,7 +40,7 @@ class ErrorMatrixBruteForce:
                  radius_radial_mask=None,
                  search_range=np.pi/2.):
 
-        # global variables to define number of tasks and counter
+        # define global variables
         self.number_of_evaluations = number_of_evaluations
         self.number_of_processes = number_of_processes
         self.chunck_size = chunck_size
@@ -51,7 +51,7 @@ class ErrorMatrixBruteForce:
         self.search_range = search_range
 
         self.counter = 0
-        self.n_tasks = self.number_of_evaluations**3 / self.chunck_size
+        self.n_tasks = self.number_of_evaluations**3 / self.chunck_size**3
 
         # loads the models if possible
         if model1_filename and model2_filename and model1_dataset and model2_dataset:
@@ -91,18 +91,28 @@ class ErrorMatrixBruteForce:
         self.get_chunck()
         # iterate through the number of tasks
         if self.counter < self.n_tasks:
-            self.counter += 1
-
+            
             # create a dictionary
             self.work_package = {'search_index':self.search_index_array[self.counter],
-                            'search_range':self.search_range}
+                                 'search_range':self.search_range}
+            
+            print 'get_work:'
+            print self.work_package
+            print self.counter
+            self.counter += 1
+
             return self.work_package
 
         else:
-            return None
+            self.workpackage = None
+            print 'None:'
+            print self.workpackage
+            return self.workpackage
 
     def worker(self):
         self.get_work()
+        print 'worker:'
+        print self.work_package
         # brute force optimisation
         brute_force_output = nutcracker.utils.rotate.find_rotation_between_two_models(model_1=self.model1,
                                                                                       model_2=self.model2,
@@ -116,21 +126,17 @@ class ErrorMatrixBruteForce:
                                                                                       search_range=self.work_package['search_range'],
                                                                                       log_model=True)
 
-        # transforming the output to an array
-        brute_force_output = np.array(brute_force_output)
-        error_matrix = brute_force_output[2]
+        # extracting the error matrix
+        error_matrix = brute_force_output['rotation_grid'][:]
 
         # create a output dictionary
         self.res = {'error_matrix':error_matrix,
-               'search_chunck_range':self.work_package['search_range']}
+                    'search_chunck_range':self.work_package['search_range']}
 
         return self.res
 
     def logres(self):
-        #pid = os.getpid()
-        #with h5py.File(output_directory + '%s'%(pid) + '.h5', 'w') as f:
-            #f['error_matrix'] = res['error_matrix'][:]
-            #f['search_chunck_range'] = res['search_chunck_range'][:]
+
         return self.res
             
     def run(self):
