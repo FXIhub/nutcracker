@@ -151,7 +151,7 @@ def _split_image(image,factor,method_is_random):
 
 def q_factor(images,full_output=False,axis=0,mask=None):
     """
-    Calcualtes the q factor for a set of images.
+    Calculates the q factor for a set of images. [Hstau Y. Liao et al. Definition and estimation of resolution in single-particle reconstructions, Structure, 2010]
 
     Args:
         :images(float ndarray):        3d ndarray, which contains the images
