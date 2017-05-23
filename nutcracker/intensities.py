@@ -148,3 +148,33 @@ def _split_image(image,factor,method_is_random):
                             im_2[z/factor,y/factor,x/factor] = im_2[z/factor,y/factor,x/factor] + sup[a]
 
     return im_1, im_2
+
+def q_factor(images,full_output=False,axis=0,mask=None):
+    """
+    Calcualtes the q factor for a set of images.
+
+    Args:
+        :images(float ndarray):        3d ndarray, which contains the images
+        
+    Kwargs:
+        :full_output(bool):            gives the full output, default=False
+        :axis(int):                    axis on which the images are located, default=0
+    """
+
+    # apply mask if neccessary
+    if mask:
+        images = images * mask
+    else:
+        mask = np.ones((images.shape[1],images[2]))
+    # calculating the q value
+    q_map = np.abs(np.sum(images,axis=axis)) / (np.abs(images)).sum(axis=axis)
+
+    q_center, q_function = spimage.radialMeanImage(q, msk=mask, output_r=True)
+
+    if full_output:
+        out={'q_map':q_map,
+             'q_function':q_function}
+        return out
+
+    else:
+        return q_map
