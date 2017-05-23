@@ -93,7 +93,7 @@ def split_image(image,method='random',factor=2):
 
 def _split_image(image,factor,method_is_random):
     # size of the old and the new pattern
-    d = data.shape[0]
+    d = image.shape[0]
     d_new = d/factor
 
     # checking dimension
@@ -108,7 +108,7 @@ def _split_image(image,factor,method_is_random):
             for x in range(0,d-1,factor):
                 
                 # part of the pattern as super pixel
-                sup = data[y:y+factor,x:x+factor]
+                sup = image[y:y+factor,x:x+factor]
                 sup = sup.ravel()
                 
                 # apply shuffel if necessary
@@ -117,9 +117,9 @@ def _split_image(image,factor,method_is_random):
                 # adding the value of the sup to two new images
                 for z in range(len(sup)):
                     if z%2 == 0:
-                        im1[y/factor,x/factor] = im1[y/factor,x/factor] + sup[z]
+                        im_1[y/factor,x/factor] = im_1[y/factor,x/factor] + sup[z]
                     else:
-                        im2[y/factor,x/factor] = im2[y/factor,x/factor] + sup[z]
+                        im_2[y/factor,x/factor] = im_2[y/factor,x/factor] + sup[z]
 
     # checking dimension
     if len(image.shape) == 3:
@@ -134,7 +134,7 @@ def _split_image(image,factor,method_is_random):
                 for x in range(0,d-1,factor):
 
                     # part of the pattern as super pixel
-                    sup = data[z:z+factor,y:y+factor,x:x+factor]
+                    sup = image[z:z+factor,y:y+factor,x:x+factor]
                     sup = sup.ravel()
 
                     # apply shuffel if necessary
@@ -143,8 +143,8 @@ def _split_image(image,factor,method_is_random):
                     # adding the value of the sup to two new images
                     for a in range(len(sup)):
                         if a%2 == 0:
-                            im1[z/factor,y/factor,x/factor] = im1[z/factor,y/factor,x/factor] + sup[a]
+                            im_1[z/factor,y/factor,x/factor] = im_1[z/factor,y/factor,x/factor] + sup[a]
                         else:
-                            im2[z/factor,y/factor,x/factor] = im2[z/factor,y/factor,x/factor] + sup[a]
+                            im_2[z/factor,y/factor,x/factor] = im_2[z/factor,y/factor,x/factor] + sup[a]
 
-    return im1, im2
+    return im_1, im_2
