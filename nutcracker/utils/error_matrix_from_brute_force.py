@@ -96,9 +96,6 @@ class ErrorMatrixBruteForce:
             work_package = {'search_index':self.search_index_array[self.counter],
                             'search_range':self.search_range_chunck}
             
-            print 'get_work:'
-            print work_package
-
             self.counter += 1
 
 
