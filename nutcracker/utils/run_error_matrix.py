@@ -37,7 +37,8 @@ def main(model1_filename,model2_filename,model1_dataset,model2_dataset,
                                              mask,
                                              radius_radial_mask,
                                              search_range)
-    get_error_matrix.run()
+    results = get_error_matrix.run()
+    return results
 
 if __name__ == '__main__':
     main()

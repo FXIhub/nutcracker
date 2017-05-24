@@ -52,7 +52,7 @@ class ErrorMatrixBruteForce:
 
         self.counter = 0
         self.n_tasks = self.number_of_evaluations**3 / self.chunck_size**3
-
+        self.n_evaluations = self.number_of_evaluations / self.chunck_size
         # loads the models if possible
         if model1_filename and model2_filename and model1_dataset and model2_dataset:
             self.get_models(model1_filename,model2_filename,model1_dataset,model2_dataset)
@@ -76,9 +76,9 @@ class ErrorMatrixBruteForce:
         self.search_range_chunck = self.chunck_size*self.search_range/self.number_of_evaluations
 
         # iterate through all indicies to set up an index array 
-        for i in range(self.number_of_evaluations):
-            for j in range(self.number_of_evaluations):
-                for k in range(self.number_of_evaluations):
+        for i in range(self.n_evaluations):
+            for j in range(self.n_evaluations):
+                for k in range(self.n_evaluations):
                     search_index_list.append([-self.search_range+self.search_range_chunck*(k*2+1),
                                               -self.search_range+self.search_range_chunck*(j*2+1),
                                               -self.search_range+self.search_range_chunck*(i*2+1)])
@@ -93,26 +93,21 @@ class ErrorMatrixBruteForce:
         if self.counter < self.n_tasks:
             
             # create a dictionary
-            self.work_package = {'search_index':self.search_index_array[self.counter],
-                                 'search_range':self.search_range}
+            work_package = {'search_index':self.search_index_array[self.counter],
+                            'search_range':self.search_range_chunck}
             
             print 'get_work:'
-            print self.work_package
-            print self.counter
+            print work_package
+
             self.counter += 1
 
-            return self.work_package
 
         else:
-            self.workpackage = None
-            print 'None:'
-            print self.workpackage
-            return self.workpackage
+            work_package = None
 
-    def worker(self):
-        self.get_work()
-        print 'worker:'
-        print self.work_package
+        return work_package
+
+    def worker(self, work_package):
         # brute force optimisation
         brute_force_output = nutcracker.utils.rotate.find_rotation_between_two_models(model_1=self.model1,
                                                                                       model_2=self.model2,
@@ -123,21 +118,35 @@ class ErrorMatrixBruteForce:
                                                                                       mask=self.mask,
                                                                                       method='brute_force',
                                                                                       radius_radial_mask=self.radius_radial_mask,
-                                                                                      search_range=self.work_package['search_range'],
+                                                                                      initial_guess=work_package['search_index'],
+                                                                                      search_range=work_package['search_range'],
                                                                                       log_model=True)
 
         # extracting the error matrix
         error_matrix = brute_force_output['rotation_grid'][:]
 
         # create a output dictionary
-        self.res = {'error_matrix':error_matrix,
-                    'search_chunck_range':self.work_package['search_range']}
+        res = {'error_matrix':error_matrix,
+               'search_chunck_range':work_package['search_range'],
+               'search_index':work_package['search_index']}
 
-        return self.res
+        return res
 
-    def logres(self):
+    def logres(self,res):
 
-        return self.res
+        self.error_matrix.append(res['error_matrix'])
+        self.index.append(res['search_index'])
+        self.range.append(res['search_chunck_range'])
+
+        self.results = {'error_matrix':self.error_matrix,
+                        'index':self.index,
+                        'chunck_range':self.range}
             
     def run(self):
-        mulpro(Nprocesses=self.number_of_processes, worker=self.worker(), getwork=self.get_work(), logres=self.logres())
+        self.error_matrix = []
+        self.index = []
+        self.range = []
+
+        mulpro(Nprocesses=self.number_of_processes, worker=self.worker, getwork=self.get_work, logres=self.logres)
+
+        return self.results
