@@ -12,6 +12,7 @@ Tomas Ekeberg
 Following packages are required to run Nutcracker:
 * numpy    
 * scipy    
-* spimage    
-* condor    
 * h5py    
+* [spimage](https://github.com/FXIhub/libspimage)    
+* [condor](https://github.com/FXIhub/condor)    
+* [mulpro](https://github.com/mhantke/mulpro)    
