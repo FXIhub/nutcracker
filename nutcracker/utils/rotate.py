@@ -196,7 +196,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
             ranges = [angle_range_theta, angle_range_phi, angle_range_psi]
 
         # brute force rotation optimisation
-        rot = optimize.brute(func=costfunc, ranges=ranges, args=args, full_output=True, finish=optimize.fmin_bfgs)
+        rot = optimize.brute(func=costfunc, ranges=ranges, args=args, full_output=True)
         rot = np.array(rot)
 
     elif method == 'fmin_l_bfgs_b':
