@@ -1,6 +1,12 @@
 from error_matrix_from_brute_force import ErrorMatrixBruteForce
 import numpy as np
 
+
+def main(model1_filename,model2_filename,model1_dataset,model2_dataset,
+         number_of_processes=1,chunck_size=10,number_of_evaluations=10,
+         order_spline_interpolation=3,cropping_model=None,mask=None,
+         radius_radial_mask=None,search_range=np.pi/2.):
+
 """
 Runs the ErrorMatrixBruteForce class, which gives the errror matrix as an output.
 
@@ -18,11 +24,6 @@ Kwargs:
     :radius_radial_mask(int):             applies a radial mask to the model with given radius, default = None
     :search_range(float/list):            absolute angle in radian in which the optimisation should be done, default = np.pi/2.
 """
-
-def main(model1_filename,model2_filename,model1_dataset,model2_dataset,
-         number_of_processes=1,chunck_size=10,number_of_evaluations=10,
-         order_spline_interpolation=3,cropping_model=None,mask=None,
-         radius_radial_mask=None,search_range=np.pi/2.):
 
     get_error_matrix = ErrorMatrixBruteForce(model1_filename,
                                              model2_filename,
