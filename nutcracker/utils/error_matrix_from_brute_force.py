@@ -120,8 +120,8 @@ class ErrorMatrixBruteForce:
                                                                                       log_model=True)
 
         # extracting the error matrix
-        error_matrix = brute_force_output['rotation_grid'][:]
-        error_function_value = brute_force_output['rotation_function_values'][:]
+        error_matrix = brute_force_output['rotation_grid']
+        error_function_value = brute_force_output['rotation_function_values']
 
         # create a output dictionary
         res = {'error_matrix':error_matrix,
