@@ -32,7 +32,7 @@ class TestCaseIntensity(unittest.TestCase):
         
         self.assertTrue(np.alltrue(np.round(fsc_calculated-fsc_expected,7) <= 0.1))
 
-    def test_split_image_2d(self):
+    def test_split_image_3d(self):
         img = np.random.random((10,10,10))
 
         img1, img2 = nutcracker.intensities.split_image(img)
@@ -41,3 +41,12 @@ class TestCaseIntensity(unittest.TestCase):
         fsc_expected = np.ones_like(fsc_calculated.shape)
 
         self.assertTrue(np.alltrue(np.round(fsc_calculated-fsc_expected,7) <= 0.1))
+    
+    def test_q_value(self):
+        set_of_images = np.random.random((10,10,10))
+
+        q_map_calculated = nutcracker.intensities.q_factor(set_of_images)
+        q_map_expected = np.ones((10,10),dtype=np.float)
+        
+        self.assertTrue(np.alltrue(np.round(q_map_calculated - q_map_expected,7) == 0))
+        
