@@ -1,10 +1,8 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
-source = 
-       nutcracker/*
-omit =
-     nutcracker/utils/find_center.py
+omit = nutcracker/utils/find_center.py
+
 [report]
 # Regexes for lines to exclude from consideration
 exclude_lines =
