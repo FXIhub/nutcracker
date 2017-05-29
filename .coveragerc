@@ -11,7 +11,7 @@ exclude_lines =
 
     # Don't complain about missing debug-only code:
     def __repr__
-    if self\.debug
+    if self.debug
 
     # Don't complain if tests don't hit defensive assertion code:
     raise AssertionError
@@ -22,4 +22,4 @@ exclude_lines =
     if __name__ == .__main__.:
 
 ignore_errors = True
-	
+omit = nutcracker/utils/find_center.py	
