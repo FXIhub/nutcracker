@@ -79,6 +79,8 @@ before_install:
   - cd $HOME/mulpro
   - git pull
   - python setup.py install
+# Install codecov
+  - pip install codecov
 
 # Install nutcracker
 install:
@@ -99,4 +101,8 @@ script:
 # UNITTESTS
   - python -m unittest -v nutcracker.tests.test_all
 
-# EXAMPLES
+# CODECOV
+  - coverage run nutcracker/tests/test_all.py
+
+after_success:
+  - codecov --token=2842f913-5590-4a03-913d-55dbf06a1159

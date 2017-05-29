@@ -1,6 +1,7 @@
 import condor
 import numpy as np
 import nutcracker
+import spimage
 
 def fourier_shell_correlation(model_1,model_2,model_1_is_real_space=False,model_2_is_real_space=False):
     """
@@ -165,11 +166,11 @@ def q_factor(images,full_output=False,axis=0,mask=None):
     if mask:
         images = images * mask
     else:
-        mask = np.ones((images.shape[1],images[2]))
+        mask = np.ones_like(images[0,:,:],dtype=np.int)
     # calculating the q value
     q_map = np.abs(np.sum(images,axis=axis)) / (np.abs(images)).sum(axis=axis)
-
-    q_center, q_function = spimage.radialMeanImage(q, msk=mask, output_r=True)
+    
+    q_function = spimage.radialMeanImage(q_map)
 
     if full_output:
         out={'q_map':q_map,
