@@ -1,5 +1,5 @@
 import numpy as np
-import scipy as sp
+
 
 def envelope(function,frequence,peak_finding_threshold=None):
     """
@@ -40,7 +40,7 @@ def envelope(function,frequence,peak_finding_threshold=None):
                 upper_envelope_y[k] = np.mean([upper_envelope_y[k-2],upper_envelope_y[k-1],upper_envelope_y[k+1],upper_envelope_y[k+2]])
                 upper_envelope_y[k] = np.mean([lower_envelope_y[k-2],lower_envelope_y[k-1],lower_envelope_y[k+1],lower_envelope_y[k+2]])
     
-    upper_envelope = sp.interpolate.interp1d(upper_envelope_x,upper_envelope_y, kind = 'cubic',bounds_error = False, fill_value=0.0)
-    lower_envelope = sp.interpolate.interp1d(lower_envelope_x,lower_envelope_y, kind = 'cubic',bounds_error = False, fill_value=0.0)
+    upper_envelope = scipy.interpolate.interp1d(upper_envelope_x,upper_envelope_y, kind = 'cubic',bounds_error = False, fill_value=0.0)
+    lower_envelope = scipy.interpolate.interp1d(lower_envelope_x,lower_envelope_y, kind = 'cubic',bounds_error = False, fill_value=0.0)
     
     return upper_envelope, lower_envelope
