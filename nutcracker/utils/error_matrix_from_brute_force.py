@@ -120,10 +120,12 @@ class ErrorMatrixBruteForce:
                                                                                       log_model=True)
 
         # extracting the error matrix
-        error_matrix = brute_force_output['rotation_grid'][:]
+        error_matrix = brute_force_output['rotation_grid']
+        error_function_value = brute_force_output['rotation_function_values']
 
         # create a output dictionary
         res = {'error_matrix':error_matrix,
+               'error_function_value':error_function_value,
                'search_chunck_range':work_package['search_range'],
                'search_index':work_package['search_index']}
 
@@ -134,8 +136,10 @@ class ErrorMatrixBruteForce:
         self.error_matrix.append(res['error_matrix'])
         self.index.append(res['search_index'])
         self.range.append(res['search_chunck_range'])
+        self.error_function_value.append(res['error_function_value'])
 
         self.results = {'error_matrix':self.error_matrix,
+                        'error_function_value':self.error_function_value,
                         'index':self.index,
                         'chunck_range':self.range}
             
@@ -143,6 +147,7 @@ class ErrorMatrixBruteForce:
         self.error_matrix = []
         self.index = []
         self.range = []
+        self.error_function_value = []
 
         mulpro(Nprocesses=self.number_of_processes, worker=self.worker, getwork=self.get_work, logres=self.logres)
 
