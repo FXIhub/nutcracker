@@ -172,6 +172,11 @@ def q_factor(images,full_output=False,axis=0,mask=None):
     
     q_function = spimage.radialMeanImage(q_map)
 
+    q_pure_noise = 1 / np.sqrt(images.shape[axis])
+
+    #if np.isclose(q_function.min(),q_pure_noise,rtol=1e-3,atol=1e-5) == True:
+        #print 'pure noise determined'
+
     if full_output:
         out={'q_map':q_map,
              'q_function':q_function}
