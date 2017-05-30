@@ -52,7 +52,7 @@ class ErrorMatrixBruteForce:
 
         self.counter = 0
         self.n_tasks = self.number_of_evaluations**3 / self.chunck_size**3
-        self.n_evaluations = self.number_of_evaluations / self.chunck_size
+        self.n_chuncks = self.number_of_evaluations / self.chunck_size
         # loads the models if possible
         if model1_filename and model2_filename and model1_dataset and model2_dataset:
             self.get_models(model1_filename,model2_filename,model1_dataset,model2_dataset)
@@ -76,9 +76,9 @@ class ErrorMatrixBruteForce:
         self.search_range_chunck = self.chunck_size*self.search_range/self.number_of_evaluations
 
         # iterate through all indicies to set up an index array 
-        for i in range(self.n_evaluations):
-            for j in range(self.n_evaluations):
-                for k in range(self.n_evaluations):
+        for i in range(self.n_chuncks):
+            for j in range(self.n_chuncks):
+                for k in range(self.n_chuncks):
                     search_index_list.append([-self.search_range+self.search_range_chunck*(k*2+1),
                                               -self.search_range+self.search_range_chunck*(j*2+1),
                                               -self.search_range+self.search_range_chunck*(i*2+1)])
@@ -108,7 +108,7 @@ class ErrorMatrixBruteForce:
         # brute force optimisation
         brute_force_output = nutcracker.utils.rotate.find_rotation_between_two_models(model_1=self.model1,
                                                                                       model_2=self.model2,
-                                                                                      number_of_evaluations=self.number_of_evaluations,
+                                                                                      number_of_evaluations=self.chunck_size,
                                                                                       full_output=True,
                                                                                       order_spline_interpolation=self.order_spline_interpolation,
                                                                                       cropping_model=self.cropping_model,
