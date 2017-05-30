@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/FXIhub/nutcracker.svg?branch=master)](https://travis-ci.org/FXIhub/nutcracker)
-[![codecov.io](https://codecov.io/gh/FXIhub/nutcracker/coverage.svg?branch=master)](https://codecov.io/gh/FXIhub/nutcracker?branch=master)
+[![codecov](https://codecov.io/gh/FXIhub/nutcracker/branch/master/graph/badge.svg)](https://codecov.io/gh/FXIhub/nutcracker)
 
 # Nutcracker
 A collection of software tools for validation of flash xray imaging reconstructions packaged as a Python library.
