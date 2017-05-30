@@ -12,7 +12,7 @@ with h5py.File(_data_dir + '/test_data_rot_shift.h5', 'r') as f:
     img_2 = f['real'][:]
 
 class TestCaseRotate(unittest.TestCase):
-    def test_find_rotation_between_two_models(self):
+    def test_find_rotation_between_two_models_brute_force(self):
         Img_1 = np.abs(np.fft.fftshift(np.fft.fftn(img_1)))**2
         Img_2 = np.abs(np.fft.fftshift(np.fft.fftn(img_2)))**2
         
@@ -20,6 +20,19 @@ class TestCaseRotate(unittest.TestCase):
                                                                        number_of_evaluations=20,
                                                                        radius_radial_mask=20./2,
                                                                        order_spline_interpolation=3)
+        out_expected = np.array((0.52359878,0.52359878,0.52359878))
+
+        self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
+
+    def test_find_rotation_between_two_models_fmin_l_bfgs_b(self):
+        Img_1 = np.abs(np.fft.fftshift(np.fft.fftn(img_1)))**2
+        Img_2 = np.abs(np.fft.fftshift(np.fft.fftn(img_2)))**2
+
+        out_calculated = nutcracker.utils.rotate.find_rotation_between_two_models(Img_2,Img_1,method='fmin_l_bfgs_b',
+                                                                       number_of_evaluations=20,
+                                                                       radius_radial_mask=20./2,
+                                                                       order_spline_interpolation=3,
+                                                                       initial_guess=[0.4,0.4,0.4])
         out_expected = np.array((0.52359878,0.52359878,0.52359878))
 
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
