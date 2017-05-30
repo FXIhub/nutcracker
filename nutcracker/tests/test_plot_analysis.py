@@ -8,8 +8,6 @@ class TestCasePlotAnalysis(unittest.TestCase):
         y = np.sinc(x * 0.05)
 
         upper, lower = nutcracker.utils.plot_analysis.envelope(y,1,order_spline_interpolation=3)
-        upper = upper(x)
-        lower = lower(x)
 
         self.assertTrue(np.alltrue(np.round(y - upper,7) == 0) and np.alltrue(np.round(y - lower,7) == 0))
         
