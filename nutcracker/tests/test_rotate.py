@@ -21,6 +21,7 @@ class TestCaseRotate(unittest.TestCase):
                                                                        radius_radial_mask=20./2,
                                                                        order_spline_interpolation=3,
                                                                        full_output=True)
+        out_calculated = out_calculated['rotation_angles']
         out_expected = np.array((0.52359878,0.52359878,0.52359878))
 
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
@@ -35,6 +36,7 @@ class TestCaseRotate(unittest.TestCase):
                                                                        order_spline_interpolation=3,
                                                                        initial_guess=[0.4,0.4,0.4],
                                                                        full_output=True)
+        out_calculated = out_calculated['rotation_angles']
         out_expected = np.array((0.52359878,0.52359878,0.52359878))
 
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
