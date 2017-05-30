@@ -19,7 +19,8 @@ class TestCaseRotate(unittest.TestCase):
         out_calculated = nutcracker.utils.rotate.find_rotation_between_two_models(Img_2,Img_1,method='brute_force',
                                                                        number_of_evaluations=20,
                                                                        radius_radial_mask=20./2,
-                                                                       order_spline_interpolation=3)
+                                                                       order_spline_interpolation=3,
+                                                                       full_output=True)
         out_expected = np.array((0.52359878,0.52359878,0.52359878))
 
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
@@ -32,7 +33,8 @@ class TestCaseRotate(unittest.TestCase):
                                                                        number_of_evaluations=20,
                                                                        radius_radial_mask=20./2,
                                                                        order_spline_interpolation=3,
-                                                                       initial_guess=[0.4,0.4,0.4])
+                                                                       initial_guess=[0.4,0.4,0.4],
+                                                                       full_output=True)
         out_expected = np.array((0.52359878,0.52359878,0.52359878))
 
         self.assertTrue(np.alltrue(np.round(out_calculated-out_expected,2) == 0))
