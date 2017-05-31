@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Nutcracker’s documentation! &mdash; Nutcracker 31.05.2017 documentation</title>
+  <title>Installation &mdash; Nutcracker 31.05.2017 documentation</title>
   
 
   
@@ -30,8 +30,9 @@
   
 
   
-    <link rel="top" title="Nutcracker 31.05.2017 documentation" href="#"/>
-        <link rel="next" title="Installation" href="installation.html"/> 
+    <link rel="top" title="Nutcracker 31.05.2017 documentation" href="index.html"/>
+        <link rel="next" title="How to use Nutcracker?" href="usage.html"/>
+        <link rel="prev" title="Welcome to Nutcracker’s documentation!" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Nutcracker
+            <a href="index.html" class="icon icon-home"> Nutcracker
           
 
           
@@ -80,8 +81,12 @@
           
             
             
-                <ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Install</a></li>
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">1) Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-nutcracker">2) Installing Nutcracker</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 </ul>
 
@@ -96,7 +101,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">Nutcracker</a>
+        <a href="index.html">Nutcracker</a>
       </nav>
 
 
@@ -111,13 +116,13 @@
 
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
+    <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Welcome to Nutcracker&#8217;s documentation!</li>
+    <li>Installation</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/installation.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -127,27 +132,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-nutcracker-s-documentation">
-<h1>Welcome to Nutcracker&#8217;s documentation!<a class="headerlink" href="#welcome-to-nutcracker-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Install</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">1) Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-nutcracker">2) Installing Nutcracker</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
-</ul>
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dependencies">
+<h2>1) Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Following packages are requiered to run Nutcracker:
+* numpy
+* scipy
+* h5py
+* [spimage](<a class="reference external" href="https://github.com/FXIhub/libspimage">https://github.com/FXIhub/libspimage</a>)
+* [condor](<a class="reference external" href="https://github.com/FXIhub/condor">https://github.com/FXIhub/condor</a>)
+* [mulpro](<a class="reference external" href="https://github.com/mhantke/mulpro">https://github.com/mhantke/mulpro</a>)</p>
+<p>To install numpy, scipy and h5py use the pip:
+.. code:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pip install numpy scipy h5py --user
+</pre></div>
 </div>
+<p>To get spimage, condor and mulpro use the git clone command;
+.. code:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git clone &lt;git@github.com:SSH-key&gt;
+</pre></div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
-</ul>
+<p>For more information about installing the packages visit the corresponding webpage.</p>
+</div>
+<div class="section" id="installing-nutcracker">
+<h2>2) Installing Nutcracker<a class="headerlink" href="#installing-nutcracker" title="Permalink to this headline">¶</a></h2>
+<p>To install nutcracker one proceed as for condor or mulpro.
+.. code:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ git clone git@github.com:FXIhub/nutcracker.git # for SSH-key
+$ git clone https://github.com/FXIhub/nutcracker.git # for HTTPS
+$ cd nutcracker
+$ python setup.py install --user
+</pre></div>
+</div>
+<p>Congratulations! You are now ready to use Nutcracker.</p>
+</div>
 </div>
 
 
@@ -157,8 +176,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="How to use Nutcracker?" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Nutcracker’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

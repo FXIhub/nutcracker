@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nutcracker package &mdash; Nutcracker 31.05.2017 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Nutcracker 31.05.2017 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Nutcracker
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Nutcracker</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>nutcracker package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/nutcracker.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nutcracker-package">
+<h1>nutcracker package<a class="headerlink" href="#nutcracker-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="module-intensities">
+<span id="intensities-module"></span><h2>intensities module<a class="headerlink" href="#module-intensities" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="intensities.fourier_shell_correlation">
+<code class="descclassname">intensities.</code><code class="descname">fourier_shell_correlation</code><span class="sig-paren">(</span><em>model_1</em>, <em>model_2</em>, <em>model_1_is_real_space=False</em>, <em>model_2_is_real_space=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#fourier_shell_correlation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.fourier_shell_correlation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the fourier shell/ring correlation between two intensity models.</p>
+<dl class="docutils">
+<dt>Args: </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">model_1(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">2d/3d ndarray of intensities or a real space object</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">model_2(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">2d/3d ndarray of intensities or a real space object</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">model_1_is_real_space(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">if enabled the model will be transformed into fourier space, default = False</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">model_2_is_real_space(bool):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if enabled the model will be transformed into fourier space, default = False</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="intensities.q_factor">
+<code class="descclassname">intensities.</code><code class="descname">q_factor</code><span class="sig-paren">(</span><em>images</em>, <em>full_output=False</em>, <em>axis=0</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#q_factor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.q_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcualtes the q factor for a set of images.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">images(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray, which contains the images</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">gives the full output, default=False</td>
+</tr>
+<tr class="field-even field"><th class="field-name">axis(int):</th><td class="field-body">axis on which the images are located, default=0</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="intensities.split_image">
+<code class="descclassname">intensities.</code><code class="descname">split_image</code><span class="sig-paren">(</span><em>image</em>, <em>method='random'</em>, <em>factor=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#split_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.split_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits a 2D diffraction pattern into two.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">image(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">2 ndarray of intensities</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">method(str):</th><td class="field-body">method which should be used for splitting the data, default=&#8217;random&#8217;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">factor(int):</th><td class="field-body">is the factor by which the image size should be divided</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-quaternions">
+<span id="quaternions-modlue"></span><h2>quaternions modlue<a class="headerlink" href="#module-quaternions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="quaternions.compare_two_sets_of_quaternions">
+<code class="descclassname">quaternions.</code><code class="descname">compare_two_sets_of_quaternions</code><span class="sig-paren">(</span><em>q1</em>, <em>q2</em>, <em>full_output=False</em>, <em>n_samples=100</em>, <em>q1_is_extrinsic=False</em>, <em>q2_is_extrinsic=False</em>, <em>sigma=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quaternions.html#compare_two_sets_of_quaternions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quaternions.compare_two_sets_of_quaternions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compares two sets of quaternions based on a comparison of randomly picked quaternions within each set.</p>
+<dl class="docutils">
+<dt>Args: </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">q1(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">q2(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+</tr>
+<tr class="field-even field"><th class="field-name">n_samples(int):</th><td class="field-body">number of randomly picked pairs of quaternions, default = 100</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">q1_is_extrinsic(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">q1 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">q2_is_extrinsic(bool):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">q2 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">sigma(int):</th><td class="field-body">sigma of standart deviation, default = 2</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="quaternions.global_quaternion_rotation_between_two_sets">
+<code class="descclassname">quaternions.</code><code class="descname">global_quaternion_rotation_between_two_sets</code><span class="sig-paren">(</span><em>q1</em>, <em>q2</em>, <em>full_output=False</em>, <em>q1_is_extrinsic=False</em>, <em>q2_is_extrinsic=False</em>, <em>sigma=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quaternions.html#global_quaternion_rotation_between_two_sets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quaternions.global_quaternion_rotation_between_two_sets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculating the global rotation (quaternion) between two sets of quaternions on base of the mean relative quaternion between each sample of the sets.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">q1(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">q2(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">q1_is_extrinsic(bool):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">q1 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">q2_is_extrinsic(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">q2 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+</tr>
+<tr class="field-even field"><th class="field-name">sigma(int):</th><td class="field-body">sigma of standart deviation, default = 2</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-real_space">
+<span id="real-space-module"></span><h2>real_space module<a class="headerlink" href="#module-real_space" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="real_space.phase_retieval_transfer_function">
+<code class="descclassname">real_space.</code><code class="descname">phase_retieval_transfer_function</code><span class="sig-paren">(</span><em>images</em>, <em>support</em>, <em>full_output=False</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/real_space.html#phase_retieval_transfer_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#real_space.phase_retieval_transfer_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the phase retrieval transfer function by using the libspimage functions.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">images(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">4d ndarray of real space images</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">support(bool ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">4d ndarray of the support</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">gives the full output as a dictionary</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">mask(int ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">provide a mask to be used for the radial mean function, default = None</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-utils.rotate">
+<span id="utils-rotate-module"></span><h2>utils.rotate module<a class="headerlink" href="#module-utils.rotate" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="utils.rotate.find_rotation_between_two_models">
+<code class="descclassname">utils.rotate.</code><code class="descname">find_rotation_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, number_of_evaluations=10, full_output=False, order_spline_interpolation=3, cropping_model=0, mask=None, method='brute_force', initial_guess=[0.0, 0.0, 0.0], radius_radial_mask=None, search_range=1.5707963267948966, log_model=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#find_rotation_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.find_rotation_between_two_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finding the correct alignment by rotating one model on base of a rotation matrix and using different optimization algorithms to minimise the distance between the two models.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">model_1(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the fixed intensity object</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">model_2(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable intensity object</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">number_of_evaluation(int):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">number of grid points on which the brute force optimises, default = 10</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">cropping_model(int):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">cropps the model by the given vaule in total, has to be an even number, default = 0</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">mask(bool ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">provide a mask to be used for the evaluation of the cost function, default = None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">method(str):</th><td class="field-body">is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">initial_guess(list):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">is the initila guess for the fmin_l_bfgs_b optimisation</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">radius_radial_mask(int):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">applies a radial mask to the model with given radius, default = 0</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">searche_range(float/list):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">absolute angle in radian in which the optimisation should be done, default = np.pi/2.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">log_model(bool):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if enabled it will take the logarithmic values of the models, default = True</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.rotate.rotation_based_on_euler_angles">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_euler_angles</code><span class="sig-paren">(</span><em>input_model</em>, <em>angles</em>, <em>order='zyx'</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_euler_angles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_euler_angles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate a given model by a given set of euler angles</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">input_model(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable object</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">angles(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">1d ndarray of euler angles</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">order(str):</th><td class="field-body">order in which rotation matrix is constructed from th euler angles</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.rotate.rotation_based_on_quaternion">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_quaternion</code><span class="sig-paren">(</span><em>input_model</em>, <em>quat</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_quaternion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate a given model based on a given quaternion by calculating the rotation matrix.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">input_model(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable object</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">quat(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">quaternion which describes the desired rotation</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs: </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.rotate.rotation_based_on_rotation_matrix">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_rotation_matrix</code><span class="sig-paren">(</span><em>input_model</em>, <em>rotation_matrix</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate a given model by a given rotation matrix in 3d.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">input_model(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable object</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">rotation_matrix(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">2d ndarray of a 3x3 rotation matrix</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="utils.rotate.rotation_matrix">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_matrix</code><span class="sig-paren">(</span><em>angle</em>, <em>axis</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the rotation matrix for a given angle and rotation axis.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">angle(float):</th><td class="field-body">the angle of rotation in radian</td>
+</tr>
+<tr class="field-even field"><th class="field-name">axis(str):</th><td class="field-body">the axis of rotation as a string</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-utils.shift">
+<span id="utils-shift-module"></span><h2>utils.shift module<a class="headerlink" href="#module-utils.shift" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="utils.shift.find_shift_between_two_models">
+<code class="descclassname">utils.shift.</code><code class="descname">find_shift_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, shift_range=5, number_of_evaluations=10, rotation_angles=[0.0, 0.0, 0.0], cropping_model=0, initial_guess=[0.0, 0.0, 0.0], method='brute_force', full_output=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/shift.html#find_shift_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.shift.find_shift_between_two_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the correct shift alignment in 3D by using a different optimization algorithms to minimise the distance between the two models.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">model_1(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the fixed object</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">model_2(float ndarray):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">3d ndarray ot the rotatable model</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">shift_range(float):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">absolute value of the range in which the brute should be applied</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">number_of_evaluations(int):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">number of grid points on which the brute force optimises</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">rotation_angles(list):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">set of euler angles for rotating model_2 before applying the shift</td>
+</tr>
+<tr class="field-even field"><th class="field-name">method(str):</th><td class="field-body">is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-utils.plot_analysis">
+<span id="utils-plot-analysis-module"></span><h2>utils.plot_analysis module<a class="headerlink" href="#module-utils.plot_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="utils.plot_analysis.envelope">
+<code class="descclassname">utils.plot_analysis.</code><code class="descname">envelope</code><span class="sig-paren">(</span><em>function</em>, <em>frequence</em>, <em>peak_finding_threshold=(None</em>, <em>None)</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/plot_analysis.html#envelope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.plot_analysis.envelope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the upper and lower envelope of a given function.
+This function is based on <a class="reference external" href="https://stackoverflow.com/questions/34235530/python-how-to-get-high-and-low-envelope-of-a-signal">https://stackoverflow.com/questions/34235530/python-how-to-get-high-and-low-envelope-of-a-signal</a> (24.05.2017)</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">function(float ndarray):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">1d ndarray containing the function values</td>
+</tr>
+<tr class="field-even field"><th class="field-name">frequence(int):</th><td class="field-body">frequence at which function should be sample</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Kwargs:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">peak_finding_threshold(list):</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">threshold of peak finder given as tuple (min,max), peaks would then not take into account, default=(None,None)</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">order of the spline interpolation</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Louis Doctor.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'31.05.2017',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -11,12 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
    
-   Install
-   Usage
-
-.. automodule:: intensities
-   :members:   
-
+   Install <installation>
+   Usage <usage>
 
 Indices and tables
 ==================
