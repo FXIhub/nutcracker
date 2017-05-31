@@ -99,7 +99,7 @@ script:
   - python -c "import condor; print condor.__file__"
   
 # CODECOV
-  - coverage run --omit=nutcracker/utils/find_center.py nutcracker/tests/test_all.py
+  - coverage run --omit=nutcracker/utils/find_center.py,nutcracker/docs/* nutcracker/tests/test_all.py
 
 after_success:
   - codecov --token=2842f913-5590-4a03-913d-55dbf06a1159
