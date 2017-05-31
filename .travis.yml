@@ -98,9 +98,6 @@ script:
   - python -c "import spsim; print spsim.__file__"
   - python -c "import condor; print condor.__file__"
   
-# UNITTESTS
-  - python -m unittest -v nutcracker.tests.test_all
-
 # CODECOV
   - coverage run nutcracker/tests/test_all.py
 
