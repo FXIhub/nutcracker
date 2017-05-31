@@ -240,7 +240,7 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
                    'warnflag':rot[2]['warnflag'],
                    'gradient':rot[2]['grad'],
                    'function_calls':rot[2]['funcalls'],
-                   'iterations':rot[2]['nit'],
+                   #'iterations':rot[2]['nit'],
                    'rotated_model':model_2_rotated,
                    'rotation_matrix':res_rot_mat,
                    'mask':mask}
