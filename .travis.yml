@@ -98,11 +98,8 @@ script:
   - python -c "import spsim; print spsim.__file__"
   - python -c "import condor; print condor.__file__"
   
-# UNITTESTS
-  - python -m unittest -v nutcracker.tests.test_all
-
 # CODECOV
-  - coverage run nutcracker/tests/test_all.py
+  - coverage run --omit=nutcracker/utils/find_center.py nutcracker/tests/test_all.py
 
 after_success:
   - codecov --token=2842f913-5590-4a03-913d-55dbf06a1159
