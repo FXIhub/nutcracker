@@ -175,7 +175,7 @@ def q_factor(images,full_output=False,axis=0,mask=None):
 
     q_pure_noise = 1 / np.sqrt(images.shape[axis])
 
-     if full_output:
+    if full_output:
         out={'q_map':q_map,
              'q_function':q_function,
              'noise_convergence':q_pure_noise}
