@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Nutcracker 31.05.2017 documentation" href="index.html"/> 
 
   
@@ -104,7 +107,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -116,7 +119,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/nutcracker.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/nutcracker.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -131,8 +134,6 @@
 <div class="section" id="modules">
 <h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
-<ul class="simple">
-</ul>
 </div>
 </div>
 <div class="section" id="module-intensities">
@@ -148,10 +149,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">model_1(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">2d/3d ndarray of intensities or a real space object</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">2d/3d ndarray of intensities or a real space object</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">model_2(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">2d/3d ndarray of intensities or a real space object</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">2d/3d ndarray of intensities or a real space object</td>
 </tr>
 </tbody>
 </table>
@@ -162,10 +163,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">model_1_is_real_space(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">if enabled the model will be transformed into fourier space, default = False</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">if enabled the model will be transformed into fourier space, default = False</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">model_2_is_real_space(bool):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if enabled the model will be transformed into fourier space, default = False</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">if enabled the model will be transformed into fourier space, default = False</td>
 </tr>
 </tbody>
 </table>
@@ -184,7 +185,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">images(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray, which contains the images</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">3d ndarray, which contains the images</td>
 </tr>
 </tbody>
 </table>
@@ -195,7 +196,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">gives the full output, default=False</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">gives the full output, default=False</td>
 </tr>
 <tr class="field-even field"><th class="field-name">axis(int):</th><td class="field-body">axis on which the images are located, default=0</td>
 </tr>
@@ -207,7 +208,7 @@
 
 <dl class="function">
 <dt id="intensities.split_image">
-<code class="descclassname">intensities.</code><code class="descname">split_image</code><span class="sig-paren">(</span><em>image</em>, <em>method='random'</em>, <em>factor=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#split_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.split_image" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">intensities.</code><code class="descname">split_image</code><span class="sig-paren">(</span><em>image</em>, <em>method=’random’</em>, <em>factor=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#split_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.split_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Splits a 2D diffraction pattern into two.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -216,7 +217,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">image(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">2 ndarray of intensities</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">2 ndarray of intensities</td>
 </tr>
 </tbody>
 </table>
@@ -226,7 +227,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">method(str):</th><td class="field-body">method which should be used for splitting the data, default=&#8217;random&#8217;</td>
+<tr class="field-odd field"><th class="field-name">method(str):</th><td class="field-body">method which should be used for splitting the data, default=’random’</td>
 </tr>
 <tr class="field-even field"><th class="field-name">factor(int):</th><td class="field-body">is the factor by which the image size should be divided</td>
 </tr>
@@ -250,10 +251,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">q1(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">q2(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
 </tr>
 </tbody>
 </table>
@@ -264,15 +265,15 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">returns full output as a dictionary, default = False</td>
 </tr>
 <tr class="field-even field"><th class="field-name">n_samples(int):</th><td class="field-body">number of randomly picked pairs of quaternions, default = 100</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">q1_is_extrinsic(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">q1 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">q1 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">q2_is_extrinsic(bool):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">q2 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">q2 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">sigma(int):</th><td class="field-body">sigma of standart deviation, default = 2</td>
 </tr>
@@ -293,10 +294,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">q1(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">q2(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">5d ndarray of intrinsic quaternions</td>
 </tr>
 </tbody>
 </table>
@@ -307,13 +308,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">returns full output as a dictionary, default = False</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">q1_is_extrinsic(bool):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">q1 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">q1 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">q2_is_extrinsic(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">q2 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">q2 quaternions are extrinsic and should be converted to instrinsic, default = False</td>
 </tr>
 <tr class="field-even field"><th class="field-name">sigma(int):</th><td class="field-body">sigma of standart deviation, default = 2</td>
 </tr>
@@ -337,10 +338,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">images(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">4d ndarray of real space images</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">4d ndarray of real space images</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">support(bool ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">4d ndarray of the support</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">4d ndarray of the support</td>
 </tr>
 </tbody>
 </table>
@@ -351,10 +352,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">gives the full output as a dictionary</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">gives the full output as a dictionary</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">mask(int ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">provide a mask to be used for the radial mean function, default = None</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">provide a mask to be used for the radial mean function, default = None</td>
 </tr>
 </tbody>
 </table>
@@ -370,7 +371,7 @@
 <span id="utils-rotate-module"></span><h2>utils.rotate module<a class="headerlink" href="#module-utils.rotate" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="utils.rotate.find_rotation_between_two_models">
-<code class="descclassname">utils.rotate.</code><code class="descname">find_rotation_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, number_of_evaluations=10, full_output=False, order_spline_interpolation=3, cropping_model=0, mask=None, method='brute_force', initial_guess=[0.0, 0.0, 0.0], radius_radial_mask=None, search_range=1.5707963267948966, log_model=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#find_rotation_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.find_rotation_between_two_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">utils.rotate.</code><code class="descname">find_rotation_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, number_of_evaluations=10, full_output=False, order_spline_interpolation=3, cropping_model=0, mask=None, method=’brute_force’, initial_guess=[0.0, 0.0, 0.0], radius_radial_mask=None, search_range=1.5707963267948966, log_model=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#find_rotation_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.find_rotation_between_two_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finding the correct alignment by rotating one model on base of a rotation matrix and using different optimization algorithms to minimise the distance between the two models.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -379,10 +380,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">model_1(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the fixed intensity object</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">3d ndarray of the fixed intensity object</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">model_2(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable intensity object</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">3d ndarray of the rotatable intensity object</td>
 </tr>
 </tbody>
 </table>
@@ -393,33 +394,33 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">number_of_evaluation(int):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">number of grid points on which the brute force optimises, default = 10</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">number of grid points on which the brute force optimises, default = 10</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">returns full output as a dictionary, default = False</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">cropping_model(int):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">cropps the model by the given vaule in total, has to be an even number, default = 0</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">cropps the model by the given vaule in total, has to be an even number, default = 0</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">mask(bool ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">provide a mask to be used for the evaluation of the cost function, default = None</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">provide a mask to be used for the evaluation of the cost function, default = None</td>
 </tr>
 <tr class="field-even field"><th class="field-name">method(str):</th><td class="field-body">is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">initial_guess(list):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">is the initila guess for the fmin_l_bfgs_b optimisation</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">is the initila guess for the fmin_l_bfgs_b optimisation</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">radius_radial_mask(int):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">applies a radial mask to the model with given radius, default = 0</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">applies a radial mask to the model with given radius, default = 0</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">searche_range(float/list):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">absolute angle in radian in which the optimisation should be done, default = np.pi/2.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">absolute angle in radian in which the optimisation should be done, default = np.pi/2.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">log_model(bool):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">if enabled it will take the logarithmic values of the models, default = True</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">if enabled it will take the logarithmic values of the models, default = True</td>
 </tr>
 </tbody>
 </table>
@@ -429,7 +430,7 @@
 
 <dl class="function">
 <dt id="utils.rotate.rotation_based_on_euler_angles">
-<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_euler_angles</code><span class="sig-paren">(</span><em>input_model</em>, <em>angles</em>, <em>order='zyx'</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_euler_angles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_euler_angles" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_euler_angles</code><span class="sig-paren">(</span><em>input_model</em>, <em>angles</em>, <em>order=’zyx’</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_euler_angles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_euler_angles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate a given model by a given set of euler angles</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -438,10 +439,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">input_model(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable object</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">3d ndarray of the rotatable object</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">angles(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">1d ndarray of euler angles</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">1d ndarray of euler angles</td>
 </tr>
 </tbody>
 </table>
@@ -454,7 +455,7 @@
 <tr class="field-odd field"><th class="field-name">order(str):</th><td class="field-body">order in which rotation matrix is constructed from th euler angles</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
 </tr>
 </tbody>
 </table>
@@ -473,10 +474,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">input_model(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable object</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">3d ndarray of the rotatable object</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">quat(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">quaternion which describes the desired rotation</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">quaternion which describes the desired rotation</td>
 </tr>
 </tbody>
 </table>
@@ -487,7 +488,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
 </tr>
 </tbody>
 </table>
@@ -506,10 +507,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">input_model(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the rotatable object</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">3d ndarray of the rotatable object</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">rotation_matrix(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">2d ndarray of a 3x3 rotation matrix</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">2d ndarray of a 3x3 rotation matrix</td>
 </tr>
 </tbody>
 </table>
@@ -520,7 +521,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">the order of the spline interpolation, has to be in range 0-5, default = 3 [from scipy.org]</td>
 </tr>
 </tbody>
 </table>
@@ -553,7 +554,7 @@
 <span id="utils-shift-module"></span><h2>utils.shift module<a class="headerlink" href="#module-utils.shift" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="utils.shift.find_shift_between_two_models">
-<code class="descclassname">utils.shift.</code><code class="descname">find_shift_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, shift_range=5, number_of_evaluations=10, rotation_angles=[0.0, 0.0, 0.0], cropping_model=0, initial_guess=[0.0, 0.0, 0.0], method='brute_force', full_output=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/shift.html#find_shift_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.shift.find_shift_between_two_models" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">utils.shift.</code><code class="descname">find_shift_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, shift_range=5, number_of_evaluations=10, rotation_angles=[0.0, 0.0, 0.0], cropping_model=0, initial_guess=[0.0, 0.0, 0.0], method=’brute_force’, full_output=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/shift.html#find_shift_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.shift.find_shift_between_two_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the correct shift alignment in 3D by using a different optimization algorithms to minimise the distance between the two models.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -562,10 +563,10 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">model_1(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">3d ndarray of the fixed object</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">3d ndarray of the fixed object</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">model_2(float ndarray):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">3d ndarray ot the rotatable model</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">3d ndarray ot the rotatable model</td>
 </tr>
 </tbody>
 </table>
@@ -576,18 +577,18 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">shift_range(float):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">absolute value of the range in which the brute should be applied</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">absolute value of the range in which the brute should be applied</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">number_of_evaluations(int):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">number of grid points on which the brute force optimises</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">number of grid points on which the brute force optimises</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">rotation_angles(list):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">set of euler angles for rotating model_2 before applying the shift</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">set of euler angles for rotating model_2 before applying the shift</td>
 </tr>
 <tr class="field-even field"><th class="field-name">method(str):</th><td class="field-body">is the optimisation method which is use to minimise the difference, default = brute_force, other option fmin_l_bfgs_b</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">full_output(bool):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">returns full output as a dictionary, default = False</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">returns full output as a dictionary, default = False</td>
 </tr>
 </tbody>
 </table>
@@ -610,7 +611,7 @@ This function is based on <a class="reference external" href="https://stackoverf
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">function(float ndarray):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">1d ndarray containing the function values</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">1d ndarray containing the function values</td>
 </tr>
 <tr class="field-even field"><th class="field-name">frequence(int):</th><td class="field-body">frequence at which function should be sample</td>
 </tr>
@@ -623,10 +624,10 @@ This function is based on <a class="reference external" href="https://stackoverf
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">peak_finding_threshold(list):</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">threshold of peak finder given as tuple (min,max), peaks would then not take into account, default=(None,None)</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">threshold of peak finder given as tuple (min,max), peaks would then not take into account, default=(None,None)</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">order_spline_interpolation(int):</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">order of the spline interpolation</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">order of the spline interpolation</td>
 </tr>
 </tbody>
 </table>
@@ -678,7 +679,7 @@ This function is based on <a class="reference external" href="https://stackoverf
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

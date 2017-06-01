@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="Nutcracker 31.05.2017 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
@@ -128,10 +131,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for utils.plot_analysis</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 
-<div class="viewcode-block" id="envelope"><a class="viewcode-back" href="../../nutcracker.html#utils.plot_analysis.envelope">[docs]</a><span class="k">def</span> <span class="nf">envelope</span><span class="p">(</span><span class="n">function</span><span class="p">,</span><span class="n">frequence</span><span class="p">,</span><span class="n">peak_finding_threshold</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">),</span><span class="n">order_spline_interpolation</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="envelope"><a class="viewcode-back" href="../../nutcracker.html#utils.plot_analysis.envelope">[docs]</a><span class="k">def</span> <span class="nf">envelope</span><span class="p">(</span><span class="n">function</span><span class="p">,</span><span class="n">frequence</span><span class="p">,</span><span class="n">peak_finding_threshold</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">),</span><span class="n">order_spline_interpolation</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the upper and lower envelope of a given function.</span>
 <span class="sd">    This function is based on https://stackoverflow.com/questions/34235530/python-how-to-get-high-and-low-envelope-of-a-signal (24.05.2017)</span>
@@ -145,14 +148,14 @@
 <span class="sd">        :order_spline_interpolation(int): order of the spline interpolation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># creating lists for envelope</span>
+    <span class="c1"># creating lists for envelope</span>
     <span class="n">upper_envelope_x</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">upper_envelope_y</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">lower_envelope_x</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">lower_envelope_y</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c"># iterating through function at given frequency</span>
+    <span class="c1"># iterating through function at given frequency</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">function</span><span class="p">),</span> <span class="n">frequence</span><span class="p">):</span>
         <span class="n">part</span> <span class="o">=</span> <span class="n">function</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="n">frequence</span><span class="p">]</span>
 
@@ -162,27 +165,27 @@
         <span class="n">lower_envelope_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
         <span class="n">lower_envelope_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
 
-    <span class="c"># transform to numpy arrays</span>
+    <span class="c1"># transform to numpy arrays</span>
     <span class="n">upper_envelope_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">upper_envelope_x</span><span class="p">)</span>
     <span class="n">upper_envelope_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">upper_envelope_y</span><span class="p">)</span>
     <span class="n">lower_envelope_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lower_envelope_x</span><span class="p">)</span>
     <span class="n">lower_envelope_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lower_envelope_y</span><span class="p">)</span>
 
-    <span class="c"># peak finding lower envelope</span>
+    <span class="c1"># peak finding lower envelope</span>
     <span class="k">if</span> <span class="n">peak_finding_threshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lower_envelope_y</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">lower_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">peak_finding_threshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="n">lower_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">lower_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span><span class="n">lower_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 
-    <span class="c"># peak finding upper envelope</span>
+    <span class="c1"># peak finding upper envelope</span>
     <span class="k">if</span> <span class="n">peak_finding_threshold</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">upper_envelope_y</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">upper_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">peak_finding_threshold</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="n">upper_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">upper_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span><span class="n">upper_envelope_y</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
 
-    <span class="c"># interpolate the envelope function</span>
-    <span class="n">upper_envelope</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">upper_envelope_x</span><span class="p">,</span><span class="n">upper_envelope_y</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="n">order_spline_interpolation</span><span class="p">,</span><span class="n">bounds_error</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
-    <span class="n">lower_envelope</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">lower_envelope_x</span><span class="p">,</span><span class="n">lower_envelope_y</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="n">order_spline_interpolation</span><span class="p">,</span><span class="n">bounds_error</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="c1"># interpolate the envelope function</span>
+    <span class="n">upper_envelope</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">upper_envelope_x</span><span class="p">,</span><span class="n">upper_envelope_y</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="n">order_spline_interpolation</span><span class="p">,</span><span class="n">bounds_error</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">lower_envelope</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">lower_envelope_x</span><span class="p">,</span><span class="n">lower_envelope_y</span><span class="p">,</span> <span class="n">kind</span> <span class="o">=</span> <span class="n">order_spline_interpolation</span><span class="p">,</span><span class="n">bounds_error</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">function</span><span class="p">))</span>
 
@@ -232,7 +235,7 @@
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

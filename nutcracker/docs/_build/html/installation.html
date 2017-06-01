@@ -30,6 +30,9 @@
   
 
   
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Nutcracker 31.05.2017 documentation" href="index.html"/>
         <link rel="next" title="Usage of Nutcracker anf package description" href="usage.html"/>
         <link rel="prev" title="Welcome to Nutcracker’s documentation!" href="index.html"/> 
@@ -82,7 +85,7 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Install</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Install</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">1) Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-nutcracker">2) Installing Nutcracker</a></li>
 </ul>
@@ -110,7 +113,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -122,7 +125,7 @@
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/installation.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -136,25 +139,37 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="dependencies">
 <h2>1) Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt>Following packages are requiered to run Nutcracker:</dt>
-<dd><ul class="first last simple">
+<p>Following packages are requiered to run Nutcracker:</p>
+<blockquote>
+<div><ul class="simple">
 <li>numpy</li>
 <li>scipy</li>
 <li>h5py</li>
-<li>&#8216;spimage &lt;<a class="reference external" href="https://github.com/FXIhub/libspimage">https://github.com/FXIhub/libspimage</a>&gt;&#8217;_</li>
-<li>&#8216;condor &lt;<a class="reference external" href="https://github.com/FXIhub/condor">https://github.com/FXIhub/condor</a>&gt;&#8217;_</li>
-<li>&#8216;mulpro &lt;<a class="reference external" href="https://github.com/mhantke/mulpro">https://github.com/mhantke/mulpro</a>&gt;&#8217;_</li>
+<li><a class="reference external" href="https://github.com/FXIhub/libspimage">spimage</a></li>
+<li><a class="reference external" href="https://github.com/FXIhub/condor">condor</a></li>
+<li><a class="reference external" href="https://github.com/mhantke/mulpro">mulpro</a></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 <p>To install numpy, scipy and h5py use the pip:</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>$ pip install numpy scipy h5py --user
+</pre></div>
+</div>
 <p>To get spimage, condor and mulpro use the git clone command:</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>$ git clone &lt;SSH-key&gt; #or
+$ git clone &lt;HTTPS&gt;
+</pre></div>
+</div>
 <p>For more information about installing the packages visit the corresponding webpage.</p>
 </div>
 <div class="section" id="installing-nutcracker">
 <h2>2) Installing Nutcracker<a class="headerlink" href="#installing-nutcracker" title="Permalink to this headline">¶</a></h2>
 <p>To install nutcracker one proceed as for condor or mulpro.</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span>$ git clone git@github.com:FXIhub/nutcracker.git # for SSH-key
+$ git clone https://github.com/FXIhub/nutcracker.git # for HTTPS
+$ cd nutcracker
+$ python setup.py install --user
+</pre></div>
+</div>
 <p>Congratulations! You are now ready to use Nutcracker.</p>
 </div>
 </div>
@@ -209,7 +224,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
