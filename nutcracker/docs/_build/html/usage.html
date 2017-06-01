@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>How to use Nutcracker? &mdash; Nutcracker 31.05.2017 documentation</title>
+  <title>Usage of Nutcracker anf package description &mdash; Nutcracker 31.05.2017 documentation</title>
   
 
   
@@ -82,7 +82,15 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Install</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#intensities-module">Intensities module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fourier-shell-ring-correlation">Fourier-Shell/Ring-Correlation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q-factor">Q-factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#split-image-function">Split image function</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -113,7 +121,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>How to use Nutcracker?</li>
+    <li>Usage of Nutcracker anf package description</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -127,8 +135,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="how-to-use-nutcracker">
-<h1>How to use Nutcracker?<a class="headerlink" href="#how-to-use-nutcracker" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="usage-of-nutcracker-anf-package-description">
+<h1>Usage of Nutcracker anf package description<a class="headerlink" href="#usage-of-nutcracker-anf-package-description" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intensities-module">
+<h2>Intensities module<a class="headerlink" href="#intensities-module" title="Permalink to this headline">¶</a></h2>
+<p>The main features of this module are the Fourier-Shell-Correlation (3D), respectively the Fourier-Ring-Correlation (2D) and the Q-factor calculation. The side feature, the split image function, allows to split up one pattern or volume in two, to raise the opporunity to perform comparative image analysis on just one pattern/volume.</p>
+<div class="section" id="fourier-shell-ring-correlation">
+<h3>Fourier-Shell/Ring-Correlation<a class="headerlink" href="#fourier-shell-ring-correlation" title="Permalink to this headline">¶</a></h3>
+<p>The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1986, is the 3 dimensional extention of the Fourier-Ring-Correlation (FRC). It basicly describes the similarity of two Fourier-Transforms :math:&#8217;F_{1}(textbf{k})&#8217; and :math:&#8217;F_{2}(textbf{k})&#8217;, with :math:&#8217;textbf{k}&#8217; as spatial frequency vector. It starts at low spatial frequency with perfect correlation 1 and drops for increasing frequency. Usually the threshold for the resolution determination is :math:&#8217;frac{1}{e}&#8217;. The purpose of this function is to calculate the resolution between two Fourier-Transforms.</p>
+<div class="math">
+\[FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k} \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k} \rvert^{2}}}\]</div>
+</div>
+<div class="section" id="q-factor">
+<h3>Q-factor<a class="headerlink" href="#q-factor" title="Permalink to this headline">¶</a></h3>
+<p>The Q-factor is calculated over a set of :math:&#8217;n&#8217; patterns and describes the ratio of the length of the Fourier-Transforms sum and the length of each Fourier-Transforms. The result is a 2D map which shows the clarity of the signal. This function is a fast and simple method to estimate the signal to noise ratio.</p>
+<div class="math">
+\[Q(textbf{k}) = \frac{\lvert \sum_{n} F_{n}(\textbf{k}) \rvert}{\sum_{n} \lvert F_{n}(\textbf{k}) \rvert}\]</div>
+</div>
+<div class="section" id="split-image-function">
+<h3>Split image function<a class="headerlink" href="#split-image-function" title="Permalink to this headline">¶</a></h3>
+<p>This function raises the opportunity to perform e.g. a FRC on a single pattern. The image or volume is splitted by creating superpixels in which single pixels are summed up in order or randomly according to the two resulting images. Thats conserve the number of scattered photons respectively the information of the actual input.</p>
+<img alt="split_image.png" src="split_image.png" />
+</div>
+</div>
 </div>
 
 
