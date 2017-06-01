@@ -147,7 +147,7 @@
 <h3>Fourier-Shell/Ring-Correlation<a class="headerlink" href="#fourier-shell-ring-correlation" title="Permalink to this headline">¶</a></h3>
 <p>The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1986, is the 3 dimensional extention of the Fourier-Ring-Correlation (FRC). It basicly describes the similarity of two Fourier-Transforms <span class="math">\(F_{1}(\textbf{k})\)</span> and <span class="math">\(F_{2}(\textbf{k})\)</span>, with <span class="math">\(\textbf{k}\)</span> as spatial frequency vector. It starts at low spatial frequency with perfect correlation 1 and drops for increasing frequency. Usually the threshold for the resolution determination is <span class="math">\(\frac{1}{e}\)</span>. The purpose of this function is to calculate the resolution between two Fourier-Transforms.</p>
 <div class="math">
-\[FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k} \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k} \rvert^{2}}}\]</div>
+\[FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k}) \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k}) \rvert^{2}}}\]</div>
 </div>
 <div class="section" id="q-factor">
 <h3>Q-factor<a class="headerlink" href="#q-factor" title="Permalink to this headline">¶</a></h3>
@@ -158,7 +158,7 @@
 <div class="section" id="split-image-function">
 <h3>Split image function<a class="headerlink" href="#split-image-function" title="Permalink to this headline">¶</a></h3>
 <p>This function raises the opportunity to perform e.g. a FRC on a single pattern. The image or volume is splitted by creating superpixels in which single pixels are summed up in order or randomly according to the two resulting images. Thats conserve the number of scattered photons respectively the information of the actual input.</p>
-<img alt="split_image.png" src="split_image.png" />
+<img alt="_images/split_image.png" src="_images/split_image.png" />
 </div>
 </div>
 </div>
