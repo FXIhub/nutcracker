@@ -152,7 +152,7 @@ def _split_image(image,factor,method_is_random):
 
 def q_factor(images,full_output=False,axis=0,mask=None):
     """
-    Calcualtes the q factor for a set of images.
+    Calcualtes the q factor for a set of images. [Hstau Y. Liao et al. Definition and estimation of resolution in single-particle reconstructions, Structure, 2010]
 
     Args:
         :images(float ndarray):        3d ndarray, which contains the images
@@ -167,6 +167,7 @@ def q_factor(images,full_output=False,axis=0,mask=None):
         images = images * mask
     else:
         mask = np.ones_like(images[0,:,:],dtype=np.int)
+
     # calculating the q value
     q_map = np.abs(np.sum(images,axis=axis)) / (np.abs(images)).sum(axis=axis)
     
@@ -174,12 +175,10 @@ def q_factor(images,full_output=False,axis=0,mask=None):
 
     q_pure_noise = 1 / np.sqrt(images.shape[axis])
 
-    #if np.isclose(q_function.min(),q_pure_noise,rtol=1e-3,atol=1e-5) == True:
-        #print 'pure noise determined'
-
-    if full_output:
+     if full_output:
         out={'q_map':q_map,
-             'q_function':q_function}
+             'q_function':q_function,
+             'noise_convergence':q_pure_noise}
         return out
 
     else:
