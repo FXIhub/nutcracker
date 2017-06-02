@@ -273,6 +273,7 @@
 <span class="sd">        :searche_range(float/list):         absolute angle in radian in which the optimisation should be done, default = np.pi/2.</span>
 <span class="sd">        :log_model(bool):                   if enabled it will take the logarithmic values of the models, default = True</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
+
     <span class="k">def</span> <span class="nf">costfunc</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span><span class="n">model_1</span><span class="p">,</span><span class="n">model_2</span><span class="p">,</span><span class="n">mask</span><span class="p">):</span>
         <span class="n">rot_mat</span> <span class="o">=</span> <span class="n">get_rot_matrix</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
         <span class="n">model_2</span> <span class="o">=</span> <span class="n">rotation_based_on_rotation_matrix</span><span class="p">(</span><span class="n">model_2</span><span class="p">,</span><span class="n">rot_mat</span><span class="p">,</span><span class="n">order_spline_interpolation</span><span class="p">)</span>

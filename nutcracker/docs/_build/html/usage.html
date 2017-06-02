@@ -97,6 +97,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#global-quaternion-rotation-between-two-sets">Global quaternion rotation between two sets</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#real-space-module">Real-space module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rotate">Rotate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shift">Shift</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -171,14 +177,14 @@
 <h2>Quaternions module<a class="headerlink" href="#quaternions-module" title="Permalink to this headline">¶</a></h2>
 <p>Quaternions are 4 dimensional complex number, with a scalar part <span class="math">\(w\)</span> and a vector part <span class="math">\([x,y,z]\)</span>. The scalar part describes also the real part and the vector the imaginary part of the complex number. Additionally the three components of the imaginary part are multiplied by <span class="math">\(i\)</span>, <span class="math">\(j\)</span> and <span class="math">\(k\)</span>. Quaternions can be denoted as</p>
 <div class="math">
-\[q = w + xi + yj + zk
-\textbf{q} = [w,x,y,z].\]</div>
+\[\begin{split}q = w + xi + yj + zk \\
+\textbf{q} = [w,x,y,z].\end{split}\]</div>
 <p>The scalar or inner product in quaternion space is defined as</p>
 <div class="math">
-\[\bra{q_{1}} \ket{q_{2}} = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos{\frac{\theta}{2}}.\]</div>
+\[\langle{q_{1}} | \rangle{q_{2}} = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos (\frac{\theta}{2}).\]</div>
 <p>This leads to an enclosed angle</p>
 <div class="math">
-\[\theta = 2 \arccos{\bra{q_{1}} \ket{q_{2}}} = 2 \arctan2{\lvert \textbf{q}_{r} \lvert, q_{r,0}}.\]</div>
+\[\theta = 2 \arccos{\langle{q_{1}} | \rangle{q_{2}}} = 2 \arctan2(\lvert \textbf{q}_{r} \lvert, q_{r,0}).\]</div>
 <p><span class="math">\(q_{r}\)</span> stands for the relative quaternion, where <span class="math">\(\textbf{q}_{r}\)</span> denotes the vector part and <span class="math">\(q_{r,0}\)</span> the scalar part.
 The relative quaternion, meaning the rotation between two quaternions can be obtained by</p>
 <div class="math">
@@ -193,6 +199,35 @@ The relative quaternion, meaning the rotation between two quaternions can be obt
 <div class="section" id="global-quaternion-rotation-between-two-sets">
 <h3>Global quaternion rotation between two sets<a class="headerlink" href="#global-quaternion-rotation-between-two-sets" title="Permalink to this headline">¶</a></h3>
 <p>This method gives the global rotation in form of a quaternion between the two sets. The result could than be used to realign the two sets or a corresponding model. At first, as in the method before, the relative quaternion is calculated, but now between each quaternion from the two sets. The mean of this relative quaternions lead to the global quaternion. To verify that the global roation is right, the enclosed angles between the global quaternion and the quaternions of one set are calculated. For a perfect correlaction between the two sets of quaternions the angular error is 0.</p>
+</div>
+</div>
+<div class="section" id="real-space-module">
+<h2>Real-space module<a class="headerlink" href="#real-space-module" title="Permalink to this headline">¶</a></h2>
+<p>The real-space module uses spimage functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.</p>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rotate">
+<h3>Rotate<a class="headerlink" href="#rotate" title="Permalink to this headline">¶</a></h3>
+<p>Key feature of the rotate submodule is the find-rotation function. This function aligns two models by applying a rotation matrix and trys to find the global minimum of the error between the two models. Thereby could three differnt methods be used:</p>
+<blockquote>
+<div><ul class="simple">
+<li>brute-force algorithm</li>
+<li>minimise function with the limited memory Broyden–Fletcher–Goldfarb–Shanno bound constraint algorithm</li>
+<li>differential evolution</li>
+</ul>
+</div></blockquote>
+<p>Following points are recommended to think about to align the models succesfully:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>If the rotational difference between the models is not to great the minimise function can be used. Since the minimise function is quite sensitiv and less robust, it might be that it will stuck in a local minimum and a flase solution is found. A big advantage of this function is the very little amount of time and computational power that is required.</li>
+<li>If the rotational difference is obviously big or the minimise function failed one should think about using the differntial evolution method instead. Important to know is that this function bases on a stochastic population method. It can be recommend to run this function several times and store the results. After that the could take the mean and should get a decent final result. This solution one could than give to the minimise function to refine the result.</li>
+<li>The most robust, but also the most slow way to perform the alignment is by using the brute force function. The amount of time depends mainly on the size of the models and the size of the search grid. To increase the speed one could crop the models if possible. Another possibility to speed up the brute force is to run it with the multiprocessed brute force function which is also provided by <em>Nutcracker</em>.</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="shift">
+<h3>Shift<a class="headerlink" href="#shift" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>

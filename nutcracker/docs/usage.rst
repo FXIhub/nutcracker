@@ -37,18 +37,18 @@ Quaternions module
 Quaternions are 4 dimensional complex number, with a scalar part :math:`w` and a vector part :math:`[x,y,z]`. The scalar part describes also the real part and the vector the imaginary part of the complex number. Additionally the three components of the imaginary part are multiplied by :math:`i`, :math:`j` and :math:`k`. Quaternions can be denoted as
 
 .. math::
-    q = w + xi + yj + zk
+    q = w + xi + yj + zk \\
     \textbf{q} = [w,x,y,z].
 
 The scalar or inner product in quaternion space is defined as
 
 .. math::
-    \bra{q_{1}} \ket{q_{2}} = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos{\frac{\theta}{2}}.
+    \langle{q_{1}} | \rangle{q_{2}} = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos (\frac{\theta}{2}).
 
 This leads to an enclosed angle
 
 .. math::
-    \theta = 2 \arccos{\bra{q_{1}} \ket{q_{2}}} = 2 \arctan2{\lvert \textbf{q}_{r} \lvert, q_{r,0}}.
+    \theta = 2 \arccos{\langle{q_{1}} | \rangle{q_{2}}} = 2 \arctan2(\lvert \textbf{q}_{r} \lvert, q_{r,0}).
 
 :math:`q_{r}` stands for the relative quaternion, where :math:`\textbf{q}_{r}` denotes the vector part and :math:`q_{r,0}` the scalar part.
 The relative quaternion, meaning the rotation between two quaternions can be obtained by
@@ -70,3 +70,32 @@ Global quaternion rotation between two sets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This method gives the global rotation in form of a quaternion between the two sets. The result could than be used to realign the two sets or a corresponding model. At first, as in the method before, the relative quaternion is calculated, but now between each quaternion from the two sets. The mean of this relative quaternions lead to the global quaternion. To verify that the global roation is right, the enclosed angles between the global quaternion and the quaternions of one set are calculated. For a perfect correlaction between the two sets of quaternions the angular error is 0.
+
+Real-space module
+-----------------
+
+The real-space module uses spimage functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.
+
+Submodules
+----------
+
+Rotate
+^^^^^^
+
+Key feature of the rotate submodule is the find-rotation function. This function aligns two models by applying a rotation matrix and trys to find the global minimum of the error between the two models. Thereby could three differnt methods be used:
+
+    - brute-force algorithm
+    - minimise function with the limited memory Broyden–Fletcher–Goldfarb–Shanno bound constraint algorithm
+    - differential evolution
+
+Following points are recommended to think about to align the models succesfully:
+
+    1) If the rotational difference between the models is not to great the minimise function can be used. Since the minimise function is quite sensitiv and less robust, it might be that it will stuck in a local minimum and a flase solution is found. A big advantage of this function is the very little amount of time and computational power that is required.
+
+    2) If the rotational difference is obviously big or the minimise function failed one should think about using the differntial evolution method instead. Important to know is that this function bases on a stochastic population method. It can be recommend to run this function several times and store the results. After that the could take the mean and should get a decent final result. This solution one could than give to the minimise function to refine the result.
+
+    3) The most robust, but also the most slow way to perform the alignment is by using the brute force function. The amount of time depends mainly on the size of the models and the size of the search grid. To increase the speed one could crop the models if possible. Another possibility to speed up the brute force is to run it with the multiprocessed brute force function which is also provided by *Nutcracker*.
+
+Shift
+^^^^^
+
