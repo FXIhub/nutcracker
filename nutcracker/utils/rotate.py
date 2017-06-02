@@ -139,7 +139,8 @@ def find_rotation_between_two_models(model_1,model_2,number_of_evaluations=10,fu
         :radius_radial_mask(int):           applies a radial mask to the model with given radius, default = 0
         :searche_range(float/list):         absolute angle in radian in which the optimisation should be done, default = np.pi/2.
         :log_model(bool):                   if enabled it will take the logarithmic values of the models, default = True
-    """    
+    """
+
     def costfunc(angles,model_1,model_2,mask):
         rot_mat = get_rot_matrix(angles)
         model_2 = rotation_based_on_rotation_matrix(model_2,rot_mat,order_spline_interpolation)
