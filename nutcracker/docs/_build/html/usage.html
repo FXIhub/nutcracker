@@ -101,6 +101,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#rotate">Rotate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shift">Shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plot-analysis">Plot-analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-matrix-multiprocessed">Error matrix multiprocessed</a></li>
 </ul>
 </li>
 </ul>
@@ -181,10 +183,10 @@
 \textbf{q} = [w,x,y,z].\end{split}\]</div>
 <p>The scalar or inner product in quaternion space is defined as</p>
 <div class="math">
-\[\langle{q_{1}} | \rangle{q_{2}} = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos (\frac{\theta}{2}).\]</div>
+\[\langle q_{1} | q_{2} \rangle = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos (\frac{\theta}{2}).\]</div>
 <p>This leads to an enclosed angle</p>
 <div class="math">
-\[\theta = 2 \arccos{\langle{q_{1}} | \rangle{q_{2}}} = 2 \arctan2(\lvert \textbf{q}_{r} \lvert, q_{r,0}).\]</div>
+\[\theta = 2 \arccos{\langle q_{1} | q_{2} \rangle} = 2 \arctan2(\lvert \textbf{q}_{r} \lvert, q_{r,0}).\]</div>
 <p><span class="math">\(q_{r}\)</span> stands for the relative quaternion, where <span class="math">\(\textbf{q}_{r}\)</span> denotes the vector part and <span class="math">\(q_{r,0}\)</span> the scalar part.
 The relative quaternion, meaning the rotation between two quaternions can be obtained by</p>
 <div class="math">
@@ -228,6 +230,23 @@ The relative quaternion, meaning the rotation between two quaternions can be obt
 </div>
 <div class="section" id="shift">
 <h3>Shift<a class="headerlink" href="#shift" title="Permalink to this headline">¶</a></h3>
+<p>The find-shift function is the counterpart of the find-rotation function, since the rotation is conserved in fourier-/intensity-space for a fully alignt model one has to also find the right shift in real-space. Therefor the user has following method available:</p>
+<blockquote>
+<div><ul class="simple">
+<li>brute-force algorithm</li>
+<li>minimise function with the limited memory Broyden–Fletcher–Goldfarb–Shanno bound constraint algorithm</li>
+</ul>
+</div></blockquote>
+<p>The same points as for the find-rotation function should be considered.</p>
+</div>
+<div class="section" id="plot-analysis">
+<h3>Plot-analysis<a class="headerlink" href="#plot-analysis" title="Permalink to this headline">¶</a></h3>
+<p>This submodule contains the envelope function which calcualtes the higher as well as the lower envelope. The envelopes are calculated by interpolating between turning points in a given interval. The interval is defined by the sample frequence. The envelope function also has a peak finding key, so that peaks over or under a certain threshold are not take into account when calculating the envelope.</p>
+</div>
+<div class="section" id="error-matrix-multiprocessed">
+<h3>Error matrix multiprocessed<a class="headerlink" href="#error-matrix-multiprocessed" title="Permalink to this headline">¶</a></h3>
+<p>Due to the fact that a brute force algorithm requries a lot of time and computational power this class provides an option to decrease the runtime. Currently this class covers just the rotation finding.
+With multiprocessing the brute force algorithm the search grid is dived into chuncks. The size of the chuncks is defined by the user. The number of chuncks leads to the number of processes. Each process will run a brute force algorithm with the chunck as new search grid. After all one can reassemble the resulting error matrix.</p>
 </div>
 </div>
 </div>
