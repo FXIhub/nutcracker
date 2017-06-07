@@ -43,12 +43,12 @@ Quaternions are 4 dimensional complex number, with a scalar part :math:`w` and a
 The scalar or inner product in quaternion space is defined as
 
 .. math::
-    \langle{q_{1}} | \rangle{q_{2}} = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos (\frac{\theta}{2}).
+    \langle q_{1} | q_{2} \rangle = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos (\frac{\theta}{2}).
 
 This leads to an enclosed angle
 
 .. math::
-    \theta = 2 \arccos{\langle{q_{1}} | \rangle{q_{2}}} = 2 \arctan2(\lvert \textbf{q}_{r} \lvert, q_{r,0}).
+    \theta = 2 \arccos{\langle q_{1} | q_{2} \rangle} = 2 \arctan2(\lvert \textbf{q}_{r} \lvert, q_{r,0}).
 
 :math:`q_{r}` stands for the relative quaternion, where :math:`\textbf{q}_{r}` denotes the vector part and :math:`q_{r,0}` the scalar part.
 The relative quaternion, meaning the rotation between two quaternions can be obtained by
@@ -99,3 +99,20 @@ Following points are recommended to think about to align the models succesfully:
 Shift
 ^^^^^
 
+The find-shift function is the counterpart of the find-rotation function, since the rotation is conserved in fourier-/intensity-space for a fully alignt model one has to also find the right shift in real-space. Therefor the user has following method available:
+
+    - brute-force algorithm
+    - minimise function with the limited memory Broyden–Fletcher–Goldfarb–Shanno bound constraint algorithm
+
+The same points as for the find-rotation function should be considered.
+
+Plot-analysis
+^^^^^^^^^^^^^
+
+This submodule contains the envelope function which calcualtes the higher as well as the lower envelope. The envelopes are calculated by interpolating between turning points in a given interval. The interval is defined by the sample frequence. The envelope function also has a peak finding key, so that peaks over or under a certain threshold are not take into account when calculating the envelope.
+
+Error matrix multiprocessed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Due to the fact that a brute force algorithm requries a lot of time and computational power this class provides an option to decrease the runtime. Currently this class covers just the rotation finding. 
+With multiprocessing the brute force algorithm the search grid is dived into chuncks. The size of the chuncks is defined by the user. The number of chuncks leads to the number of processes. Each process will run a brute force algorithm with the chunck as new search grid. After all one can reassemble the resulting error matrix.
