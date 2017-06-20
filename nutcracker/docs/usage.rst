@@ -10,7 +10,7 @@ Fourier-Shell/Ring-Correlation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ::
-    :linenos:
+    .. highlight:: python
 
     import nutcracker
     import numpy as np
@@ -25,7 +25,7 @@ Q-factor
 ^^^^^^^^
 
 ::
-    :linenos:
+    .. highlight:: python
 
     import nutcracker
     import numpy as np
