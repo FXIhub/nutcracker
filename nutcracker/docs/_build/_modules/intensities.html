@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>intensities &mdash; Nutcracker 31.05.2017 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Nutcracker 31.05.2017 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nutcracker
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Nutcracker</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>intensities</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for intensities</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">condor</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">nutcracker</span>
+<span class="kn">import</span> <span class="nn">spimage</span>
+
+<div class="viewcode-block" id="fourier_shell_correlation"><a class="viewcode-back" href="../nutcracker.html#intensities.fourier_shell_correlation">[docs]</a><span class="k">def</span> <span class="nf">fourier_shell_correlation</span><span class="p">(</span><span class="n">model_1</span><span class="p">,</span><span class="n">model_2</span><span class="p">,</span><span class="n">model_1_is_real_space</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">model_2_is_real_space</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the fourier shell/ring correlation between two intensity models.</span>
+
+<span class="sd">    Args: </span>
+<span class="sd">        :model_1(float ndarray):        2d/3d ndarray of intensities or a real space object</span>
+<span class="sd">        :model_2(float ndarray):        2d/3d ndarray of intensities or a real space object </span>
+<span class="sd">    </span>
+<span class="sd">    Kwargs:</span>
+<span class="sd">        :model_1_is_real_space(bool):   if enabled the model will be transformed into fourier space, default = False</span>
+<span class="sd">        :model_2_is_real_space(bool):   if enabled the model will be transformed into fourier space, default = False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">fsc_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># transfrom the input to fourier space if necessary</span>
+    <span class="k">if</span> <span class="n">model_1_is_real_space</span><span class="p">:</span> <span class="n">model_1</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">model_1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">model_2_is_real_space</span><span class="p">:</span> <span class="n">model_2</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">model_2</span><span class="p">))</span>
+
+    <span class="c1"># shape check</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">model_2</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;shape mismatch, shapes have to be equal!&quot;</span>
+
+    <span class="c1"># distinguish between 2D and 3D input</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+        <span class="c1"># iterate through the shells</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="p">:</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="n">b</span><span class="p">:</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">]</span>
+        
+            <span class="c1"># masking the shells</span>
+            <span class="n">mask1</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">i</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">mask2</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">mask3</span> <span class="o">=</span> <span class="n">mask1</span> <span class="o">*</span> <span class="n">mask2</span>
+            <span class="n">fsc_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">model_1</span><span class="p">[</span><span class="n">mask3</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">model_2</span><span class="p">[</span><span class="n">mask3</span><span class="p">]))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model_1</span><span class="p">[</span><span class="n">mask3</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model_2</span><span class="p">[</span><span class="n">mask3</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+        
+        <span class="n">fsc_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fsc_list</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fsc_array</span>
+
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="c1"># iterate through the shells</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ogrid</span><span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="p">:</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">a</span><span class="p">,</span> <span class="o">-</span><span class="n">b</span><span class="p">:</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">,</span> <span class="o">-</span><span class="n">c</span><span class="p">:</span><span class="n">model_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">c</span><span class="p">]</span>
+        
+            <span class="c1"># masking the shells</span>
+            <span class="n">mask1</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">i</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">mask2</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">mask3</span> <span class="o">=</span> <span class="n">mask1</span> <span class="o">*</span> <span class="n">mask2</span>
+            <span class="n">fsc_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">model_1</span><span class="p">[</span><span class="n">mask3</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">conjugate</span><span class="p">(</span><span class="n">model_2</span><span class="p">[</span><span class="n">mask3</span><span class="p">]))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model_1</span><span class="p">[</span><span class="n">mask3</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model_2</span><span class="p">[</span><span class="n">mask3</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()))</span>
+        
+        <span class="n">fsc_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fsc_list</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fsc_array</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;invalid dimension&quot;</span></div>
+
+
+<div class="viewcode-block" id="split_image"><a class="viewcode-back" href="../nutcracker.html#intensities.split_image">[docs]</a><span class="k">def</span> <span class="nf">split_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">,</span><span class="n">factor</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Splits a 2D diffraction pattern into two. </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        :image(float ndarray):        2 ndarray of intensities</span>
+
+<span class="sd">    Kwargs:</span>
+<span class="sd">        :method(str):                 method which should be used for splitting the data, default=&#39;random&#39; </span>
+<span class="sd">        :factor(int):                 is the factor by which the image size should be divided</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># checking for method</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;random&#39;</span><span class="p">:</span>
+        <span class="n">image_1</span><span class="p">,</span> <span class="n">image_2</span> <span class="o">=</span> <span class="n">_split_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">factor</span><span class="p">,</span><span class="n">method_is_random</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;ordered&#39;</span><span class="p">:</span>
+        <span class="n">image_1</span><span class="p">,</span> <span class="n">image_2</span> <span class="o">=</span> <span class="n">_split_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">factor</span><span class="p">,</span><span class="n">method_is_random</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s1">&#39;invalid method&#39;</span>
+
+    <span class="k">return</span> <span class="n">image_1</span><span class="p">,</span> <span class="n">image_2</span></div>
+
+<span class="k">def</span> <span class="nf">_split_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">factor</span><span class="p">,</span><span class="n">method_is_random</span><span class="p">):</span>
+    <span class="c1"># size of the old and the new pattern</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">d_new</span> <span class="o">=</span> <span class="n">d</span><span class="o">/</span><span class="n">factor</span>
+
+    <span class="c1"># checking dimension</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+        <span class="c1"># new pattern</span>
+        <span class="n">im_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d_new</span><span class="p">,</span><span class="n">d_new</span><span class="p">))</span>
+        <span class="n">im_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d_new</span><span class="p">,</span><span class="n">d_new</span><span class="p">))</span>
+
+        <span class="c1"># iterating through pattern</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">factor</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">factor</span><span class="p">):</span>
+                
+                <span class="c1"># part of the pattern as super pixel</span>
+                <span class="n">sup</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">factor</span><span class="p">]</span>
+                <span class="n">sup</span> <span class="o">=</span> <span class="n">sup</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+                
+                <span class="c1"># apply shuffel if necessary</span>
+                <span class="k">if</span> <span class="n">method_is_random</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">sup</span><span class="p">)</span>
+
+                <span class="c1"># adding the value of the sup to two new images</span>
+                <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sup</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">z</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">im_1</span><span class="p">[</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">=</span> <span class="n">im_1</span><span class="p">[</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">+</span> <span class="n">sup</span><span class="p">[</span><span class="n">z</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">im_2</span><span class="p">[</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">=</span> <span class="n">im_2</span><span class="p">[</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">+</span> <span class="n">sup</span><span class="p">[</span><span class="n">z</span><span class="p">]</span>
+
+    <span class="c1"># checking dimension</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+        <span class="c1"># new pattern </span>
+        <span class="n">im_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d_new</span><span class="p">,</span><span class="n">d_new</span><span class="p">,</span><span class="n">d_new</span><span class="p">))</span>
+        <span class="n">im_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">d_new</span><span class="p">,</span><span class="n">d_new</span><span class="p">,</span><span class="n">d_new</span><span class="p">))</span>
+
+        <span class="c1"># iterating through pattern </span>
+        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">factor</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">factor</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">d</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">factor</span><span class="p">):</span>
+
+                    <span class="c1"># part of the pattern as super pixel</span>
+                    <span class="n">sup</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">z</span><span class="o">+</span><span class="n">factor</span><span class="p">,</span><span class="n">y</span><span class="p">:</span><span class="n">y</span><span class="o">+</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="o">+</span><span class="n">factor</span><span class="p">]</span>
+                    <span class="n">sup</span> <span class="o">=</span> <span class="n">sup</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+                    <span class="c1"># apply shuffel if necessary</span>
+                    <span class="k">if</span> <span class="n">method_is_random</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">sup</span><span class="p">)</span>
+                
+                    <span class="c1"># adding the value of the sup to two new images</span>
+                    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sup</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">a</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">im_1</span><span class="p">[</span><span class="n">z</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">=</span> <span class="n">im_1</span><span class="p">[</span><span class="n">z</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">+</span> <span class="n">sup</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">im_2</span><span class="p">[</span><span class="n">z</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">=</span> <span class="n">im_2</span><span class="p">[</span><span class="n">z</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">y</span><span class="o">/</span><span class="n">factor</span><span class="p">,</span><span class="n">x</span><span class="o">/</span><span class="n">factor</span><span class="p">]</span> <span class="o">+</span> <span class="n">sup</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">im_1</span><span class="p">,</span> <span class="n">im_2</span>
+
+<div class="viewcode-block" id="q_factor"><a class="viewcode-back" href="../nutcracker.html#intensities.q_factor">[docs]</a><span class="k">def</span> <span class="nf">q_factor</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="n">full_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calcualtes the q factor for a set of images. [Hstau Y. Liao et al. Definition and estimation of resolution in single-particle reconstructions, Structure, 2010]</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        :images(float ndarray):        3d ndarray, which contains the images</span>
+<span class="sd">        </span>
+<span class="sd">    Kwargs:</span>
+<span class="sd">        :full_output(bool):            gives the full output, default=False</span>
+<span class="sd">        :axis(int):                    axis on which the images are located, default=0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># apply mask if neccessary</span>
+    <span class="k">if</span> <span class="n">mask</span><span class="p">:</span>
+        <span class="n">images</span> <span class="o">=</span> <span class="n">images</span> <span class="o">*</span> <span class="n">mask</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="c1"># calculating the q value</span>
+    <span class="n">q_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">images</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    
+    <span class="n">q_function</span> <span class="o">=</span> <span class="n">spimage</span><span class="o">.</span><span class="n">radialMeanImage</span><span class="p">(</span><span class="n">q_map</span><span class="p">)</span>
+
+    <span class="n">q_pure_noise</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">images</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">full_output</span><span class="p">:</span>
+        <span class="n">out</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;q_map&#39;</span><span class="p">:</span><span class="n">q_map</span><span class="p">,</span>
+             <span class="s1">&#39;q_function&#39;</span><span class="p">:</span><span class="n">q_function</span><span class="p">,</span>
+             <span class="s1">&#39;noise_convergence&#39;</span><span class="p">:</span><span class="n">q_pure_noise</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">q_map</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Louis Doctor.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'31.05.2017',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
