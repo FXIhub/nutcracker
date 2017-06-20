@@ -154,14 +154,47 @@
             
   <div class="section" id="usage-of-nutcracker">
 <h1>Usage of Nutcracker<a class="headerlink" href="#usage-of-nutcracker" title="Permalink to this headline">¶</a></h1>
-<p>Follwing section trys to show how to execute <em>Nutcracker</em> functions. The denotation should be in accordance with <a href="#id1"><span class="problematic" id="id2">:role:`Introduction &lt;introduction&gt;`</span></a>.</p>
+<p>Follwing section trys to show how to execute <em>Nutcracker</em> functions. The denotation should be in accordance with <span class="xref std std-ref">_introduction</span>.</p>
 <div class="section" id="intensities-module">
 <h2>Intensities module<a class="headerlink" href="#intensities-module" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="fourier-shell-ring-correlation">
 <h3>Fourier-Shell/Ring-Correlation<a class="headerlink" href="#fourier-shell-ring-correlation" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>::</dt>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">linenos:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>import nutcracker
+import numpy as np</p>
+<p>F1 = np.random.random((10,10)) #Fourier-Transform
+F2 = np.random.random((10,10)) #Fourier-Transforms</p>
+<p class="last">FSC = nutcracker.intensities.fourier_shell_correlation(F1, F2)</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="q-factor">
 <h3>Q-factor<a class="headerlink" href="#q-factor" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>::</dt>
+<dd><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">linenos:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>import nutcracker
+import numpy as np</p>
+<p class="last">Fn = np.random.random((5,10,10)) #Set of Fourier-Transform
+Q = nutcracker.intensities.q_factor(Fn)</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="split-image-function">
 <h3>Split image function<a class="headerlink" href="#split-image-function" title="Permalink to this headline">¶</a></h3>

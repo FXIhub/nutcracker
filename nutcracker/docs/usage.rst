@@ -1,7 +1,7 @@
 Usage of Nutcracker
 ===================
 
-Follwing section trys to show how to execute *Nutcracker* functions. The denotation should be in accordance with :role:`Introduction <introduction>`.
+Follwing section trys to show how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`_introduction`.
 
 Intensities module
 ------------------
@@ -9,7 +9,8 @@ Intensities module
 Fourier-Shell/Ring-Correlation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: python
+::
+    :linenos:
 
     import nutcracker
     import numpy as np
@@ -23,7 +24,8 @@ Fourier-Shell/Ring-Correlation
 Q-factor
 ^^^^^^^^
 
-.. code-block:: python
+::
+    :linenos:
 
     import nutcracker
     import numpy as np
