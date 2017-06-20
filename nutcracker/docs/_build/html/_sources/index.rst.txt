@@ -11,9 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
    
-   Install <installation>
+   Installation <installation>
    Introduction <introduction>
    Usage <usage>
+   References <references>
+   Contact <contact>
 
 Indices and tables
 ==================

@@ -1,5 +1,4 @@
 .. _introduction:
-
 Description of Nutcracker
 =========================
 
