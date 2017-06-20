@@ -88,8 +88,8 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#intensities-module">Intensities module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#fourier-shell-ring-correlation">Fourier-Shell/Ring-Correlation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#q-factor">Q-factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fourier-shell-ring-correlation-1">Fourier-Shell/Ring-Correlation [1]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q-factor-1">Q-factor [1]</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#split-image-function">Split image function</a></li>
 </ul>
 </li>
@@ -161,14 +161,14 @@
 <div class="section" id="intensities-module">
 <h2>Intensities module<a class="headerlink" href="#intensities-module" title="Permalink to this headline">¶</a></h2>
 <p>The main features of this module are the Fourier-Shell-Correlation (3D), respectively the Fourier-Ring-Correlation (2D) and the Q-factor calculation. The side feature, the split image function, allows to split up one pattern or volume in two, to raise the opporunity to perform comparative image analysis on just one pattern/volume.</p>
-<div class="section" id="fourier-shell-ring-correlation">
-<h3>Fourier-Shell/Ring-Correlation<a class="headerlink" href="#fourier-shell-ring-correlation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="fourier-shell-ring-correlation-1">
+<h3>Fourier-Shell/Ring-Correlation [1]<a class="headerlink" href="#fourier-shell-ring-correlation-1" title="Permalink to this headline">¶</a></h3>
 <p>The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1986, is the 3 dimensional extention of the Fourier-Ring-Correlation (FRC). It basicly describes the similarity of two Fourier-Transforms <span class="math">\(F_{1}(\textbf{k})\)</span> and <span class="math">\(F_{2}(\textbf{k})\)</span>, with <span class="math">\(\textbf{k}\)</span> as spatial frequency vector. It starts at low spatial frequency with perfect correlation 1 and drops for increasing frequency. Usually the threshold for the resolution determination is <span class="math">\(\frac{1}{e}\)</span>. The purpose of this function is to calculate the resolution between two Fourier-Transforms.</p>
 <div class="math">
 \[FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k}) \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k}) \rvert^{2}}}\]</div>
 </div>
-<div class="section" id="q-factor">
-<h3>Q-factor<a class="headerlink" href="#q-factor" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="q-factor-1">
+<h3>Q-factor [1]<a class="headerlink" href="#q-factor-1" title="Permalink to this headline">¶</a></h3>
 <p>The Q-factor is calculated over a set of <span class="math">\(n\)</span> patterns and describes the ratio of the length of the Fourier-Transforms sum and the length of each Fourier-Transforms. The result is a 2D map which shows the clarity of the signal. This function is a fast and simple method to estimate the signal to noise ratio.</p>
 <div class="math">
 \[Q(\textbf{k}) = \frac{\lvert \sum_{n} F_{n}(\textbf{k}) \rvert}{\sum_{n} \lvert F_{n}(\textbf{k}) \rvert}\]</div>
