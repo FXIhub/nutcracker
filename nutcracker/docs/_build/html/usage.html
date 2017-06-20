@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Description of Nutcracker and how to use it &mdash; Nutcracker 31.05.2017 documentation</title>
+  <title>Usage of Nutcracker &mdash; Nutcracker 31.05.2017 documentation</title>
   
 
   
@@ -34,7 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Nutcracker 31.05.2017 documentation" href="index.html"/>
-        <link rel="prev" title="Installation" href="installation.html"/> 
+        <link rel="prev" title="Description of Nutcracker" href="introduction.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,6 +85,7 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#intensities-module">Intensities module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#fourier-shell-ring-correlation">Fourier-Shell/Ring-Correlation</a></li>
@@ -137,7 +138,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Description of Nutcracker and how to use it</li>
+    <li>Usage of Nutcracker</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -151,102 +152,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="description-of-nutcracker-and-how-to-use-it">
-<h1>Description of Nutcracker and how to use it<a class="headerlink" href="#description-of-nutcracker-and-how-to-use-it" title="Permalink to this headline">¶</a></h1>
-<p>The following section trys to give a basic understanding of the <em>Nutcracker</em> package. Futhermore some mathematical convetions are uesed. Vectors are denoted in bold letters. If just one componend of a vector is used, the related position in the vector is given as a footnote.</p>
+  <div class="section" id="usage-of-nutcracker">
+<h1>Usage of Nutcracker<a class="headerlink" href="#usage-of-nutcracker" title="Permalink to this headline">¶</a></h1>
+<p>Follwing section trys to show how to execute <em>Nutcracker</em> functions. The denotation should be in accordance with <a href="#id1"><span class="problematic" id="id2">:role:`Introduction &lt;introduction&gt;`</span></a>.</p>
 <div class="section" id="intensities-module">
 <h2>Intensities module<a class="headerlink" href="#intensities-module" title="Permalink to this headline">¶</a></h2>
-<p>The main features of this module are the Fourier-Shell-Correlation (3D), respectively the Fourier-Ring-Correlation (2D) and the Q-factor calculation. The side feature, the split image function, allows to split up one pattern or volume in two, to raise the opporunity to perform comparative image analysis on just one pattern/volume.</p>
 <div class="section" id="fourier-shell-ring-correlation">
 <h3>Fourier-Shell/Ring-Correlation<a class="headerlink" href="#fourier-shell-ring-correlation" title="Permalink to this headline">¶</a></h3>
-<p>The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1986, is the 3 dimensional extention of the Fourier-Ring-Correlation (FRC). It basicly describes the similarity of two Fourier-Transforms <span class="math">\(F_{1}(\textbf{k})\)</span> and <span class="math">\(F_{2}(\textbf{k})\)</span>, with <span class="math">\(\textbf{k}\)</span> as spatial frequency vector. It starts at low spatial frequency with perfect correlation 1 and drops for increasing frequency. Usually the threshold for the resolution determination is <span class="math">\(\frac{1}{e}\)</span>. The purpose of this function is to calculate the resolution between two Fourier-Transforms.</p>
-<div class="math">
-\[FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k}) \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k}) \rvert^{2}}}\]</div>
 </div>
 <div class="section" id="q-factor">
 <h3>Q-factor<a class="headerlink" href="#q-factor" title="Permalink to this headline">¶</a></h3>
-<p>The Q-factor is calculated over a set of <span class="math">\(n\)</span> patterns and describes the ratio of the length of the Fourier-Transforms sum and the length of each Fourier-Transforms. The result is a 2D map which shows the clarity of the signal. This function is a fast and simple method to estimate the signal to noise ratio.</p>
-<div class="math">
-\[Q(\textbf{k}) = \frac{\lvert \sum_{n} F_{n}(\textbf{k}) \rvert}{\sum_{n} \lvert F_{n}(\textbf{k}) \rvert}\]</div>
 </div>
 <div class="section" id="split-image-function">
 <h3>Split image function<a class="headerlink" href="#split-image-function" title="Permalink to this headline">¶</a></h3>
-<p>This function raises the opportunity to perform e.g. a FRC on a single pattern. The image or volume is splitted by creating superpixels in which single pixels are summed up in order or randomly according to the two resulting images. Thats conserve the number of scattered photons respectively the information of the actual input.</p>
-<img alt="_images/split_image.png" src="_images/split_image.png" />
 </div>
 </div>
 <div class="section" id="quaternions-module">
 <h2>Quaternions module<a class="headerlink" href="#quaternions-module" title="Permalink to this headline">¶</a></h2>
-<p>Quaternions are 4 dimensional complex number, with a scalar part <span class="math">\(w\)</span> and a vector part <span class="math">\([x,y,z]\)</span>. The scalar part describes also the real part and the vector the imaginary part of the complex number. Additionally the three components of the imaginary part are multiplied by <span class="math">\(i\)</span>, <span class="math">\(j\)</span> and <span class="math">\(k\)</span>. Quaternions can be denoted as</p>
-<div class="math">
-\[\begin{split}q = w + xi + yj + zk \\
-\textbf{q} = [w,x,y,z].\end{split}\]</div>
-<p>The scalar or inner product in quaternion space is defined as</p>
-<div class="math">
-\[\langle q_{1} | q_{2} \rangle = \lvert q_{1} \rvert \lvert q_{2} \rvert \cos (\frac{\theta}{2}).\]</div>
-<p>This leads to an enclosed angle</p>
-<div class="math">
-\[\theta = 2 \arccos{\langle q_{1} | q_{2} \rangle} = 2 \arctan2(\lvert \textbf{q}_{r} \lvert, q_{r,0}).\]</div>
-<p><span class="math">\(q_{r}\)</span> stands for the relative quaternion, where <span class="math">\(\textbf{q}_{r}\)</span> denotes the vector part and <span class="math">\(q_{r,0}\)</span> the scalar part.
-The relative quaternion, meaning the rotation between two quaternions can be obtained by</p>
-<div class="math">
-\[q_{r} = q_{1}^{-1} \cdot q_{2}\]</div>
-<p>In this expression the <span class="math">\(\cdot\)</span> means the quaternion multiplikation.</p>
-<p>Quaternions can be used to describe an intuitive way of rotations. Nonetheless one should take the ambiguity <span class="math">\(q = -q\)</span> into account.</p>
-<p>The two following ways of comparing sets of quaternions originate from [Ekeberg et al., in progress].</p>
 <div class="section" id="compare-two-sets-of-quaternions">
 <h3>Compare two sets of quaternions<a class="headerlink" href="#compare-two-sets-of-quaternions" title="Permalink to this headline">¶</a></h3>
-<p>This function takes two sets of quaternions and pickes randomly quaternions within each set. By calculating now the relative quaternion between the two samples and the corresponding rotaion angle, the result is a distribution of the enclosed angle and shows how well the sets are correlating with each other. For more analysis one can look on the z-score or the percentage of the quaternions in a given standard deviation <span class="math">\(\sigma\)</span>.</p>
 </div>
 <div class="section" id="global-quaternion-rotation-between-two-sets">
 <h3>Global quaternion rotation between two sets<a class="headerlink" href="#global-quaternion-rotation-between-two-sets" title="Permalink to this headline">¶</a></h3>
-<p>This method gives the global rotation in form of a quaternion between the two sets. The result could than be used to realign the two sets or a corresponding model. At first, as in the method before, the relative quaternion is calculated, but now between each quaternion from the two sets. The mean of this relative quaternions lead to the global quaternion. To verify that the global roation is right, the enclosed angles between the global quaternion and the quaternions of one set are calculated. For a perfect correlaction between the two sets of quaternions the angular error is 0.</p>
 </div>
 </div>
 <div class="section" id="real-space-module">
 <h2>Real-space module<a class="headerlink" href="#real-space-module" title="Permalink to this headline">¶</a></h2>
-<p>The real-space module uses spimage functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.</p>
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="rotate">
 <h3>Rotate<a class="headerlink" href="#rotate" title="Permalink to this headline">¶</a></h3>
-<p>Key feature of the rotate submodule is the find-rotation function. This function aligns two models by applying a rotation matrix and trys to find the global minimum of the error between the two models. Thereby could three differnt methods be used:</p>
-<blockquote>
-<div><ul class="simple">
-<li>brute-force algorithm</li>
-<li>minimise function with the limited memory Broyden–Fletcher–Goldfarb–Shanno bound constraint algorithm</li>
-<li>differential evolution</li>
-</ul>
-</div></blockquote>
-<p>Following points are recommended to think about to align the models succesfully:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li>If the rotational difference between the models is not to great the minimise function can be used. Since the minimise function is quite sensitiv and less robust, it might be that it will stuck in a local minimum and a flase solution is found. A big advantage of this function is the very little amount of time and computational power that is required.</li>
-<li>If the rotational difference is obviously big or the minimise function failed one should think about using the differntial evolution method instead. Important to know is that this function bases on a stochastic population method. It can be recommend to run this function several times and store the results. After that the could take the mean and should get a decent final result. This solution one could than give to the minimise function to refine the result.</li>
-<li>The most robust, but also the most slow way to perform the alignment is by using the brute force function. The amount of time depends mainly on the size of the models and the size of the search grid. To increase the speed one could crop the models if possible. Another possibility to speed up the brute force is to run it with the multiprocessed brute force function which is also provided by <em>Nutcracker</em>.</li>
-</ol>
-</div></blockquote>
 </div>
 <div class="section" id="shift">
 <h3>Shift<a class="headerlink" href="#shift" title="Permalink to this headline">¶</a></h3>
-<p>The find-shift function is the counterpart of the find-rotation function, since the rotation is conserved in fourier-/intensity-space for a fully alignt model one has to also find the right shift in real-space. Therefor the user has following method available:</p>
-<blockquote>
-<div><ul class="simple">
-<li>brute-force algorithm</li>
-<li>minimise function with the limited memory Broyden–Fletcher–Goldfarb–Shanno bound constraint algorithm</li>
-</ul>
-</div></blockquote>
-<p>The same points as for the find-rotation function should be considered.</p>
 </div>
 <div class="section" id="plot-analysis">
 <h3>Plot-analysis<a class="headerlink" href="#plot-analysis" title="Permalink to this headline">¶</a></h3>
-<p>This submodule contains the envelope function which calcualtes the higher as well as the lower envelope. The envelopes are calculated by interpolating between turning points in a given interval. The interval is defined by the sample frequence. The envelope function also has a peak finding key, so that peaks over or under a certain threshold are not take into account when calculating the envelope.</p>
 </div>
 <div class="section" id="error-matrix-multiprocessed">
 <h3>Error matrix multiprocessed<a class="headerlink" href="#error-matrix-multiprocessed" title="Permalink to this headline">¶</a></h3>
-<p>Due to the fact that a brute force algorithm requries a lot of time and computational power this class provides an option to decrease the runtime. Currently this class covers just the rotation finding.
-With multiprocessing the brute force algorithm the search grid is dived into chuncks. The size of the chuncks is defined by the user. The number of chuncks leads to the number of processes. Each process will run a brute force algorithm with the chunck as new search grid. After all one can reassemble the resulting error matrix.</p>
 </div>
 </div>
 </div>
@@ -259,7 +204,7 @@ With multiprocessing the brute force algorithm the search grid is dived into chu
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="introduction.html" class="btn btn-neutral" title="Description of Nutcracker" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

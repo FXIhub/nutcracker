@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
    
    Install <installation>
+   Introduction <introduction>
    Usage <usage>
 
 Indices and tables
