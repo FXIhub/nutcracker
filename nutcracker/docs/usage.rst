@@ -1,7 +1,7 @@
 Usage of Nutcracker
 ===================
 
-Follwing section trys to show how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`_introduction`.
+Follwing section trys to show how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`introduction`.
 
 Intensities module
 ------------------
