@@ -160,7 +160,7 @@
             
   <div class="section" id="usage-of-nutcracker">
 <h1>Usage of Nutcracker<a class="headerlink" href="#usage-of-nutcracker" title="Permalink to this headline">¶</a></h1>
-<p>Follwing section trys to show how to execute <em>Nutcracker</em> functions. The denotation should be in accordance with <span class="xref std std-ref">introduction</span>.</p>
+<p>Follwing section trys to show an overview of how to execute <em>Nutcracker</em> functions. The denotation should be in accordance with <a class="reference internal" href="introduction.html#introduction"><span class="std std-ref">introduction</span></a>. Not all functions are shown.</p>
 <div class="section" id="intensities-module">
 <h2>Intensities module<a class="headerlink" href="#intensities-module" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="fourier-shell-ring-correlation">
@@ -261,12 +261,54 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="rotate">
 <h3>Rotate<a class="headerlink" href="#rotate" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">Img_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#intensity space volumes</span>
+<span class="n">Img_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#intensity space volumes</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotate</span><span class="o">.</span><span class="n">find_rotation_between_two_models</span><span class="p">(</span><span class="n">Img_2</span><span class="p">,</span><span class="n">Img_1</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;fmin_l_bfgs_b&#39;</span><span class="p">,</span>
+                                                                  <span class="n">radius_radial_mask</span><span class="o">=</span><span class="mf">20.</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+                                                                  <span class="n">order_spline_interpolation</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                                                  <span class="n">initial_guess</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],</span>
+                                                                  <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">rotation_angles</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;rotation_angles&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="shift">
 <h3>Shift<a class="headerlink" href="#shift" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">img_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#real space volumes</span>
+<span class="n">img_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#real space volumes</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">shift</span><span class="o">.</span><span class="n">find_shift_between_two_models</span><span class="p">(</span><span class="n">img_2</span><span class="p">,</span><span class="n">img_1</span><span class="p">,</span><span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;brute_force&#39;</span><span class="p">)</span>
+
+<span class="n">shift_values</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s1">&#39;shift_values&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="plot-analysis">
 <h3>Plot-analysis<a class="headerlink" href="#plot-analysis" title="Permalink to this headline">¶</a></h3>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="mf">0.22</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="n">upper_envelope</span><span class="p">,</span> <span class="n">lower_envelope</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">plot_analysis</span><span class="o">.</span><span class="n">envelope</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">upper</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">lower</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/envelope.png" src="_images/envelope.png" />
 </div>
 <div class="section" id="error-matrix-multiprocessed">
 <h3>Error matrix multiprocessed<a class="headerlink" href="#error-matrix-multiprocessed" title="Permalink to this headline">¶</a></h3>

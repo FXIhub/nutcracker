@@ -1,7 +1,7 @@
 Usage of Nutcracker
 ===================
 
-Follwing section trys to show how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`introduction`.
+Follwing section trys to show an overview of how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`introduction <introduction>`. Not all functions are shown.
 
 Intensities module
 ------------------
@@ -112,11 +112,58 @@ Submodules
 Rotate
 ^^^^^^
 
+.. code::
+
+    import nutcracker
+    import numpy as np
+
+    Img_1 = np.random.random((10,10,10)) #intensity space volumes
+    Img_2 = np.random.random((10,10,10)) #intensity space volumes
+
+    output = nutcracker.utils.rotate.find_rotation_between_two_models(Img_2,Img_1,method='fmin_l_bfgs_b',
+                                                                      radius_radial_mask=20./2,
+                                                                      order_spline_interpolation=3,
+                                                                      initial_guess=[0.0,0.0,0.0],
+                                                                      full_output=True)
+								      
+    rotation_angles = output['rotation_angles']								      								      
+
 Shift
 ^^^^^
+
+.. code::
+
+    import nutcracker
+    import numpy as np
+
+    img_1 = np.random.random((10,10,10)) #real space volumes
+    img_2 = np.random.random((10,10,10)) #real space volumes
+
+    output = nutcracker.utils.shift.find_shift_between_two_models(img_2,img_1,full_output=True,method='brute_force')
+
+    shift_values = output['shift_values']
 
 Plot-analysis
 ^^^^^^^^^^^^^
 
+.. code::
+    
+    import nutcracker
+    import numpy as np
+
+    x = np.arange(100)
+    y = np.abs(np.sinc(0.22 * x))
+
+    upper_envelope, lower_envelope = nutcracker.utils.plot_analysis.envelope(y,6)
+
+    plt.figure()
+    plt.plot(x,y)
+    plt.plot(x,upper)
+    plt.plot(x,lower)
+    plt.show()    
+
+.. image:: ./images/envelope.png
+
 Error matrix multiprocessed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
