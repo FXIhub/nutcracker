@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>quaternions &mdash; Nutcracker 31.05.2017 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Nutcracker 31.05.2017 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Nutcracker
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Nutcracker</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>quaternions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for quaternions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">condor</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The idea of comparing two sets of quaternions in this way originates from Tomas Ekeberg.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="compare_two_sets_of_quaternions"><a class="viewcode-back" href="../nutcracker.html#quaternions.compare_two_sets_of_quaternions">[docs]</a><span class="k">def</span> <span class="nf">compare_two_sets_of_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">full_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="n">q1_is_extrinsic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">q2_is_extrinsic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compares two sets of quaternions based on a comparison of randomly picked quaternions within each set. </span>
+
+<span class="sd">    Args: </span>
+<span class="sd">        :q1(float ndarray):        5d ndarray of intrinsic quaternions</span>
+<span class="sd">        :q2(float ndarray):        5d ndarray of intrinsic quaternions</span>
+
+<span class="sd">    Kwargs:</span>
+<span class="sd">        :full_output(bool):        returns full output as a dictionary, default = False</span>
+<span class="sd">        :n_samples(int):           number of randomly picked pairs of quaternions, default = 100</span>
+<span class="sd">        :q1_is_extrinsic(bool):    q1 quaternions are extrinsic and should be converted to instrinsic, default = False</span>
+<span class="sd">        :q2_is_extrinsic(bool):    q2 quaternions are extrinsic and should be converted to instrinsic, default = False </span>
+<span class="sd">        :sigma(int):               sigma of standart deviation, default = 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">q1_rel_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">q2_rel_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">theta_rel</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># iterate through a number of randomly picked pairs</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">while</span> <span class="n">m</span><span class="o">==</span><span class="n">n</span><span class="p">:</span>
+            <span class="c1"># pick random index</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                
+        <span class="c1"># pick random quaternions and make sure they are represented on one half of the hyper sphere</span>
+        <span class="n">q1_m</span> <span class="o">=</span> <span class="n">q1</span><span class="p">[</span><span class="n">m</span><span class="p">,:]</span>
+        <span class="n">q1_n</span> <span class="o">=</span> <span class="n">q1</span><span class="p">[</span><span class="n">n</span><span class="p">,:]</span>
+        <span class="n">q2_m</span> <span class="o">=</span> <span class="n">q2</span><span class="p">[</span><span class="n">m</span><span class="p">,:]</span>
+        <span class="n">q2_n</span> <span class="o">=</span> <span class="n">q2</span><span class="p">[</span><span class="n">n</span><span class="p">,:]</span>
+
+        <span class="c1"># normalise quaternions</span>
+        <span class="n">q1_m</span> <span class="o">=</span> <span class="n">q1_m</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q1_m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_m</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_m</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q1_n</span> <span class="o">=</span> <span class="n">q1_n</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q1_n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_n</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_n</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q2_m</span> <span class="o">=</span> <span class="n">q2_m</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q2_m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_m</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_m</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q2_n</span> <span class="o">=</span> <span class="n">q2_n</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q2_n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_n</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_n</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># convert quaternions if necessary</span>
+        <span class="k">if</span> <span class="n">q1_is_extrinsic</span><span class="p">:</span> 
+            <span class="n">q1_m</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q1_m</span><span class="p">)</span>
+            <span class="n">q1_n</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q1_n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">q2_is_extrinsic</span><span class="p">:</span> 
+            <span class="n">q2_m</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_m</span><span class="p">)</span>
+            <span class="n">q2_n</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_n</span><span class="p">)</span>
+
+        <span class="c1"># calculating the inverse of q -&gt; q^-1</span>
+        <span class="n">q1_n_inv</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q1_n</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q1_n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_n</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_n</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q2_n_inv</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_n</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q2_n</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_n</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_n</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    
+        <span class="c1"># calculating the relative quaternion q_rel = q_m * q_n^-1</span>
+        <span class="k">if</span> <span class="n">q1_is_extrinsic</span> <span class="ow">or</span> <span class="n">q2_is_extrinsic</span><span class="p">:</span><span class="n">q1_rel</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q1_n_inv</span><span class="p">,</span> <span class="n">q1_m</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">q1_rel</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q1_m</span><span class="p">,</span><span class="n">q1_n_inv</span><span class="p">)</span>
+
+        <span class="n">w1</span> <span class="o">=</span> <span class="n">q1_rel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># calculating the relative quaternion q_rel = q_m * q_n^-1 </span>
+        <span class="k">if</span> <span class="n">q1_is_extrinsic</span> <span class="ow">or</span> <span class="n">q2_is_extrinsic</span><span class="p">:</span>
+            <span class="n">q2_rel_1</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q2_n_inv</span><span class="p">,</span> <span class="n">q2_m</span><span class="p">)</span>
+            <span class="n">q2_rel_2</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q2_n_inv</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">q2_m</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">q2_rel_1</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q2_m</span><span class="p">,</span> <span class="n">q2_n_inv</span><span class="p">)</span>
+            <span class="n">q2_rel_2</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">q2_m</span><span class="p">,</span> <span class="n">q2_n_inv</span><span class="p">)</span>
+
+        <span class="n">w2_1</span> <span class="o">=</span> <span class="n">q2_rel_1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">w2_2</span> <span class="o">=</span> <span class="n">q2_rel_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w1</span> <span class="o">-</span> <span class="n">w2_1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w1</span> <span class="o">-</span> <span class="n">w2_2</span><span class="p">):</span> 
+            <span class="n">w2</span> <span class="o">=</span> <span class="n">w2_1</span>
+            <span class="n">q2_rel</span> <span class="o">=</span> <span class="n">q2_rel_1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">w2</span> <span class="o">=</span> <span class="n">w2_2</span>
+            <span class="n">q2_rel</span> <span class="o">=</span> <span class="n">q2_rel_2</span>
+        
+        <span class="c1"># calculating the angle between the relative rotations</span>
+        <span class="n">q_rel</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q1_rel</span><span class="p">,</span><span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_rel</span><span class="p">))</span>
+        <span class="n">theta_rel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q_rel</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q_rel</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q_rel</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">q_rel</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+        <span class="c1">#theta_rel.append(2 * np.arccos(np.inner(q1_rel,q2_rel)))</span>
+
+        <span class="n">q1_rel_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q1_rel</span><span class="p">)</span>
+        <span class="n">q2_rel_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q2_rel</span><span class="p">)</span>
+    
+    <span class="n">q1_rel_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q1_rel_list</span><span class="p">)</span>
+    <span class="n">q2_rel_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q2_rel_list</span><span class="p">)</span>
+    <span class="n">theta_rel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">theta_rel</span><span class="p">)</span>
+        
+    <span class="c1"># difference between scalar components of two relative quaternions</span>
+    <span class="n">diff_rel</span> <span class="o">=</span> <span class="n">q1_rel_array</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">q2_rel_array</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">diff_rel_mean</span> <span class="o">=</span> <span class="n">diff_rel</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">diff_rel_std</span> <span class="o">=</span> <span class="n">diff_rel</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+    <span class="c1"># calculate z-score</span>
+    <span class="n">z_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">diff_rel</span> <span class="o">-</span> <span class="n">diff_rel_mean</span><span class="p">)</span><span class="o">/</span><span class="n">diff_rel_std</span>
+    
+    <span class="c1"># percentage of quaternions within given sigma</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_score</span> <span class="o">&lt;</span> <span class="n">sigma</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">n_samples</span>
+
+    <span class="k">if</span> <span class="n">full_output</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;q1_rel&#39;</span><span class="p">:</span><span class="n">q1_rel_array</span><span class="p">,</span>
+               <span class="s1">&#39;q2_rel&#39;</span><span class="p">:</span><span class="n">q2_rel_array</span><span class="p">,</span>
+               <span class="s1">&#39;theta_rel&#39;</span><span class="p">:</span><span class="n">theta_rel</span><span class="p">,</span>
+               <span class="s1">&#39;diff_rel&#39;</span><span class="p">:</span><span class="n">diff_rel</span><span class="p">,</span>
+               <span class="s1">&#39;z_score&#39;</span><span class="p">:</span><span class="n">z_score</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">p</span><span class="p">,</span><span class="n">out</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="global_quaternion_rotation_between_two_sets"><a class="viewcode-back" href="../nutcracker.html#quaternions.global_quaternion_rotation_between_two_sets">[docs]</a><span class="k">def</span> <span class="nf">global_quaternion_rotation_between_two_sets</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span><span class="n">q2</span><span class="p">,</span><span class="n">full_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">q1_is_extrinsic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">q2_is_extrinsic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculating the global rotation (quaternion) between two sets of quaternions on base of the mean relative quaternion between each sample of the sets.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        :q1(float ndarray):        5d ndarray of intrinsic quaternions</span>
+<span class="sd">        :q2(float ndarray):        5d ndarray of intrinsic quaternions</span>
+
+<span class="sd">    Kwargs:</span>
+<span class="sd">        :full_output(bool):        returns full output as a dictionary, default = False</span>
+<span class="sd">        :q1_is_extrinsic(bool):    q1 quaternions are extrinsic and should be converted to instrinsic, default = False  </span>
+<span class="sd">        :q2_is_extrinsic(bool):    q2 quaternions are extrinsic and should be converted to instrinsic, default = False</span>
+<span class="sd">        :sigma(int):               sigma of standart deviation, default = 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">quat_list</span> <span class="o">=</span> <span class="p">[]</span>  
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span> 
+
+        <span class="c1"># iterate quaternions of the two sets</span>
+        <span class="n">q1_i</span> <span class="o">=</span> <span class="n">q1</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+        <span class="n">q2_i</span> <span class="o">=</span> <span class="n">q2</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+
+        <span class="c1">#make sure they are represented on one half of the hyper sphere</span>
+        <span class="c1">#if q1_i[0] &lt; 0: q1_i[0] = -q1_i[0]</span>
+        <span class="c1">#if q2_i[0] &lt; 0: q2_i[0] = -q2_i[0]</span>
+
+        <span class="c1"># normalising quaternions</span>
+        <span class="n">q1_i</span> <span class="o">=</span> <span class="n">q1_i</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q1_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q2_i</span> <span class="o">=</span> <span class="n">q2_i</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q2_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># convert quaternions if necessary</span>
+        <span class="k">if</span> <span class="n">q1_is_extrinsic</span><span class="p">:</span> <span class="n">q1_i</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q1_i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">q2_is_extrinsic</span><span class="p">:</span> <span class="n">q2_i</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_i</span><span class="p">)</span>
+    
+        <span class="c1"># calculating the inverse quaternion of q1_i</span>
+        <span class="n">q1_inv</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q1_i</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q1_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    
+        <span class="c1"># calculating the relative quaternion between the two sets for each sample</span>
+        <span class="k">if</span> <span class="n">q1_is_extrinsic</span> <span class="ow">or</span> <span class="n">q2_is_extrinsic</span><span class="p">:</span> <span class="n">q_rel</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q2_i</span><span class="p">,</span><span class="n">q1_inv</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">q_rel</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q1_inv</span><span class="p">,</span><span class="n">q2_i</span><span class="p">)</span>
+    
+        <span class="n">quat_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q_rel</span><span class="p">)</span>
+    
+    <span class="n">quat_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">quat_list</span><span class="p">)</span>
+    <span class="n">quat_array_mean</span> <span class="o">=</span> <span class="n">quat_array</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">quat_array_mean</span> <span class="o">=</span> <span class="n">quat_array_mean</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">quat_array_mean</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">quat_array_mean</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">quat_array_mean</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">quat_array_mean</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    
+    <span class="c1"># calculate the angular uncertainty of the global relative quaternion</span>
+    <span class="n">angle_error</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+
+        <span class="c1"># iterate through the sets of quaternions</span>
+        <span class="n">q1_i</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">unique_representation_quat</span><span class="p">(</span><span class="n">q1</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span>
+        <span class="n">q2_i</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">unique_representation_quat</span><span class="p">(</span><span class="n">q2</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span>
+
+        <span class="c1"># normalising quaternions                                                                                                                                       </span>
+        <span class="n">q1_i</span> <span class="o">=</span> <span class="n">q1_i</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q1_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q1_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">q2_i</span> <span class="o">=</span> <span class="n">q2_i</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q2_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_i</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_i</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># convert quaternions if necessary</span>
+        <span class="k">if</span> <span class="n">q1_is_extrinsic</span><span class="p">:</span> <span class="n">q1_i</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q1_i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">q2_is_extrinsic</span><span class="p">:</span> <span class="n">q2_i</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_i</span><span class="p">)</span>
+
+        <span class="c1"># calculate the relative rotation to q2</span>
+        <span class="n">q2_rot</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q1_i</span><span class="p">,</span><span class="n">quat_array_mean</span><span class="p">)</span>
+        
+        <span class="c1"># calculating the angle between the actuall quaternion q1 and the roatation of q2 (q_rel = q1 * q2^-1  -&gt;  q_rel * q2^-1 = q1)</span>
+        <span class="n">q2_rot_rel_1</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="n">q2_i</span><span class="p">,</span><span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_rot</span><span class="p">))</span>
+        <span class="n">q2_rot_rel_2</span> <span class="o">=</span> <span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_mult</span><span class="p">(</span><span class="o">-</span><span class="n">q2_i</span><span class="p">,</span><span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">quat_conj</span><span class="p">(</span><span class="n">q2_rot</span><span class="p">))</span>
+
+        <span class="n">theta_1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q2_rot_rel_1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_rot_rel_1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_rot_rel_1</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">q2_rot_rel_1</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">theta_2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">q2_rot_rel_2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_rot_rel_2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q2_rot_rel_2</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">q2_rot_rel_2</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="c1">#theta_1 = 2 * np.arccos(np.inner(q2_rot,q2_i))</span>
+        <span class="c1">#theta_2 = 2 * np.arccos(np.inner(q2_rot,-1 * q2_i))</span>
+
+        <span class="c1"># distinguish between the smaler angle</span>
+        <span class="k">if</span> <span class="n">theta_1</span> <span class="o">&lt;</span> <span class="n">theta_2</span><span class="p">:</span>
+            <span class="n">angle_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta_1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">angle_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta_2</span><span class="p">)</span>
+    
+    <span class="n">angle_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angle_error</span><span class="p">)</span>
+    <span class="n">angle_error_mean</span> <span class="o">=</span> <span class="n">angle_error</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">angle_error_std</span> <span class="o">=</span> <span class="n">angle_error</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+    <span class="c1"># z-score</span>
+    <span class="n">z_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">angle_error</span> <span class="o">-</span> <span class="n">angle_error_mean</span><span class="p">)</span><span class="o">/</span><span class="n">angle_error_std</span>
+
+    <span class="c1"># percentage of quaternions within given sigma                                               </span>
+    <span class="n">p</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_score</span> <span class="o">&lt;</span> <span class="n">sigma</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">/</span><span class="n">q1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    
+    <span class="k">if</span> <span class="n">full_output</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;quat_array&#39;</span><span class="p">:</span><span class="n">quat_array</span><span class="p">,</span>
+               <span class="s1">&#39;quat_array_mean&#39;</span><span class="p">:</span><span class="n">quat_array_mean</span><span class="p">,</span>
+               <span class="s1">&#39;angle_error&#39;</span><span class="p">:</span><span class="n">angle_error</span><span class="p">,</span>
+               <span class="s1">&#39;angle_error_mean&#39;</span><span class="p">:</span><span class="n">angle_error_mean</span><span class="p">,</span>
+               <span class="s1">&#39;angle_error_std&#39;</span><span class="p">:</span><span class="n">angle_error_std</span><span class="p">,</span>
+               <span class="s1">&#39;z_score&#39;</span><span class="p">:</span><span class="n">z_score</span><span class="p">,</span>
+               <span class="s1">&#39;percentage&#39;</span><span class="p">:</span><span class="n">p</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">out</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">quat_array_mean</span><span class="p">,</span> <span class="n">angle_error_mean</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Louis Doctor.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'31.05.2017',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
