@@ -6,14 +6,14 @@ Modules
 -------
 .. toctree::
     
-    intensities
-    quaternions
-    real_space
+    nutcracker.intensities
+    nutcracker.quaternions
+    nuctracker.real_space
 
 intensities module
 ------------------
 
-.. automodule:: intensities
+.. automodule:: nutcracker.intensities
     :members:
     :undoc-members:
     :show-inheritance:
@@ -21,7 +21,7 @@ intensities module
 quaternions modlue
 ------------------
 
-.. automodule:: quaternions
+.. automodule:: nutcracker.quaternions
     :members:
     :undoc-members:
     :show-inheritance:
@@ -29,7 +29,7 @@ quaternions modlue
 real_space module
 -----------------
 
-.. automodule:: real_space
+.. automodule:: nutcracker.real_space
     :members:
     :undoc-members:
     :show-inheritance:
@@ -40,7 +40,7 @@ Submodules
 utils.rotate module
 -------------------
 
-.. automodule:: utils.rotate
+.. automodule:: nutcracker.utils.rotate
     :members:
     :undoc-members:
     :show-inheritance:
@@ -48,7 +48,7 @@ utils.rotate module
 utils.shift module
 ------------------
 
-.. automodule:: utils.shift
+.. automodule:: nutcracker.utils.shift
     :members:
     :undoc-members:
     :show-inheritance:
@@ -56,7 +56,7 @@ utils.shift module
 utils.plot_analysis module
 --------------------------
 
-.. automodule:: utils.plot_analysis
+.. automodule:: nutcracker.utils.plot_analysis
     :members:
     :undoc-members:
     :show-inheritance:

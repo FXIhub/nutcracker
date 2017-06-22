@@ -1,13 +1,15 @@
 Usage of Nutcracker
 ===================
 
-Follwing section trys to show an overview of how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`introduction <introduction>`. Not all functions are shown.
+Follwing section trys to show an overview of how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`introduction <introduction>`. Not all functions are shown. More informations about the single functions can be found under the link to the function.
 
 Intensities module
 ------------------
 
 Fourier-Shell/Ring-Correlation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:meth:`nutcracker.intensities.fourier_shell_correlation`
 
 .. code::
 
@@ -23,6 +25,8 @@ Fourier-Shell/Ring-Correlation
 Q-factor
 ^^^^^^^^
 
+:meth:`nutcracker.intensities.q_factor`
+
 .. code::
 
     import nutcracker
@@ -31,8 +35,10 @@ Q-factor
     Fn = np.random.random((5,10,10)) #Set of Fourier-Transform 
     Q = nutcracker.intensities.q_factor(Fn)
 
-Split image function
+Split image function 
 ^^^^^^^^^^^^^^^^^^^^
+
+:meth:`nutcracker.intensities.split_image`
 
 .. code::
 
@@ -48,6 +54,8 @@ Quaternions module
 
 Compare two sets of quaternions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:meth:`quaternions.compare_two_sets_of_quaternions`
 
 .. code::
 
@@ -69,6 +77,8 @@ Compare two sets of quaternions
 
 Global quaternion rotation between two sets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:meth:`quaternions.global_quaternion_rotation_between_two_sets` 
 
 .. code::
 
@@ -94,6 +104,8 @@ Real-space module
 Phase-Retrieval-Transfer-Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+:meth:`nutcracker.real_space.phase_retieval_transfer_function`
+
 .. code::
 
     import nutcracker
@@ -111,6 +123,8 @@ Submodules
 
 Rotate
 ^^^^^^
+
+:meth:`nutcracker.utils.rotate.find_rotation_between_two_models`
 
 .. code::
 
@@ -131,6 +145,8 @@ Rotate
 Shift
 ^^^^^
 
+:meth:`nutcracker.utils.shift.find_shift_between_two_models`
+
 .. code::
 
     import nutcracker
@@ -145,6 +161,8 @@ Shift
 
 Plot-analysis
 ^^^^^^^^^^^^^
+
+:meth:`nutcracker.utils.plot_analysis.envelope`
 
 .. code::
     
@@ -167,3 +185,24 @@ Plot-analysis
 Error matrix multiprocessed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+:meth:`nutcracker.utils.run_error_matrix.main`
+
+.. code::
+
+    import nutcracker
+    import numpy as np
+
+    img_1 = ... # assuming img_1 is a file containing the dataset, e.g. 'real', of our image
+    img_2 = ... # assuming img_2 is a file containing the dataset, e.g. 'real', of our image
+
+    output = nutcracker.utils.run_error_matrix.main(model1_filename=img_1,
+                                                    model2_filename=img_2,
+                                                    model1_dataset='real',
+                                                    model2_dataset='real',
+                                                    number_of_processes=8,
+                                                    chunck_size=10,
+                                                    number_of_evaluations=20,
+                                                    order_spline_interpolation=3,
+                                                    radius_radial_mask=20./2)
+    
+    error_matrix = np.array(output['error_matrix']).reshape((3,20,20,20))
