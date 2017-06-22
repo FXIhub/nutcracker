@@ -16,8 +16,8 @@ Fourier-Shell/Ring-Correlation
     import nutcracker
     import numpy as np
 
-    F1 = np.random.random((10,10)) #Fourier-Transform
-    F2 = np.random.random((10,10)) #Fourier-Transforms
+    F1 = np.random.random((10,10)) # Fourier-Transform
+    F2 = np.random.random((10,10)) # Fourier-Transform
 
     FSC = nutcracker.intensities.fourier_shell_correlation(F1, F2)
 
@@ -32,7 +32,7 @@ Q-factor
     import nutcracker
     import numpy as np
     
-    Fn = np.random.random((5,10,10)) #Set of Fourier-Transform 
+    Fn = np.random.random((5,10,10)) # Set of Fourier-Transforms 
     Q = nutcracker.intensities.q_factor(Fn)
 
 Split image function 
@@ -45,7 +45,7 @@ Split image function
     import nutcracker
     import numpy as np
     
-    F = np.random.random((8,8)) #Initial image
+    F = np.random.random((8,8)) # Initial image
 
     F1, F2 = nutcracker.intensities.split_image(F, factor=2)
 
@@ -66,12 +66,12 @@ Compare two sets of quaternions
    q1 = []
    for in range(10):
        q1.append(condor.utils.rotation.rand_quat())
-   q1 = np.array(q_1)
+   q1 = np.array(q_1) # Set of quaternions
 
    q2 = []
    for in range(10):
        q2.append(condor.utils.rotation.rand_quat())
-   q2 = np.array(q2)
+   q2 = np.array(q2) # Set of quaternions
 
    output = quaternions.compare_two_sets_of_quaternions(q1, q2, n_samples=10, full_output=True, q1_is_extrinsic=True, q2_is_extrinsic=True)
 
@@ -89,12 +89,12 @@ Global quaternion rotation between two sets
    q1 = []
    for in range(10):
        q1.append(condor.utils.rotation.rand_quat())
-   q1 = np.array(q_1)
+   q1 = np.array(q_1) # Set of quaternions
 
    q2 = []
    for in range(10):
        q2.append(condor.utils.rotation.rand_quat())
-   q2 = np.array(q2)
+   q2 = np.array(q2) # Set of quaternions
 
    output = quaternions.global_quaternion_rotation_between_two_sets(q1, q2, full_output=True, q1_is_extrinsic=True, q2_is_extrinsic=True)
 
@@ -111,8 +111,8 @@ Phase-Retrieval-Transfer-Function
     import nutcracker
     import numpy as np
 
-    img = np.random.random((8,10,10,10))
-    sup = np.ones((8,10,10,10))
+    img = np.random.random((8,10,10,10)) # Set of reconstructions
+    sup = np.ones((8,10,10,10)) # Set of corresponding supports
 
     PRTF_output = nutcracker.real_space.phase_retieval_transfer_function(img,sup,full_output=True)
     
@@ -131,8 +131,8 @@ Rotate
     import nutcracker
     import numpy as np
 
-    Img_1 = np.random.random((10,10,10)) #intensity space volumes
-    Img_2 = np.random.random((10,10,10)) #intensity space volumes
+    Img_1 = np.random.random((10,10,10)) # Intensity space volumes
+    Img_2 = np.random.random((10,10,10)) # Intensity space volumes
 
     output = nutcracker.utils.rotate.find_rotation_between_two_models(Img_2,Img_1,method='fmin_l_bfgs_b',
                                                                       radius_radial_mask=20./2,
@@ -152,8 +152,8 @@ Shift
     import nutcracker
     import numpy as np
 
-    img_1 = np.random.random((10,10,10)) #real space volumes
-    img_2 = np.random.random((10,10,10)) #real space volumes
+    img_1 = np.random.random((10,10,10)) # Real space volumes
+    img_2 = np.random.random((10,10,10)) # Real space volumes
 
     output = nutcracker.utils.shift.find_shift_between_two_models(img_2,img_1,full_output=True,method='brute_force')
 

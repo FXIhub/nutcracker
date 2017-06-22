@@ -169,8 +169,8 @@
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">F1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#Fourier-Transform</span>
-<span class="n">F2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#Fourier-Transforms</span>
+<span class="n">F1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Fourier-Transform</span>
+<span class="n">F2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Fourier-Transform</span>
 
 <span class="n">FSC</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">intensities</span><span class="o">.</span><span class="n">fourier_shell_correlation</span><span class="p">(</span><span class="n">F1</span><span class="p">,</span> <span class="n">F2</span><span class="p">)</span>
 </pre></div>
@@ -182,7 +182,7 @@
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">Fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#Set of Fourier-Transform</span>
+<span class="n">Fn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Set of Fourier-Transforms</span>
 <span class="n">Q</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">intensities</span><span class="o">.</span><span class="n">q_factor</span><span class="p">(</span><span class="n">Fn</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -193,7 +193,7 @@
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span> <span class="c1">#Initial image</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span> <span class="c1"># Initial image</span>
 
 <span class="n">F1</span><span class="p">,</span> <span class="n">F2</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">intensities</span><span class="o">.</span><span class="n">split_image</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
@@ -212,12 +212,12 @@
 <span class="n">q1</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">q1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">rand_quat</span><span class="p">())</span>
-<span class="n">q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_1</span><span class="p">)</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_1</span><span class="p">)</span> <span class="c1"># Set of quaternions</span>
 
 <span class="n">q2</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">q2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">rand_quat</span><span class="p">())</span>
-<span class="n">q2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span> <span class="c1"># Set of quaternions</span>
 
 <span class="n">output</span> <span class="o">=</span> <span class="n">quaternions</span><span class="o">.</span><span class="n">compare_two_sets_of_quaternions</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">q1_is_extrinsic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">q2_is_extrinsic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -233,12 +233,12 @@
 <span class="n">q1</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">q1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">rand_quat</span><span class="p">())</span>
-<span class="n">q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_1</span><span class="p">)</span>
+<span class="n">q1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q_1</span><span class="p">)</span> <span class="c1"># Set of quaternions</span>
 
 <span class="n">q2</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">q2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">condor</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">rand_quat</span><span class="p">())</span>
-<span class="n">q2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
+<span class="n">q2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span> <span class="c1"># Set of quaternions</span>
 
 <span class="n">output</span> <span class="o">=</span> <span class="n">quaternions</span><span class="o">.</span><span class="n">global_quaternion_rotation_between_two_sets</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">q1_is_extrinsic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">q2_is_extrinsic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -253,8 +253,8 @@
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
-<span class="n">sup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Set of reconstructions</span>
+<span class="n">sup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">8</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Set of corresponding supports</span>
 
 <span class="n">PRTF_output</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">real_space</span><span class="o">.</span><span class="n">phase_retieval_transfer_function</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">sup</span><span class="p">,</span><span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -271,8 +271,8 @@
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">Img_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#intensity space volumes</span>
-<span class="n">Img_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#intensity space volumes</span>
+<span class="n">Img_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Intensity space volumes</span>
+<span class="n">Img_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Intensity space volumes</span>
 
 <span class="n">output</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">rotate</span><span class="o">.</span><span class="n">find_rotation_between_two_models</span><span class="p">(</span><span class="n">Img_2</span><span class="p">,</span><span class="n">Img_1</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;fmin_l_bfgs_b&#39;</span><span class="p">,</span>
                                                                   <span class="n">radius_radial_mask</span><span class="o">=</span><span class="mf">20.</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
@@ -290,8 +290,8 @@
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">nutcracker</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">img_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#real space volumes</span>
-<span class="n">img_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1">#real space volumes</span>
+<span class="n">img_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Real space volumes</span>
+<span class="n">img_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="c1"># Real space volumes</span>
 
 <span class="n">output</span> <span class="o">=</span> <span class="n">nutcracker</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">shift</span><span class="o">.</span><span class="n">find_shift_between_two_models</span><span class="p">(</span><span class="n">img_2</span><span class="p">,</span><span class="n">img_1</span><span class="p">,</span><span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;brute_force&#39;</span><span class="p">)</span>
 

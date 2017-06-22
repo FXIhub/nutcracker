@@ -17,6 +17,9 @@ Contents:
    References <references>
    Contact <contact>
 
+.. toctree::
+   :hidden:
+
 Indices and tables
 ==================
 
