@@ -139,11 +139,11 @@
 <div class="toctree-wrapper compound">
 </div>
 </div>
-<div class="section" id="module-nutcracker.intensities">
-<span id="intensities-module"></span><h2>intensities module<a class="headerlink" href="#module-nutcracker.intensities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-intensities">
+<span id="intensities-module"></span><h2>intensities module<a class="headerlink" href="#module-intensities" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="nutcracker.intensities.fourier_shell_correlation">
-<code class="descclassname">nutcracker.intensities.</code><code class="descname">fourier_shell_correlation</code><span class="sig-paren">(</span><em>model_1</em>, <em>model_2</em>, <em>model_1_is_real_space=False</em>, <em>model_2_is_real_space=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/intensities.html#fourier_shell_correlation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.intensities.fourier_shell_correlation" title="Permalink to this definition">¶</a></dt>
+<dt id="intensities.fourier_shell_correlation">
+<code class="descclassname">intensities.</code><code class="descname">fourier_shell_correlation</code><span class="sig-paren">(</span><em>model_1</em>, <em>model_2</em>, <em>model_1_is_real_space=False</em>, <em>model_2_is_real_space=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#fourier_shell_correlation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.fourier_shell_correlation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the fourier shell/ring correlation between two intensity models.</p>
 <dl class="docutils">
 <dt>Args: </dt>
@@ -178,8 +178,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="nutcracker.intensities.q_factor">
-<code class="descclassname">nutcracker.intensities.</code><code class="descname">q_factor</code><span class="sig-paren">(</span><em>images</em>, <em>full_output=False</em>, <em>axis=0</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/intensities.html#q_factor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.intensities.q_factor" title="Permalink to this definition">¶</a></dt>
+<dt id="intensities.q_factor">
+<code class="descclassname">intensities.</code><code class="descname">q_factor</code><span class="sig-paren">(</span><em>images</em>, <em>full_output=False</em>, <em>axis=0</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#q_factor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.q_factor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calcualtes the q factor for a set of images. [Hstau Y. Liao et al. Definition and estimation of resolution in single-particle reconstructions, Structure, 2010]</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -210,8 +210,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="nutcracker.intensities.split_image">
-<code class="descclassname">nutcracker.intensities.</code><code class="descname">split_image</code><span class="sig-paren">(</span><em>image</em>, <em>method=’random’</em>, <em>factor=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/intensities.html#split_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.intensities.split_image" title="Permalink to this definition">¶</a></dt>
+<dt id="intensities.split_image">
+<code class="descclassname">intensities.</code><code class="descname">split_image</code><span class="sig-paren">(</span><em>image</em>, <em>method=’random’</em>, <em>factor=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/intensities.html#split_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#intensities.split_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Splits a 2D diffraction pattern into two.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -241,11 +241,11 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-nutcracker.quaternions">
-<span id="quaternions-modlue"></span><h2>quaternions modlue<a class="headerlink" href="#module-nutcracker.quaternions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-quaternions">
+<span id="quaternions-modlue"></span><h2>quaternions modlue<a class="headerlink" href="#module-quaternions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="nutcracker.quaternions.compare_two_sets_of_quaternions">
-<code class="descclassname">nutcracker.quaternions.</code><code class="descname">compare_two_sets_of_quaternions</code><span class="sig-paren">(</span><em>q1</em>, <em>q2</em>, <em>full_output=False</em>, <em>n_samples=100</em>, <em>q1_is_extrinsic=False</em>, <em>q2_is_extrinsic=False</em>, <em>sigma=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/quaternions.html#compare_two_sets_of_quaternions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.quaternions.compare_two_sets_of_quaternions" title="Permalink to this definition">¶</a></dt>
+<dt id="quaternions.compare_two_sets_of_quaternions">
+<code class="descclassname">quaternions.</code><code class="descname">compare_two_sets_of_quaternions</code><span class="sig-paren">(</span><em>q1</em>, <em>q2</em>, <em>full_output=False</em>, <em>n_samples=100</em>, <em>q1_is_extrinsic=False</em>, <em>q2_is_extrinsic=False</em>, <em>sigma=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quaternions.html#compare_two_sets_of_quaternions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quaternions.compare_two_sets_of_quaternions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compares two sets of quaternions based on a comparison of randomly picked quaternions within each set.</p>
 <dl class="docutils">
 <dt>Args: </dt>
@@ -287,8 +287,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="nutcracker.quaternions.global_quaternion_rotation_between_two_sets">
-<code class="descclassname">nutcracker.quaternions.</code><code class="descname">global_quaternion_rotation_between_two_sets</code><span class="sig-paren">(</span><em>q1</em>, <em>q2</em>, <em>full_output=False</em>, <em>q1_is_extrinsic=False</em>, <em>q2_is_extrinsic=False</em>, <em>sigma=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/quaternions.html#global_quaternion_rotation_between_two_sets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.quaternions.global_quaternion_rotation_between_two_sets" title="Permalink to this definition">¶</a></dt>
+<dt id="quaternions.global_quaternion_rotation_between_two_sets">
+<code class="descclassname">quaternions.</code><code class="descname">global_quaternion_rotation_between_two_sets</code><span class="sig-paren">(</span><em>q1</em>, <em>q2</em>, <em>full_output=False</em>, <em>q1_is_extrinsic=False</em>, <em>q2_is_extrinsic=False</em>, <em>sigma=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quaternions.html#global_quaternion_rotation_between_two_sets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quaternions.global_quaternion_rotation_between_two_sets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculating the global rotation (quaternion) between two sets of quaternions on base of the mean relative quaternion between each sample of the sets.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -328,11 +328,11 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-nutcracker.real_space">
-<span id="real-space-module"></span><h2>real_space module<a class="headerlink" href="#module-nutcracker.real_space" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-real_space">
+<span id="real-space-module"></span><h2>real_space module<a class="headerlink" href="#module-real_space" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="nutcracker.real_space.phase_retieval_transfer_function">
-<code class="descclassname">nutcracker.real_space.</code><code class="descname">phase_retieval_transfer_function</code><span class="sig-paren">(</span><em>images</em>, <em>support</em>, <em>full_output=False</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/real_space.html#phase_retieval_transfer_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.real_space.phase_retieval_transfer_function" title="Permalink to this definition">¶</a></dt>
+<dt id="real_space.phase_retieval_transfer_function">
+<code class="descclassname">real_space.</code><code class="descname">phase_retieval_transfer_function</code><span class="sig-paren">(</span><em>images</em>, <em>support</em>, <em>full_output=False</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/real_space.html#phase_retieval_transfer_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#real_space.phase_retieval_transfer_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the phase retrieval transfer function by using the libspimage functions.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -370,11 +370,11 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-nutcracker.utils.rotate">
-<span id="utils-rotate-module"></span><h2>utils.rotate module<a class="headerlink" href="#module-nutcracker.utils.rotate" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-utils.rotate">
+<span id="utils-rotate-module"></span><h2>utils.rotate module<a class="headerlink" href="#module-utils.rotate" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="nutcracker.utils.rotate.find_rotation_between_two_models">
-<code class="descclassname">nutcracker.utils.rotate.</code><code class="descname">find_rotation_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, number_of_evaluations=10, full_output=False, order_spline_interpolation=3, cropping_model=0, mask=None, method=’brute_force’, initial_guess=[0.0, 0.0, 0.0], radius_radial_mask=None, search_range=1.5707963267948966, log_model=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/utils/rotate.html#find_rotation_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.utils.rotate.find_rotation_between_two_models" title="Permalink to this definition">¶</a></dt>
+<dt id="utils.rotate.find_rotation_between_two_models">
+<code class="descclassname">utils.rotate.</code><code class="descname">find_rotation_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, number_of_evaluations=10, full_output=False, order_spline_interpolation=3, cropping_model=0, mask=None, method=’brute_force’, initial_guess=[0.0, 0.0, 0.0], radius_radial_mask=None, search_range=1.5707963267948966, log_model=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#find_rotation_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.find_rotation_between_two_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finding the correct alignment by rotating one model on base of a rotation matrix and using different optimization algorithms to minimise the distance between the two models.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -432,8 +432,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="nutcracker.utils.rotate.rotation_based_on_euler_angles">
-<code class="descclassname">nutcracker.utils.rotate.</code><code class="descname">rotation_based_on_euler_angles</code><span class="sig-paren">(</span><em>input_model</em>, <em>angles</em>, <em>order=’zyx’</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/utils/rotate.html#rotation_based_on_euler_angles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.utils.rotate.rotation_based_on_euler_angles" title="Permalink to this definition">¶</a></dt>
+<dt id="utils.rotate.rotation_based_on_euler_angles">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_euler_angles</code><span class="sig-paren">(</span><em>input_model</em>, <em>angles</em>, <em>order=’zyx’</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_euler_angles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_euler_angles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate a given model by a given set of euler angles</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -467,8 +467,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="nutcracker.utils.rotate.rotation_based_on_quaternion">
-<code class="descclassname">nutcracker.utils.rotate.</code><code class="descname">rotation_based_on_quaternion</code><span class="sig-paren">(</span><em>input_model</em>, <em>quat</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/utils/rotate.html#rotation_based_on_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.utils.rotate.rotation_based_on_quaternion" title="Permalink to this definition">¶</a></dt>
+<dt id="utils.rotate.rotation_based_on_quaternion">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_quaternion</code><span class="sig-paren">(</span><em>input_model</em>, <em>quat</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_quaternion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_quaternion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate a given model based on a given quaternion by calculating the rotation matrix.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -500,8 +500,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="nutcracker.utils.rotate.rotation_based_on_rotation_matrix">
-<code class="descclassname">nutcracker.utils.rotate.</code><code class="descname">rotation_based_on_rotation_matrix</code><span class="sig-paren">(</span><em>input_model</em>, <em>rotation_matrix</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/utils/rotate.html#rotation_based_on_rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.utils.rotate.rotation_based_on_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dt id="utils.rotate.rotation_based_on_rotation_matrix">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_based_on_rotation_matrix</code><span class="sig-paren">(</span><em>input_model</em>, <em>rotation_matrix</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_based_on_rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_based_on_rotation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate a given model by a given rotation matrix in 3d.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -533,8 +533,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="nutcracker.utils.rotate.rotation_matrix">
-<code class="descclassname">nutcracker.utils.rotate.</code><code class="descname">rotation_matrix</code><span class="sig-paren">(</span><em>angle</em>, <em>axis</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/utils/rotate.html#rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.utils.rotate.rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dt id="utils.rotate.rotation_matrix">
+<code class="descclassname">utils.rotate.</code><code class="descname">rotation_matrix</code><span class="sig-paren">(</span><em>angle</em>, <em>axis</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/rotate.html#rotation_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.rotate.rotation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the rotation matrix for a given angle and rotation axis.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -553,11 +553,11 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-nutcracker.utils.shift">
-<span id="utils-shift-module"></span><h2>utils.shift module<a class="headerlink" href="#module-nutcracker.utils.shift" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-utils.shift">
+<span id="utils-shift-module"></span><h2>utils.shift module<a class="headerlink" href="#module-utils.shift" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="nutcracker.utils.shift.find_shift_between_two_models">
-<code class="descclassname">nutcracker.utils.shift.</code><code class="descname">find_shift_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, shift_range=5, number_of_evaluations=10, rotation_angles=[0.0, 0.0, 0.0], cropping_model=0, initial_guess=[0.0, 0.0, 0.0], method=’brute_force’, full_output=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/utils/shift.html#find_shift_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.utils.shift.find_shift_between_two_models" title="Permalink to this definition">¶</a></dt>
+<dt id="utils.shift.find_shift_between_two_models">
+<code class="descclassname">utils.shift.</code><code class="descname">find_shift_between_two_models</code><span class="sig-paren">(</span><em>model_1, model_2, shift_range=5, number_of_evaluations=10, rotation_angles=[0.0, 0.0, 0.0], cropping_model=0, initial_guess=[0.0, 0.0, 0.0], method=’brute_force’, full_output=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/shift.html#find_shift_between_two_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.shift.find_shift_between_two_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the correct shift alignment in 3D by using a different optimization algorithms to minimise the distance between the two models.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -600,11 +600,11 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-nutcracker.utils.plot_analysis">
-<span id="utils-plot-analysis-module"></span><h2>utils.plot_analysis module<a class="headerlink" href="#module-nutcracker.utils.plot_analysis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-utils.plot_analysis">
+<span id="utils-plot-analysis-module"></span><h2>utils.plot_analysis module<a class="headerlink" href="#module-utils.plot_analysis" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="nutcracker.utils.plot_analysis.envelope">
-<code class="descclassname">nutcracker.utils.plot_analysis.</code><code class="descname">envelope</code><span class="sig-paren">(</span><em>function</em>, <em>frequence</em>, <em>peak_finding_threshold=(None</em>, <em>None)</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutcracker/utils/plot_analysis.html#envelope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutcracker.utils.plot_analysis.envelope" title="Permalink to this definition">¶</a></dt>
+<dt id="utils.plot_analysis.envelope">
+<code class="descclassname">utils.plot_analysis.</code><code class="descname">envelope</code><span class="sig-paren">(</span><em>function</em>, <em>frequence</em>, <em>peak_finding_threshold=(None</em>, <em>None)</em>, <em>order_spline_interpolation=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/plot_analysis.html#envelope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.plot_analysis.envelope" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the upper and lower envelope of a given function.
 This function is based on <a class="reference external" href="https://stackoverflow.com/questions/34235530/python-how-to-get-high-and-low-envelope-of-a-signal">https://stackoverflow.com/questions/34235530/python-how-to-get-high-and-low-envelope-of-a-signal</a> (24.05.2017)</p>
 <dl class="docutils">

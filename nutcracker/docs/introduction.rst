@@ -9,16 +9,16 @@ Intensities module
 
 The main features of this module are the Fourier-Shell-Correlation (3D), respectively the Fourier-Ring-Correlation (2D) and the Q-factor calculation. The side feature, the split image function, allows to split up one pattern or volume in two, to raise the opporunity to perform comparative image analysis on just one pattern/volume.
 
-Fourier-Shell/Ring-Correlation [1]_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Fourier-Shell/Ring-Correlation :ref:`[1] <reference>`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1986, is the 3 dimensional extention of the Fourier-Ring-Correlation (FRC). It basicly describes the similarity of two Fourier-Transforms :math:`F_{1}(\textbf{k})` and :math:`F_{2}(\textbf{k})`, with :math:`\textbf{k}` as spatial frequency vector. It starts at low spatial frequency with perfect correlation 1 and drops for increasing frequency. Usually the threshold for the resolution determination is :math:`\frac{1}{e}`. The purpose of this function is to calculate the resolution between two Fourier-Transforms.
 
 .. math::
     FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k}) \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k}) \rvert^{2}}}
 
-Q-factor [1]_
-^^^^^^^^^^^^^
+Q-factor :ref:`[1] <reference>`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The Q-factor is calculated over a set of :math:`n` patterns and describes the ratio of the length of the Fourier-Transforms sum and the length of each Fourier-Transforms. The result is a 2D map which shows the clarity of the signal. This function is a fast and simple method to estimate the signal to noise ratio.
 
