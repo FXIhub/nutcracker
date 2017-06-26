@@ -1,13 +1,13 @@
 .. _introduction:
-Description of Nutcracker
-=========================
+The *Nutcracker* modules
+========================
 
-The following section trys to give a basic understanding of the *Nutcracker* package. Futhermore some mathematical convetions are uesed. Vectors are denoted in bold letters. If just one componend of a vector is used, the related position in the vector is given as a footnote.  
+*Nutcracker* is a python package providing a set of functions to validate FXI simulations. Therefor different concepts should be applied within their related space. Hence the *Nutcracker* modules display these related structure.
 
 Intensities module
 ------------------
 
-The main features of this module are the Fourier-Shell-Correlation (3D), respectively the Fourier-Ring-Correlation (2D) and the Q-factor calculation. The side feature, the split image function, allows to split up one pattern or volume in two, to raise the opporunity to perform comparative image analysis on just one pattern/volume.
+The functions of the intensities module performe a validation based on reconstruction in intensity space, means the comparison of two models calculating the likeness in terms of resolution or calculating the clarity of the signal.
 
 Fourier-Shell/Ring-Correlation :ref:`[1] <reference>`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -17,6 +17,8 @@ The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1
 .. math::
     FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k}) \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k}) \rvert^{2}}}
 
+See example :ref:`here <FSC>`.
+
 Q-factor :ref:`[1] <reference>`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -25,12 +27,16 @@ The Q-factor is calculated over a set of :math:`n` patterns and describes the ra
 .. math::
     Q(\textbf{k}) = \frac{\lvert \sum_{n} F_{n}(\textbf{k}) \rvert}{\sum_{n} \lvert F_{n}(\textbf{k}) \rvert}
 
+See example :ref:`here <q-factor>`.
+
 Split image function
 ^^^^^^^^^^^^^^^^^^^^
 
-This function raises the opportunity to perform e.g. a FRC on a single pattern. The image or volume is splitted by creating superpixels in which single pixels are summed up in order or randomly according to the two resulting images. Thats conserve the number of scattered photons respectively the information of the actual input.
+This function raises the opportunity to perform e.g. a FSC/FRC or another comparative image analysis on a single pattern or volume. The image or volume is splitted by creating superpixels in which single pixels are summed up in order or randomly according to the two resulting images. Thats conserve the number of scattered photons respectively the information of the actual input.
 
 .. image:: ./images/split_image.png
+
+See example :ref:`here <split-image>`.
 
 Quaternions module
 ------------------
@@ -67,18 +73,24 @@ Compare two sets of quaternions
 
 This function takes two sets of quaternions and pickes randomly quaternions within each set. By calculating now the relative quaternion between the two samples and the corresponding rotaion angle, the result is a distribution of the enclosed angle and shows how well the sets are correlating with each other. For more analysis one can look on the z-score or the percentage of the quaternions in a given standard deviation :math:`\sigma`.
 
+See example :ref:`here <compare-quaternions>`.
+
 Global quaternion rotation between two sets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This method gives the global rotation in form of a quaternion between the two sets. The result could than be used to realign the two sets or a corresponding model. At first, as in the method before, the relative quaternion is calculated, but now between each quaternion from the two sets. The mean of this relative quaternions lead to the global quaternion. To verify that the global roation is right, the enclosed angles between the global quaternion and the quaternions of one set are calculated. For a perfect correlaction between the two sets of quaternions the angular error is 0.
 
+See example :ref:`here <global-rotation>`.
+
 Real-space module
 -----------------
 
-The real-space module uses spimage functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.
+The real-space module uses `spimage <https://github.com/FXIhub/libspimage>`_ functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.
 
-Submodules
-----------
+See example :ref:`here <PRTF>`.
+
+Utility modules
+---------------
 
 Rotate
 ^^^^^^
@@ -97,6 +109,8 @@ Following points are recommended to think about to align the models succesfully:
 
     3) The most robust, but also the most slow way to perform the alignment is by using the brute force function. The amount of time depends mainly on the size of the models and the size of the search grid. To increase the speed one could crop the models if possible. Another possibility to speed up the brute force is to run it with the multiprocessed brute force function which is also provided by *Nutcracker*.
 
+See example :ref:`here <rotate>`.
+
 Shift
 ^^^^^
 
@@ -107,10 +121,14 @@ The find-shift function is the counterpart of the find-rotation function, since 
 
 The same points as for the find-rotation function should be considered.
 
+See example :ref:`here <shift>`.
+
 Plot-analysis
 ^^^^^^^^^^^^^
 
 This submodule contains the envelope function which calcualtes the higher as well as the lower envelope. The envelopes are calculated by interpolating between turning points in a given interval. The interval is defined by the sample frequence. The envelope function also has a peak finding key, so that peaks over or under a certain threshold are not take into account when calculating the envelope.
+
+See example :ref:`here <plot-analysis>`.
 
 Error matrix multiprocessed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

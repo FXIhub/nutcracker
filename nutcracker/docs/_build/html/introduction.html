@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Description of Nutcracker &mdash; Nutcracker 31.05.2017 documentation</title>
+  <title>The Nutcracker modules &mdash; Nutcracker 31.05.2017 documentation</title>
   
 
   
@@ -34,7 +34,7 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Nutcracker 31.05.2017 documentation" href="index.html"/>
-        <link rel="next" title="Usage of Nutcracker" href="usage.html"/>
+        <link rel="next" title="Examples" href="usage.html"/>
         <link rel="prev" title="Installation" href="installation.html"/> 
 
   
@@ -86,10 +86,10 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Modules</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#intensities-module">Intensities module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#fourier-shell-ring-correlation-1">Fourier-Shell/Ring-Correlation <code class="docutils literal"><span class="pre">[1]</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#q-factor-1">Q-factor [1]_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#q-factor-1">Q-factor <code class="docutils literal"><span class="pre">[1]</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#split-image-function">Split image function</a></li>
 </ul>
 </li>
@@ -99,7 +99,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#real-space-module">Real-space module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#utility-modules">Utility modules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#rotate">Rotate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shift">Shift</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#plot-analysis">Plot-analysis</a></li>
@@ -108,7 +108,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
 </ul>
@@ -141,7 +141,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Description of Nutcracker</li>
+    <li>The <em>Nutcracker</em> modules</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -155,28 +155,31 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="description-of-nutcracker">
-<h1>Description of Nutcracker<a class="headerlink" href="#description-of-nutcracker" title="Permalink to this headline">¶</a></h1>
-<p>The following section trys to give a basic understanding of the <em>Nutcracker</em> package. Futhermore some mathematical convetions are uesed. Vectors are denoted in bold letters. If just one componend of a vector is used, the related position in the vector is given as a footnote.</p>
+  <div class="section" id="the-nutcracker-modules">
+<h1>The <em>Nutcracker</em> modules<a class="headerlink" href="#the-nutcracker-modules" title="Permalink to this headline">¶</a></h1>
+<p><em>Nutcracker</em> is a python package providing a set of functions to validate FXI simulations. Therefor different concepts should be applied within their related space. Hence the <em>Nutcracker</em> modules display these related structure.</p>
 <div class="section" id="intensities-module">
 <h2>Intensities module<a class="headerlink" href="#intensities-module" title="Permalink to this headline">¶</a></h2>
-<p>The main features of this module are the Fourier-Shell-Correlation (3D), respectively the Fourier-Ring-Correlation (2D) and the Q-factor calculation. The side feature, the split image function, allows to split up one pattern or volume in two, to raise the opporunity to perform comparative image analysis on just one pattern/volume.</p>
+<p>The functions of the intensities module performe a validation based on reconstruction in intensity space, means the comparison of two models calculating the likeness in terms of resolution or calculating the clarity of the signal.</p>
 <div class="section" id="fourier-shell-ring-correlation-1">
 <h3>Fourier-Shell/Ring-Correlation <a class="reference internal" href="references.html#reference"><span class="std std-ref">[1]</span></a><a class="headerlink" href="#fourier-shell-ring-correlation-1" title="Permalink to this headline">¶</a></h3>
 <p>The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1986, is the 3 dimensional extention of the Fourier-Ring-Correlation (FRC). It basicly describes the similarity of two Fourier-Transforms <span class="math">\(F_{1}(\textbf{k})\)</span> and <span class="math">\(F_{2}(\textbf{k})\)</span>, with <span class="math">\(\textbf{k}\)</span> as spatial frequency vector. It starts at low spatial frequency with perfect correlation 1 and drops for increasing frequency. Usually the threshold for the resolution determination is <span class="math">\(\frac{1}{e}\)</span>. The purpose of this function is to calculate the resolution between two Fourier-Transforms.</p>
 <div class="math">
 \[FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k}) \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k}) \rvert^{2}}}\]</div>
+<p>See example <span class="xref std std-ref">here</span>.</p>
 </div>
 <div class="section" id="q-factor-1">
-<h3>Q-factor <a href="#id2"><span class="problematic" id="id3"><span id="id1"></span>[1]_</span></a><a class="headerlink" href="#q-factor-1" title="Permalink to this headline">¶</a></h3>
+<h3>Q-factor <a class="reference internal" href="references.html#reference"><span class="std std-ref">[1]</span></a><a class="headerlink" href="#q-factor-1" title="Permalink to this headline">¶</a></h3>
 <p>The Q-factor is calculated over a set of <span class="math">\(n\)</span> patterns and describes the ratio of the length of the Fourier-Transforms sum and the length of each Fourier-Transforms. The result is a 2D map which shows the clarity of the signal. This function is a fast and simple method to estimate the signal to noise ratio.</p>
 <div class="math">
 \[Q(\textbf{k}) = \frac{\lvert \sum_{n} F_{n}(\textbf{k}) \rvert}{\sum_{n} \lvert F_{n}(\textbf{k}) \rvert}\]</div>
+<p>See example <a class="reference internal" href="usage.html#q-factor"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="split-image-function">
 <h3>Split image function<a class="headerlink" href="#split-image-function" title="Permalink to this headline">¶</a></h3>
-<p>This function raises the opportunity to perform e.g. a FRC on a single pattern. The image or volume is splitted by creating superpixels in which single pixels are summed up in order or randomly according to the two resulting images. Thats conserve the number of scattered photons respectively the information of the actual input.</p>
+<p>This function raises the opportunity to perform e.g. a FSC/FRC or another comparative image analysis on a single pattern or volume. The image or volume is splitted by creating superpixels in which single pixels are summed up in order or randomly according to the two resulting images. Thats conserve the number of scattered photons respectively the information of the actual input.</p>
 <img alt="_images/split_image.png" src="_images/split_image.png" />
+<p>See example <a class="reference internal" href="usage.html#split-image"><span class="std std-ref">here</span></a>.</p>
 </div>
 </div>
 <div class="section" id="quaternions-module">
@@ -201,18 +204,21 @@ The relative quaternion, meaning the rotation between two quaternions can be obt
 <div class="section" id="compare-two-sets-of-quaternions">
 <h3>Compare two sets of quaternions<a class="headerlink" href="#compare-two-sets-of-quaternions" title="Permalink to this headline">¶</a></h3>
 <p>This function takes two sets of quaternions and pickes randomly quaternions within each set. By calculating now the relative quaternion between the two samples and the corresponding rotaion angle, the result is a distribution of the enclosed angle and shows how well the sets are correlating with each other. For more analysis one can look on the z-score or the percentage of the quaternions in a given standard deviation <span class="math">\(\sigma\)</span>.</p>
+<p>See example <a class="reference internal" href="usage.html#compare-quaternions"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="global-quaternion-rotation-between-two-sets">
 <h3>Global quaternion rotation between two sets<a class="headerlink" href="#global-quaternion-rotation-between-two-sets" title="Permalink to this headline">¶</a></h3>
 <p>This method gives the global rotation in form of a quaternion between the two sets. The result could than be used to realign the two sets or a corresponding model. At first, as in the method before, the relative quaternion is calculated, but now between each quaternion from the two sets. The mean of this relative quaternions lead to the global quaternion. To verify that the global roation is right, the enclosed angles between the global quaternion and the quaternions of one set are calculated. For a perfect correlaction between the two sets of quaternions the angular error is 0.</p>
+<p>See example <span class="xref std std-ref">here</span>.</p>
 </div>
 </div>
 <div class="section" id="real-space-module">
 <h2>Real-space module<a class="headerlink" href="#real-space-module" title="Permalink to this headline">¶</a></h2>
-<p>The real-space module uses spimage functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.</p>
+<p>The real-space module uses <a class="reference external" href="https://github.com/FXIhub/libspimage">spimage</a> functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.</p>
+<p>See example <a class="reference internal" href="usage.html#prtf"><span class="std std-ref">here</span></a>.</p>
 </div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="utility-modules">
+<h2>Utility modules<a class="headerlink" href="#utility-modules" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="rotate">
 <h3>Rotate<a class="headerlink" href="#rotate" title="Permalink to this headline">¶</a></h3>
 <p>Key feature of the rotate submodule is the find-rotation function. This function aligns two models by applying a rotation matrix and trys to find the global minimum of the error between the two models. Thereby could three differnt methods be used:</p>
@@ -231,6 +237,7 @@ The relative quaternion, meaning the rotation between two quaternions can be obt
 <li>The most robust, but also the most slow way to perform the alignment is by using the brute force function. The amount of time depends mainly on the size of the models and the size of the search grid. To increase the speed one could crop the models if possible. Another possibility to speed up the brute force is to run it with the multiprocessed brute force function which is also provided by <em>Nutcracker</em>.</li>
 </ol>
 </div></blockquote>
+<p>See example <a class="reference internal" href="usage.html#rotate"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="shift">
 <h3>Shift<a class="headerlink" href="#shift" title="Permalink to this headline">¶</a></h3>
@@ -242,10 +249,12 @@ The relative quaternion, meaning the rotation between two quaternions can be obt
 </ul>
 </div></blockquote>
 <p>The same points as for the find-rotation function should be considered.</p>
+<p>See example <a class="reference internal" href="usage.html#shift"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="plot-analysis">
 <h3>Plot-analysis<a class="headerlink" href="#plot-analysis" title="Permalink to this headline">¶</a></h3>
 <p>This submodule contains the envelope function which calcualtes the higher as well as the lower envelope. The envelopes are calculated by interpolating between turning points in a given interval. The interval is defined by the sample frequence. The envelope function also has a peak finding key, so that peaks over or under a certain threshold are not take into account when calculating the envelope.</p>
+<p>See example <a class="reference internal" href="usage.html#plot-analysis"><span class="std std-ref">here</span></a>.</p>
 </div>
 <div class="section" id="error-matrix-multiprocessed">
 <h3>Error matrix multiprocessed<a class="headerlink" href="#error-matrix-multiprocessed" title="Permalink to this headline">¶</a></h3>
@@ -262,7 +271,7 @@ With multiprocessing the brute force algorithm search grid is dived into chuncks
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="usage.html" class="btn btn-neutral float-right" title="Usage of Nutcracker" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="Examples" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

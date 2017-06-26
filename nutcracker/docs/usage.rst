@@ -1,11 +1,12 @@
-Usage of Nutcracker
-===================
+Examples
+========
 
-Follwing section trys to show an overview of how to execute *Nutcracker* functions. The denotation should be in accordance with :ref:`introduction <introduction>`. Not all functions are shown. More informations about the single functions can be found under the link to the function.
+A list of examples allowing to tesr different :ref:`validation concepts for FXI <introduction>` using the *Nutcracker* library.
 
 Intensities module
 ------------------
 
+.. _FRC:
 Fourier-Shell/Ring-Correlation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -21,7 +22,7 @@ Fourier-Shell/Ring-Correlation
 
     FSC = nutcracker.intensities.fourier_shell_correlation(F1, F2)
 
-
+.. _q-factor:
 Q-factor
 ^^^^^^^^
 
@@ -35,6 +36,7 @@ Q-factor
     Fn = np.random.random((5,10,10)) # Set of Fourier-Transforms 
     Q = nutcracker.intensities.q_factor(Fn)
 
+.. _split-image:
 Split image function 
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -52,6 +54,7 @@ Split image function
 Quaternions module
 ------------------
 
+.. _compare-quaternions:
 Compare two sets of quaternions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -75,6 +78,7 @@ Compare two sets of quaternions
 
    output = quaternions.compare_two_sets_of_quaternions(q1, q2, n_samples=10, full_output=True, q1_is_extrinsic=True, q2_is_extrinsic=True)
 
+.. _global-orientation:
 Global quaternion rotation between two sets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -101,6 +105,7 @@ Global quaternion rotation between two sets
 Real-space module
 -----------------
 
+.. _PRTF:
 Phase-Retrieval-Transfer-Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -118,9 +123,10 @@ Phase-Retrieval-Transfer-Function
     
     PRTF = PRTF_output['prtf_radial']
 
-Submodules
-----------
+Utility modules
+---------------
 
+.. _rotate:
 Rotate
 ^^^^^^
 
@@ -142,6 +148,7 @@ Rotate
 								      
     rotation_angles = output['rotation_angles']								      								      
 
+.. _shift:
 Shift
 ^^^^^
 
@@ -159,6 +166,7 @@ Shift
 
     shift_values = output['shift_values']
 
+.. _plot-analysis:
 Plot-analysis
 ^^^^^^^^^^^^^
 
@@ -182,6 +190,7 @@ Plot-analysis
 
 .. image:: ./images/envelope.png
 
+.. _error-matrix:
 Error matrix multiprocessed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

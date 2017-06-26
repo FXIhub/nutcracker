@@ -34,8 +34,8 @@ real_space module
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Utility modules
+---------------
 
 utils.rotate module
 -------------------
