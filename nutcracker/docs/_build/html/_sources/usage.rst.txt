@@ -78,7 +78,7 @@ Compare two sets of quaternions
 
    output = quaternions.compare_two_sets_of_quaternions(q1, q2, n_samples=10, full_output=True, q1_is_extrinsic=True, q2_is_extrinsic=True)
 
-.. _global-orientation:
+.. _global-rotation:
 Global quaternion rotation between two sets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

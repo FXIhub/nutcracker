@@ -6,7 +6,7 @@
 Welcome to Nutcracker's documentation!
 ======================================
 
-*Nutcracker* is a python package providing a set of functions to validate FXI simulations.
+*Nutcracker* is a Python library providing a set of functions to validate FXI simulations.
 
 .. toctree::
    :maxdepth: 2

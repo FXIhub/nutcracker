@@ -2,7 +2,7 @@
 The *Nutcracker* modules
 ========================
 
-*Nutcracker* is a python package providing a set of functions to validate FXI simulations. Therefor different concepts should be applied within their related space. Hence the *Nutcracker* modules display these related structure.
+*Nutcracker* is a Python library providing a set of functions to validate FXI simulations. Therefor different concepts should be applied within their related space. Hence the *Nutcracker* modules display these related structure.
 
 Intensities module
 ------------------
@@ -17,7 +17,7 @@ The Fourier-Shell-Correlation (FSC) first introduced by Harauz and van Heel in 1
 .. math::
     FSC(\textbf{k}) = \frac{\sum_{k} F_{1}(\textbf{k}) F_{2}^{*}(\textbf{k})}{\sqrt{\sum_{k} \lvert F_{1}(\textbf{k}) \rvert^{2} \sum_{k} \lvert F_{2}(\textbf{k}) \rvert^{2}}}
 
-See example :ref:`here <FSC>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#fourier-shell-ring-correlation>`_.
 
 Q-factor :ref:`[1] <reference>`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -27,7 +27,7 @@ The Q-factor is calculated over a set of :math:`n` patterns and describes the ra
 .. math::
     Q(\textbf{k}) = \frac{\lvert \sum_{n} F_{n}(\textbf{k}) \rvert}{\sum_{n} \lvert F_{n}(\textbf{k}) \rvert}
 
-See example :ref:`here <q-factor>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#q-factor>`_.
 
 Split image function
 ^^^^^^^^^^^^^^^^^^^^
@@ -36,7 +36,7 @@ This function raises the opportunity to perform e.g. a FSC/FRC or another compar
 
 .. image:: ./images/split_image.png
 
-See example :ref:`here <split-image>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#split-image-function>`_.
 
 Quaternions module
 ------------------
@@ -73,21 +73,21 @@ Compare two sets of quaternions
 
 This function takes two sets of quaternions and pickes randomly quaternions within each set. By calculating now the relative quaternion between the two samples and the corresponding rotaion angle, the result is a distribution of the enclosed angle and shows how well the sets are correlating with each other. For more analysis one can look on the z-score or the percentage of the quaternions in a given standard deviation :math:`\sigma`.
 
-See example :ref:`here <compare-quaternions>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#compare-two-sets-of-quaternions>`_.
 
 Global quaternion rotation between two sets
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This method gives the global rotation in form of a quaternion between the two sets. The result could than be used to realign the two sets or a corresponding model. At first, as in the method before, the relative quaternion is calculated, but now between each quaternion from the two sets. The mean of this relative quaternions lead to the global quaternion. To verify that the global roation is right, the enclosed angles between the global quaternion and the quaternions of one set are calculated. For a perfect correlaction between the two sets of quaternions the angular error is 0.
 
-See example :ref:`here <global-rotation>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#global-quaternion-rotation-between-two-sets>`_.
 
 Real-space module
 -----------------
 
 The real-space module uses `spimage <https://github.com/FXIhub/libspimage>`_ functions to calcualte the Phase-Retrieval-Transfer-Function (PRTF). Additionally it could also apply a radial average to get a 1D PRTF.
 
-See example :ref:`here <PRTF>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#phase-retrieval-transfer-function>`_.
 
 Utility modules
 ---------------
@@ -109,7 +109,7 @@ Following points are recommended to think about to align the models succesfully:
 
     3) The most robust, but also the most slow way to perform the alignment is by using the brute force function. The amount of time depends mainly on the size of the models and the size of the search grid. To increase the speed one could crop the models if possible. Another possibility to speed up the brute force is to run it with the multiprocessed brute force function which is also provided by *Nutcracker*.
 
-See example :ref:`here <rotate>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#rotate>`_.
 
 Shift
 ^^^^^
@@ -121,14 +121,14 @@ The find-shift function is the counterpart of the find-rotation function, since 
 
 The same points as for the find-rotation function should be considered.
 
-See example :ref:`here <shift>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#shift>`_.
 
 Plot-analysis
 ^^^^^^^^^^^^^
 
 This submodule contains the envelope function which calcualtes the higher as well as the lower envelope. The envelopes are calculated by interpolating between turning points in a given interval. The interval is defined by the sample frequence. The envelope function also has a peak finding key, so that peaks over or under a certain threshold are not take into account when calculating the envelope.
 
-See example :ref:`here <plot-analysis>`.
+See example `here <http://nutcracker.readthedocs.io/en/latest/usage.html#plot-analysis>`_.
 
 Error matrix multiprocessed
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
