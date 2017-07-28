@@ -19,8 +19,8 @@ def fourier_shell_correlation(model_1,model_2,model_1_is_real_space=False,model_
     fsc_list = []
 
     # transfrom the input to fourier space if necessary
-    if model_1_is_real_space: model_1  = np.abs(np.fft.fftshift(np.fft.fftn(model_1)))**2
-    if model_2_is_real_space: model_2  = np.abs(np.fft.fftshift(np.fft.fftn(model_2)))**2
+    if model_1_is_real_space: model_1  = np.fft.fftshift(np.fft.fftn(model_1))
+    if model_2_is_real_space: model_2  = np.fft.fftshift(np.fft.fftn(model_2))
 
     # shape check
     if (model_1.shape != model_2.shape):
